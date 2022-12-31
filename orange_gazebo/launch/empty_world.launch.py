@@ -1,25 +1,53 @@
 import os
-from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
+from launch_ros.actions import Node
+from launch.substitutions import Command
+from ament_index_python.packages import get_package_share_directory
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
-from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-  world = LaunchConfiguration('world', default=[FindPackageShare('gazebo_ros'), '/worlds/empty.world'])
+  xacro_file_name = 'orange_robot.xacro'
+  world_file_name = 'empty.world'
+  xacro_path = os.path.join(get_package_share_directory('orange_description'), 'xacro', xacro_file_name)
+  world_path = os.path.join(get_package_share_directory('gazebo_ros'), 'worlds', world_file_name)
+
+  # Pose where we want to spawn the robot
+  spawn_x = '0.0'
+  spawn_y = '0.0'
+  spawn_z = '0.0'
+  spawn_yaw = '0.0'
 
   return LaunchDescription([
+
+    # gzserver
     IncludeLaunchDescription(
       PythonLaunchDescriptionSource(
         os.path.join(get_package_share_directory('gazebo_ros'), 'launch', 'gzserver.launch.py')
       ),
-      launch_arguments={'world': world}.items(),
+      launch_arguments={'world': world_path}.items()
     ),
 
+    # gzclient
     IncludeLaunchDescription(
       PythonLaunchDescriptionSource(
         os.path.join(get_package_share_directory('gazebo_ros'), 'launch', 'gzclient.launch.py')
-      ),
+      )
     ),
+
+    # robot_state_publisher
+    Node(
+      package='robot_state_publisher',
+      executable='robot_state_publisher',
+      output='screen',
+      parameters=[{'robot_description': Command(['xacro ', xacro_path])}]
+    ),
+
+    # spawn_entity
+    Node(
+      package='gazebo_ros',
+      executable='spawn_entity.py',
+      output='screen',
+      arguments=['-entity', 'my_test_robot', '-topic', '/robot_description', '-x', spawn_x, '-y', spawn_y, '-z', spawn_z, '-Y', spawn_yaw]
+    )
   ])
