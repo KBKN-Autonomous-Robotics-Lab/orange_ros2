@@ -5,14 +5,14 @@
       <uri>model://sun</uri>
     </include>
     <scene>
-      <grid>true</grid>
+      <grid>false</grid>
       <shadows>false</shadows>
     </scene>
 
     <!-- orange_world model -->
     <include>
-      <uri>model://orange_world</uri>
-      <name>orange_world</name>
+      <uri>model://orange_igvc</uri>
+      <name>orange_igvc</name>
     </include>
   </world>
 </sdf>
