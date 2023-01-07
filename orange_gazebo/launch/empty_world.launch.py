@@ -16,7 +16,7 @@ def generate_launch_description():
 
   # Pose where we want to spawn the robot
   spawn_x = '0.0'
-  spawn_y = '0.1'
+  spawn_y = '0.0'
   spawn_z = '0.0'
   spawn_yaw = '0.0'
 

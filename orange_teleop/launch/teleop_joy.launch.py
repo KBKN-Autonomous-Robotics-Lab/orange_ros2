@@ -7,9 +7,9 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
   config_file_name = 'elecom.yaml'
-  config_filepath_ = os.path.join(get_package_share_directory('orange_teleop'), 'config', config_file_name)
+  config_path_ = os.path.join(get_package_share_directory('orange_teleop'), 'config', config_file_name)
   joy_dev = LaunchConfiguration('joy_dev', default = '/dev/input/js0')
-  config_filepath = LaunchConfiguration('config_filepath', default = config_filepath_)
+  config_path = LaunchConfiguration('config_filepath', default = config_path_)
   cmd_vel = LaunchConfiguration('cmd_vel', default = '/cmd_vel')
 
   return LaunchDescription([
@@ -21,7 +21,7 @@ def generate_launch_description():
 
     DeclareLaunchArgument(
       'config_filepath',
-      default_value = config_filepath_,
+      default_value = config_path,
       description = 'Joystick config file path'
     ),
 
@@ -44,7 +44,7 @@ def generate_launch_description():
       package = 'teleop_twist_joy',
       executable = 'teleop_node',
       output = 'screen',
-      parameters=[config_filepath],
+      parameters=[config_path],
       remappings={('/cmd_vel', cmd_vel)}
     )
   ])
