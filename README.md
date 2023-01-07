@@ -1,5 +1,10 @@
 # orange_ros2
 Distribution: ROS2 Humble Hawksbill
+## Setup
+```
+$ git clone https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2.git
+$ rosdep install -r -y -i --from-paths .
+```
 ## Launch simulation world
 - empty_world
 <img src="https://user-images.githubusercontent.com/84959376/211162608-ba114bec-af38-4f07-95ed-8c0dbecca21b.png" width="500px">
