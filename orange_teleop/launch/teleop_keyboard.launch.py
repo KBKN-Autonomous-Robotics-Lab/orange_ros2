@@ -15,7 +15,7 @@ def generate_launch_description():
 
     # teleop_twist_keyboard
     Node(
-      package = 'teleop_twist_keyboard',
+      package = 'orange_teleop',
       executable = 'teleop_twist_keyboard',
       output = 'screen',
       prefix = 'xterm -e',

@@ -4,13 +4,13 @@
   <name>orange_teleop</name>
   <version>0.0.0</version>
   <description>This project is to use orange robot with ROS2</description>
-  <maintainer email="zip.lottestr@gmail.com">alpaca-zip</maintainer>
+  <maintainer email="zip@todo.todo">alpaca-zip</maintainer>
   <license>Apache-2.0</license>
-  <buildtool_depend>ament_cmake</buildtool_depend>
-  <depend>teleop_twist_keyboard</depend>
+  <depend>geometry_msgs</depend>
+  <depend>rclpy</depend>
   <depend>teleop_twist_joy</depend>
   <depend>xterm</depend>
   <export>
-    <build_type>ament_cmake</build_type>
+    <build_type>ament_python</build_type>
   </export>
 </package>
