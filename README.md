@@ -36,8 +36,16 @@ $ ros2 launch orange_teleop teleop_keyboard.launch.py
 $ ros2 launch orange_teleop teleop_joy.launch.py
 ```
 ## RViz2 visualization
-<img src="https://user-images.githubusercontent.com/84959376/211163308-5fdca67e-702c-41f3-9fe2-11d8d5033efd.png" width="500px">
+<img src="https://user-images.githubusercontent.com/84959376/211379404-81bacf08-63d7-4fb6-bd76-46f2627bbe23.png" width="500px">
 
 ```
 $ ros2 launch orange_bringup rviz2.launch.py
+```
+## SLAM
+<img src="https://user-images.githubusercontent.com/84959376/211379778-19499d00-f1b1-4cdb-a169-f7742f9317d6.png" width="300px">
+
+### slam_toolbox
+
+```
+$ ros2 launch orange_slam slam_toolbox.launch.py
 ```
