@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: velodyne_points
+    SyncSource: velodyne_scan
 Visualization Manager:
   Class: ""
   Displays:
@@ -134,6 +134,8 @@ Visualization Manager:
           Value: true
         left_wheel:
           Value: true
+        map:
+          Value: true
         odom:
           Value: true
         right_caster_link:
@@ -148,23 +150,25 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              hokuyo_link:
-                {}
-              imu_link:
-                {}
-              left_caster_link:
-                {}
-              left_wheel:
-                {}
-              right_caster_link:
-                {}
-              right_wheel:
-                {}
-              velodyne_link:
-                {}
+        base_footprint:
+          base_link:
+            hokuyo_link:
+              {}
+            imu_link:
+              {}
+            left_caster_link:
+              {}
+            left_wheel:
+              {}
+            right_caster_link:
+              {}
+            right_wheel:
+              {}
+            velodyne_link:
+              {}
+        map:
+          odom:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -213,7 +217,7 @@ Visualization Manager:
       Color: 85; 255; 127
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -234,7 +238,7 @@ Visualization Manager:
         Value: /velodyne_scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -347,10 +351,31 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /fusion/odom
       Value: false
+    - Alpha: 0.699999988079071
+      Class: rviz_default_plugins/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /map
+      Update Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /map_updates
+      Use Timestamp: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: odom
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -393,25 +418,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 14.504549026489258
+      Distance: 14.01369857788086
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.626237690448761
-        Y: -4.93910551071167
-        Z: 0.815314769744873
+        X: 0.42961588501930237
+        Y: -0.3123153746128082
+        Z: 0.3632463216781616
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5497963428497314
+      Pitch: 0.8397965431213379
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.8954176306724548
+      Yaw: 3.2054455280303955
     Saved: ~
 Window Geometry:
   Displays:
@@ -429,5 +454,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1920
-  X: 1920
-  Y: 23
+  X: 1928
+  Y: 31

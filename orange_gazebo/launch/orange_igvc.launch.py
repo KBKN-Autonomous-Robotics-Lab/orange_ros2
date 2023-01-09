@@ -10,21 +10,45 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 def generate_launch_description():
   xacro_file_name = 'orange_robot.xacro'
   world_file_name = 'orange_igvc.world'
+  cloud_in = '/velodyne_points'
+  scan_out = '/velodyne_scan'
+  odom_in = '/odom'
+  imu_in = '/imu'
+  fusion_odom_out = '/fusion/odom'
   xacro_path = os.path.join(get_package_share_directory('orange_description'), 'xacro', xacro_file_name)
   world_path = os.path.join(get_package_share_directory('orange_gazebo'), 'worlds', world_file_name)
   use_sim_time = LaunchConfiguration('use_sim_time', default = 'true')
-
-  # Pose where we want to spawn the robot
-  spawn_x = '0.0'
-  spawn_y = '-16.3'
-  spawn_z = '0.0'
-  spawn_yaw = '0.0'
 
   return LaunchDescription([
     DeclareLaunchArgument(
       'use_sim_time',
       default_value = 'true',
       description = 'Use simulation (Gazebo) clock if true'
+    ),
+
+    # pointcloud_to_laserscan
+    IncludeLaunchDescription(
+      PythonLaunchDescriptionSource(
+        os.path.join(get_package_share_directory('orange_sensor_tools'), 'launch', 'pointcloud_to_laserscan.launch.py')
+      ),
+      launch_arguments = {
+        'use_sim_time': use_sim_time,
+        'cloud_in': cloud_in,
+        'scan_out': scan_out
+      }.items()
+    ),
+
+    # robot_localization
+    IncludeLaunchDescription(
+      PythonLaunchDescriptionSource(
+        os.path.join(get_package_share_directory('orange_sensor_tools'), 'launch', 'localization.launch.py')
+      ),
+      launch_arguments = {
+        'use_sim_time': use_sim_time,
+        'odom_in': odom_in,
+        'imu_in': imu_in,
+        'fusion_odom_out': fusion_odom_out
+      }.items()
     ),
 
     # gzserver
@@ -55,6 +79,6 @@ def generate_launch_description():
       package = 'gazebo_ros',
       executable = 'spawn_entity.py',
       output = 'screen',
-      arguments = ['-entity', 'my_test_robot', '-topic', '/robot_description', '-x', spawn_x, '-y', spawn_y, '-z', spawn_z, '-Y', spawn_yaw]
+      arguments = ['-entity', 'orange_robot', '-topic', '/robot_description']
     )
   ])
