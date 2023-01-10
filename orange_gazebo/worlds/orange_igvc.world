@@ -5,15 +5,15 @@
       <uri>model://sun</uri>
     </include>
     <scene>
-      <grid>true</grid>
+      <grid>false</grid>
       <shadows>false</shadows>
     </scene>
 
     <!-- orange_world model -->
     <include>
-      <pose>0 0 0 0 0 0</pose>
-      <uri>model://orange_world</uri>
-      <name>orange_world</name>
+      <pose>0 16.3 0 0 0 0</pose>
+      <uri>model://orange_igvc</uri>
+      <name>orange_igvc</name>
     </include>
   </world>
 </sdf>

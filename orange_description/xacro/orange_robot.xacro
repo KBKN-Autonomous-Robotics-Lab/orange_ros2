@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<robot name="orange_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--import gazebo reference-->
+  <xacro:include filename="$(find orange_description)/xacro/orange_robot.gazebo" />
+
+  <!--import 2D LiDAR model-->
+  <xacro:include filename="$(find orange_description)/xacro/sensors/hokuyo.xacro" />
+  <xacro:sensor_hokuyo name="hokuyo" parent="base_link"
+    min_angle="-1.22" max_angle="1.22" samples="720">
+    <origin xyz="0.1075 0.0 0.1085" rpy="0.0 0.0 0.0" />
+  </xacro:sensor_hokuyo>
+
+  <!--import 3D LiDAR model-->
+  <xacro:include filename="$(find orange_description)/xacro/sensors/velodyne.xacro" />
+  <xacro:sensor_velodyne name="velodyne" parent="base_link"
+    min_angle="-2.35619" max_angle="2.35619" samples="720">
+    <origin xyz="-0.0185 0.0 0.8985" rpy="0.0 0.0 0.0" />
+  </xacro:sensor_velodyne>
+
+  <!--import imu model-->
+  <xacro:include filename="$(find orange_description)/xacro/sensors/imu.xacro" />
+  <xacro:sensor_imu name="imu" parent="base_link" size="0.05 0.05 0.05">
+    <origin xyz="-0.253 0.0 0.068" rpy="0.0 0.0 0.0" />
+  </xacro:sensor_imu>
+
+  <!--base footprint-->
+  <link name="base_footprint" />
+
+  <!--base link-->
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint" />
+    <child link="base_link" />
+    <origin xyz="0.0 0.0 0.1015" rpy="0 0 0" />
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0.0775 0.25275 0.6425" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="file://$(find orange_description)/meshes/chassis.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.1995 0.0 0.341" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.549 0.5055 0.603" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="27.1" />
+      <origin xyz="-0.1995 0.0 0.19" rpy="0.0 0.0 0.0" />
+      <inertia ixx="0.78032248125" ixy="0.0" ixz="0.0" iyy="0.883913925" iyz="0.0"
+        izz="1.25773640625" />
+    </inertial>
+  </link>
+
+  <!--caster-->
+  <joint name="left_caster_hinge" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <child link="left_caster_link" />
+    <parent link="base_link" />
+  </joint>
+
+  <joint name="right_caster_hinge" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <child link="right_caster_link" />
+    <parent link="base_link" />
+  </joint>
+
+  <link name="left_caster_link">
+    <visual>
+      <origin xyz="-0.4815 0.145 -0.039" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="file://$(find orange_description)/meshes/left_caster.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.4815 0.145 -0.039" rpy="0.0 1.57079632679 1.57079632679" />
+      <geometry>
+        <sphere radius="0.0625" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link
+    name="right_caster_link">
+    <visual>
+      <origin xyz="-0.4815 -0.145 -0.039" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="file://$(find orange_description)/meshes/right_caster.dae" />
+        <sphere radius="0.0625" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.4815 -0.145 -0.039" rpy="0.0 1.57079632679 1.57079632679" />
+      <geometry>
+        <sphere radius="0.0625" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!--front wheels-->
+  <joint type="revolute" name="left_wheel_hinge">
+    <origin xyz="0.0 0.2834 0.0" rpy="0.0 0.0 0.0" />
+    <child link="left_wheel">left_wheel</child>
+    <parent link="base_link">base_link</parent>
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="100.0" lower="-5000" upper="5000" />
+  </joint>
+
+  <joint type="revolute" name="right_wheel_hinge">
+    <origin xyz="0.0 -0.2834 0.0" rpy="0.0 0.0 0.0" />
+    <child link="right_wheel">right_wheel</child>
+    <parent link="base_link">base_link</parent>
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="100.0" lower="-5000" upper="5000" />
+  </joint>
+
+  <link name="left_wheel">
+    <visual name="visual">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="file://$(find orange_description)/meshes/front_wheel.dae" />
+      </geometry>
+    </visual>
+    <collision name="collision">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57079632679 1.57079632679" />
+      <geometry>
+        <cylinder length="0.047" radius="0.1015" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.4" />
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57079632679 1.57079632679" />
+      <inertia ixx="0.00938279583" ixy="0.0" ixz="0.0" iyy="0.00938279583" iyz="0.0"
+        izz="0.017513825" />
+    </inertial>
+  </link>
+
+  <link name="right_wheel">
+    <visual name="visual">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="file://$(find orange_description)/meshes/front_wheel.dae" />
+      </geometry>
+    </visual>
+    <collision name="collision">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57079632679 1.57079632679" />
+      <geometry>
+        <cylinder length="0.047" radius="0.1015" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.4" />
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57079632679 1.57079632679" />
+      <inertia ixx="0.00938279583" ixy="0.0" ixz="0.0" iyy="0.00938279583" iyz="0.0"
+        izz="0.017513825" />
+    </inertial>
+  </link>
+</robot>

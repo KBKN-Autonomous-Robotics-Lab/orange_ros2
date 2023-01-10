@@ -1,17 +1,15 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>orange_gazebo</name>
+  <name>orange_bringup</name>
   <version>0.0.0</version>
   <description>This project is to use orange robot with ROS2</description>
   <maintainer email="zip@todo.todo">alpaca-zip</maintainer>
   <license>Apache-2.0</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <depend>gazebo_ros_pkgs</depend>
   <depend>orange_description</depend>
-  <depend>orange_sensor_tools</depend>
+  <depend>rviz2</depend>
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros gazebo_model_path="${prefix}/models" />
   </export>
 </package>

@@ -9,14 +9,14 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
   xacro_file_name = 'orange_robot.xacro'
-  world_file_name = 'empty.world'
+  world_file_name = 'orange_igvc.world'
   cloud_in = '/velodyne_points'
   scan_out = '/velodyne_scan'
   odom_in = '/odom'
   imu_in = '/imu'
   fusion_odom_out = '/fusion/odom'
   xacro_path = os.path.join(get_package_share_directory('orange_description'), 'xacro', xacro_file_name)
-  world_path = os.path.join(get_package_share_directory('gazebo_ros'), 'worlds', world_file_name)
+  world_path = os.path.join(get_package_share_directory('orange_gazebo'), 'worlds', world_file_name)
   use_sim_time = LaunchConfiguration('use_sim_time', default = 'true')
 
   return LaunchDescription([
@@ -68,10 +68,10 @@ def generate_launch_description():
 
     # robot_state_publisher
     Node(
-      package = 'robot_state_publisher',
+      package='robot_state_publisher',
       executable = 'robot_state_publisher',
       output = 'screen',
-      parameters=[{'use_sim_time': use_sim_time, 'robot_description': Command(['xacro ', xacro_path])}]
+      parameters = [{'use_sim_time': use_sim_time, 'robot_description': Command(['xacro ', xacro_path])}]
     ),
 
     # spawn_entity
