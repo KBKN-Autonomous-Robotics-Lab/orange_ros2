@@ -1,4 +1,4 @@
-# orange_ros2
+# orange_ros2 v0.0.1
 Distribution: ROS2 Humble Hawksbill
 ## Setup
 ```
@@ -18,7 +18,7 @@ $ ros2 launch orange_gazebo empty_world.launch.py
 ```
 $ ros2 launch orange_gazebo orange_world.launch.py
 ```
-- orange_world
+- orange_igvc
 <img src="https://user-images.githubusercontent.com/84959376/211162991-aa3b2bfa-9334-4122-9f7d-2babdb99efc7.png" width="500px">
 
 ```
