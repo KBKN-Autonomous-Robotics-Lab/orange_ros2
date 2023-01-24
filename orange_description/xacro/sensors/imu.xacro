@@ -34,7 +34,7 @@
     <gazebo reference="${name}_link">
       <sensor type="imu" name="imu">
         <always_on>true</always_on>
-        <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <plugin name="gazebo_ros_imu_controller" filename="libgazebo_ros_imu_sensor.so">
           <ros>
             <remapping>~/out:=imu</remapping>
           </ros>

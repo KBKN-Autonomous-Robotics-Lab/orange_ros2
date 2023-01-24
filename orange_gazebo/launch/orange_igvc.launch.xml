@@ -1,0 +1,49 @@
+<launch>
+
+  <arg name="use_sim_time" default="true" />
+
+  <arg name="cloud_in" default="/velodyne_points" />
+  <arg name="scan_out" default="/velodyne_scan" />
+  <arg name="odom_in" default="/odom" />
+  <arg name="imu_in" default="/imu" />
+  <arg name="fusion_odom_out" default="/fusion/odom" />
+
+  <arg name="world_file_path" default="$(find-pkg-share orange_gazebo)/worlds/orange_igvc.world" />
+  <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro" />
+
+  <!-- pointcloud_to_laserscan -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
+    <arg name="use_sim_time" value="$(var use_sim_time)" />
+    <arg name="cloud_in" value="$(var cloud_in)" />
+    <arg name="scan_out" value="$(var scan_out)" />
+  </include>
+
+  <!-- robot_localization -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
+    <arg name="use_sim_time" value="$(var use_sim_time)" />
+    <arg name="odom_in" value="$(var odom_in)" />
+    <arg name="imu_in" value="$(var imu_in)" />
+    <arg name="fusion_odom_out" value="$(var fusion_odom_out)" />
+  </include>
+
+  <!-- gzserver -->
+  <include file="$(find-pkg-share gazebo_ros)/launch/gzserver.launch.py">
+    <arg name="world" value="$(var world_file_path)" />
+  </include>
+
+  <!-- gzclient -->
+  <include file="$(find-pkg-share gazebo_ros)/launch/gzclient.launch.py" />
+
+  <!-- robot_state_publisher -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher">
+    <param name="use_sim_time" value="$(var use_sim_time)" />
+    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')" />
+  </node>
+
+  <!-- spawn_entity -->
+  <node pkg="gazebo_ros" exec="spawn_entity.py" args="-entity orange_robot -topic /robot_description">
+    <param name="-entity" value="orange_robot" />
+    <param name="-topic" value="/robot_description" />
+  </node>
+
+</launch>

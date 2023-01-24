@@ -1,0 +1,19 @@
+<launch>
+
+  <arg name="use_sim_time" default="true" />
+
+  <arg name="slam_config_file_path" default="$(find-pkg-share orange_slam)/config/slam_toolbox_params.yaml" />
+  <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/slam_toolbox.rviz" />
+
+  <!-- rviz2 -->
+  <include file="$(find-pkg-share orange_bringup)/launch/rviz2.launch.py">
+    <arg name="config_filepath" value="$(var rviz_config_file_path)" />
+  </include>
+
+  <!-- slam_toolbox -->
+  <node pkg="slam_toolbox" exec="async_slam_toolbox_node">
+    <param name="use_sim_time" value="$(var use_sim_time)" />
+    <param from="$(var slam_config_file_path)" />
+  </node>
+
+</launch>

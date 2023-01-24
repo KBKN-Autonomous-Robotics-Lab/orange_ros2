@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: velodyne_points
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -148,23 +148,24 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
+        base_footprint:
+          base_link:
+            hokuyo_link:
+              {}
+            imu_link:
+              {}
+            left_caster_link:
+              {}
+            left_wheel:
+              {}
+            right_caster_link:
+              {}
+            right_wheel:
+              {}
+            velodyne_link:
+              {}
         odom:
-          base_footprint:
-            base_link:
-              hokuyo_link:
-                {}
-              imu_link:
-                {}
-              left_caster_link:
-                {}
-              left_wheel:
-                {}
-              right_caster_link:
-                {}
-              right_wheel:
-                {}
-              velodyne_link:
-                {}
+          {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -393,16 +394,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 14.504549026489258
+      Distance: 6.735971927642822
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.626237690448761
-        Y: -4.93910551071167
-        Z: 0.815314769744873
+        X: -2.082517147064209
+        Y: -2.0304245948791504
+        Z: -1.403398871421814
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -429,5 +430,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1920
-  X: 1920
-  Y: 23
+  X: 8
+  Y: 31

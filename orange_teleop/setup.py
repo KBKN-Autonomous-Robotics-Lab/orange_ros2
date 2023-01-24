@@ -12,14 +12,14 @@ setup(
   data_files=[
     ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
     ('share/' + package_name, ['package.xml']),
-    (os.path.join('share', package_name), glob('launch/*launch.py'))
+    (os.path.join('share', package_name), glob('launch/*'))
   ],
   install_requires=['setuptools'],
   zip_safe=True,
-  author='alpaca-zip',
-  author_email="zip@todo.todo",
-  maintainer='alpaca-zip',
-  maintainer_email="zip@todo.todo",
+  author='Mori',
+  author_email="kimihiro.mori.4k@stu.hosei.ac.jp",
+  maintainer='Shibuya',
+  maintainer_email="shunki.shibuya.5v@stu.hosei.ac.jp",
   keywords=['ROS', 'ROS2'],
   classifiers=[
     'Intended Audience :: Developers',
