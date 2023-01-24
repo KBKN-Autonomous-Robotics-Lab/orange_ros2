@@ -1,5 +1,5 @@
-# orange_ros2 v0.2.0
-Distribution: ROS2 Humble Hawksbill
+# orange_ros2 v0.2.0 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
+This project is to use orange robot with ROS2.
 ## Setup
 ```
 $ git clone https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2.git
