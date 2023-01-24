@@ -45,7 +45,14 @@ $ ros2 launch orange_bringup rviz2.launch.xml
 <img src="https://user-images.githubusercontent.com/84959376/211379778-19499d00-f1b1-4cdb-a169-f7742f9317d6.png" width="300px">
 
 ### slam_toolbox
-
+- Gazebo simulation
 ```
+$ ros2 launch orange_gazebo orange_world.launch.xml
 $ ros2 launch orange_slam slam_toolbox.launch.xml
+$ ros2 launch orange_teleop teleop_keyboard.launch.xml
+```
+- ros2 bag
+```
+$ ros2 bag play your_bag -r 3
+$ ros2 launch orange_slam slam_toolbox.launch.xml with_ros2bag:=true
 ```
