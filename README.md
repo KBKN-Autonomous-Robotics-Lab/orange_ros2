@@ -1,4 +1,4 @@
-# orange_ros2 v0.3.0 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
+# orange_ros2 v0.3.1 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
 This project is to use orange robot with ROS2.
 ## Setup
 ```
@@ -42,9 +42,10 @@ $ ros2 launch orange_teleop teleop_joy.launch.xml
 $ ros2 launch orange_bringup rviz2.launch.xml
 ```
 ## SLAM
-<img src="https://user-images.githubusercontent.com/84959376/211379778-19499d00-f1b1-4cdb-a169-f7742f9317d6.png" width="300px">
 
 ### slam_toolbox
+<img src="https://user-images.githubusercontent.com/84959376/214502711-18c58840-1b5b-4886-87c0-020549de0db1.png" width="300px">
+
 - Gazebo simulation
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
@@ -55,4 +56,18 @@ $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 ```
 $ ros2 bag play your_bag -r 3
 $ ros2 launch orange_slam slam_toolbox.launch.xml with_ros2bag:=true
+```
+### cartographer
+<img src="https://user-images.githubusercontent.com/84959376/214502942-ac4e9211-6b20-4722-9e50-fe6df9166c4b.png" width="300px">
+
+- Gazebo simulation
+```
+$ ros2 launch orange_gazebo orange_world.launch.xml
+$ ros2 launch orange_slam cartographer.launch.xml
+$ ros2 launch orange_teleop teleop_keyboard.launch.xml
+```
+- ros2 bag
+```
+$ ros2 bag play your_bag -r 3
+$ ros2 launch orange_slam cartographer.launch.xml with_ros2bag:=true
 ```
