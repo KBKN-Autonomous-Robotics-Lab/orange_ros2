@@ -150,25 +150,24 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        base_footprint:
-          base_link:
-            hokuyo_link:
-              {}
-            imu_link:
-              {}
-            left_caster_link:
-              {}
-            left_wheel:
-              {}
-            right_caster_link:
-              {}
-            right_wheel:
-              {}
-            velodyne_link:
-              {}
         map:
           odom:
-            {}
+            base_footprint:
+              base_link:
+                hokuyo_link:
+                  {}
+                imu_link:
+                  {}
+                left_caster_link:
+                  {}
+                left_wheel:
+                  {}
+                right_caster_link:
+                  {}
+                right_wheel:
+                  {}
+                velodyne_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -375,7 +374,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -418,25 +417,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 14.01369857788086
+      Distance: 11.438326835632324
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.42961588501930237
-        Y: -0.3123153746128082
-        Z: 0.3632463216781616
+        X: -0.08875942975282669
+        Y: -0.001683044247329235
+        Z: 0.05273284763097763
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8397965431213379
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.2054455280303955
+      Yaw: 3.141592025756836
     Saved: ~
 Window Geometry:
   Displays:
@@ -454,5 +453,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1920
-  X: 1928
-  Y: 31
+  X: 0
+  Y: 23

@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="use_sim_time" default="true" />
+
+  <arg name="cloud_in" default="/velodyne_points" />
+  <arg name="scan_out" default="/velodyne_scan" />
+
+  <!-- pointcloud_to_laserscan -->
+  <node pkg="pointcloud_to_laserscan" exec="pointcloud_to_laserscan_node">
+    <param name="use_sim_time" value="$(var use_sim_time)" />
+    <param name="target_frame" value="velodyne_link" />
+    <param name="transform_tolerance" value="0.01" />
+    <param name="min_height" value="-0.8" />
+    <param name="max_height" value="0.3" />
+    <param name="angle_min" value="-2.65" />
+    <param name="angle_max" value="2.65" />
+    <param name="angle_increment" value="0.0087" />
+    <param name="scan_time" value="0.3333" />
+    <param name="range_min" value="0.2" />
+    <param name="range_max" value="100.0" />
+    <param name="use_inf" value="true" />
+    <param name="inf_epsilon" value="1.0" />
+    <remap from="/cloud_in" to="$(var cloud_in)" />
+    <remap from="/scan" to="$(var scan_out)" />
+  </node>
+
+</launch>

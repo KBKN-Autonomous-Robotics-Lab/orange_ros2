@@ -2,9 +2,11 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>orange_gazebo</name>
-  <version>0.0.0</version>
-  <description>This project is to use orange robot with ROS2</description>
-  <maintainer email="zip@todo.todo">alpaca-zip</maintainer>
+  <version>0.2.0</version>
+  <description>ROS2 gazebo simulation tools for the orange robot</description>
+  <maintainer email="shunki.shibuya.5v@stu.hosei.ac.jp">Shibuya</maintainer>
+  <maintainer email="koki.kubota.8p@stu.hosei.ac.jp">Kubota</maintainer>
+  <maintainer email="kimihiro.mori.4k@stu.hosei.ac.jp">Mori</maintainer>
   <license>Apache-2.0</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>gazebo_ros_pkgs</depend>

@@ -1,0 +1,21 @@
+<launch>
+
+  <arg name="use_sim_time" default="true" />
+
+  <arg name="odom_in" default="/odom" />
+  <arg name="imu_in" default="/imu" />
+  <arg name="fusion_odom_out" default="/fusion/odom" />
+
+  <arg name="config_file_path" default="$(find-pkg-share orange_sensor_tools)/config/ekf_node.yaml" />
+
+  <!-- robot_localization -->
+  <!-- wheel odometry + imu -->
+  <node pkg="robot_localization" exec="ekf_node">
+    <param name="use_sim_time" value="$(var use_sim_time)" />
+    <param from="$(var config_file_path)" />
+    <remap from="/odom0" to="$(var odom_in)" />
+    <remap from="/imu0" to="$(var imu_in)" />
+    <remap from="/odometry/filtered" to="$(var fusion_odom_out)" />
+  </node>
+
+</launch>
