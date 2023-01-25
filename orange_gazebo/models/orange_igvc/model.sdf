@@ -49,6 +49,12 @@
             <size>4 2 0.05</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>
       </visual>
       <collision name="collision">
         <geometry>
@@ -79,6 +85,12 @@
             <size>4 2 0.05</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>
       </visual>
       <collision name="collision">
         <geometry>
@@ -110,6 +122,12 @@
             <size>3 0.5 3</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGray</name>
+          </script>
+        </material>
       </visual>
       <collision name="collision">
         <geometry>
@@ -128,6 +146,12 @@
             <size>3 0.5 3</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGray</name>
+          </script>
+        </material>
       </visual>
       <collision name="collision">
         <geometry>
@@ -146,6 +170,12 @@
             <size>3 0.5 3</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGray</name>
+          </script>
+        </material>
       </visual>
       <collision name="collision">
         <geometry>
@@ -164,6 +194,12 @@
             <size>3 0.5 3</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGray</name>
+          </script>
+        </material>
       </visual>
       <collision name="collision">
         <geometry>
@@ -180,14 +216,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -198,14 +234,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -216,14 +252,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -234,14 +270,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -252,14 +288,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -270,14 +306,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -288,14 +324,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -306,14 +342,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -324,14 +360,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -342,14 +378,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -360,14 +396,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -378,14 +414,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -396,14 +432,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -414,14 +450,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -432,14 +468,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -450,14 +486,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -468,14 +504,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -486,14 +522,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -504,14 +540,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -522,14 +558,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -540,14 +576,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -558,14 +594,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -576,14 +612,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -594,14 +630,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -612,14 +648,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -630,14 +666,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -648,14 +684,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -666,14 +702,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -684,14 +720,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -702,14 +738,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -720,14 +756,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -738,14 +774,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -756,14 +792,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -774,14 +810,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://orange_igvc/meshes/construction_barrel.dae</uri>
+            <uri>model://construction_barrel/meshes/construction_barrel.dae</uri>
           </mesh>
         </geometry>
       </collision>
