@@ -375,14 +375,13 @@ Visualization Manager:
       Enabled: true
       Name: MarkerArray
       Namespaces:
-        slam_toolbox: true
-        slam_toolbox_edges: true
+        Trajectory 0: true
       Topic:
         Depth: 5
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /slam_toolbox/graph_visualization
+        Value: /trajectory_node_list
       Value: true
   Enabled: true
   Global Options:

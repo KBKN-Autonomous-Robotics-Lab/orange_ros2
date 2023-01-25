@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>orange_slam</name>
-  <version>0.2.0</version>
+  <version>0.3.1</version>
   <description>ROS2 slam starting tools for the orange robot</description>
   <maintainer email="shunki.shibuya.5v@stu.hosei.ac.jp">Shibuya</maintainer>
   <maintainer email="koki.kubota.8p@stu.hosei.ac.jp">Kubota</maintainer>
@@ -10,7 +10,10 @@
   <license>Apache-2.0</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>orange_bringup</depend>
+  <depend>orange_description</depend>
+  <depend>robot_state_publisher</depend>
   <depend>slam_toolbox</depend>
+  <depend>cartographer_ros</depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>

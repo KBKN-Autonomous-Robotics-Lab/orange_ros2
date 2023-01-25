@@ -41,9 +41,6 @@
   </node>
 
   <!-- spawn_entity -->
-  <node pkg="gazebo_ros" exec="spawn_entity.py" args="-entity orange_robot -topic /robot_description">
-    <param name="-entity" value="orange_robot" />
-    <param name="-topic" value="/robot_description" />
-  </node>
+  <node pkg="gazebo_ros" exec="spawn_entity.py" args="-entity orange_robot -topic /robot_description" />
 
 </launch>
