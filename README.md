@@ -1,4 +1,4 @@
-# orange_ros2 v0.3.2 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
+# orange_ros2 v0.4.0 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
 This project is to use orange robot with ROS2.
 ## Setup
 ```
