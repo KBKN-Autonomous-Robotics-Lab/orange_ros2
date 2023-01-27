@@ -1,0 +1,23 @@
+<launch>
+
+  <arg name="use_sim_time" default="true" />
+  <arg name="slam_method" default="slam_toolbox" />
+  <arg name="map_file_name" default="map.yaml" />
+
+  <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/navigation2.rviz" />
+  <arg name="map_file_path" default="$(find-pkg-share orange_navigation)/maps/$(var slam_method)/$(var map_file_name)" />
+  <arg name="config_file_path" default="$(find-pkg-share orange_navigation)/config/navigation2_params.yaml" />
+
+  <!-- navigation2 -->
+  <include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
+    <arg name="use_sim_time" value="$(var use_sim_time)" />
+    <arg name="map" value="$(var map_file_path)" />
+    <arg name="params_file" value="$(var config_file_path)" />
+  </include>
+
+  <!-- rviz2 -->
+  <include file="$(find-pkg-share orange_bringup)/launch/rviz2.launch.xml">
+    <arg name="config_file_path" value="$(var rviz_config_file_path)" />
+  </include>
+
+</launch>
