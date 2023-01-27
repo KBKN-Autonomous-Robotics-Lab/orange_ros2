@@ -72,3 +72,10 @@ $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 $ ros2 bag play your_bag -r 3
 $ ros2 launch orange_slam cartographer.launch.xml with_ros2bag:=true
 ```
+### Navigation2
+- Gazebo simulation
+<img src="https://user-images.githubusercontent.com/84959376/215110831-6732c2e6-726c-47e6-a272-a0c874311e3c.gif" width="500">
+```
+$ ros2 launch orange_gazebo orange_world.launch.xml
+$ ros2 launch orange_navigation navigation2.launch.xml slam_method:=slam_toolbox
+```
