@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>orange_teleop</name>
+  <name>orange_navigation</name>
   <version>0.4.1</version>
-  <description>ROS2 teleoperation tools for the orange robot</description>
+  <description>ROS2 navigation for the orange robot</description>
   <maintainer email="shunki.shibuya.5v@stu.hosei.ac.jp">Shibuya</maintainer>
   <maintainer email="koki.kubota.8p@stu.hosei.ac.jp">Kubota</maintainer>
   <maintainer email="kimihiro.mori.4k@stu.hosei.ac.jp">Mori</maintainer>
   <license>Apache-2.0</license>
-  <depend>geometry_msgs</depend>
-  <depend>rclpy</depend>
-  <depend>teleop_twist_joy</depend>
-  <depend>xterm</depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>orange_description</depend>
+  <depend>orange_bringup</depend>
+  <depend>nav2_bringup</depend>
   <export>
-    <build_type>ament_python</build_type>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>

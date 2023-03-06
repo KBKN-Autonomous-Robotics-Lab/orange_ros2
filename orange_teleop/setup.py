@@ -7,7 +7,7 @@ package_name = 'orange_teleop'
 
 setup(
   name=package_name,
-  version='0.3.2',
+  version='0.4.1',
   packages=find_packages(exclude=[]),
   data_files=[
     ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
