@@ -2,15 +2,26 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>orange_sensor_tools</name>
-  <version>0.4.1</version>
+  <version>0.5.0</version>
   <description>ROS2 sensor processing tools for the orange robot</description>
   <maintainer email="shunki.shibuya.5v@stu.hosei.ac.jp">Shibuya</maintainer>
   <maintainer email="koki.kubota.8p@stu.hosei.ac.jp">Kubota</maintainer>
   <maintainer email="kimihiro.mori.4k@stu.hosei.ac.jp">Mori</maintainer>
   <license>Apache-2.0</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>sensor_msgs</depend>
+  <depend>libpcl-all-dev</depend>
+  <depend>pcl_ros</depend>
+  <depend>std_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>laser_geometry</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>rclcpp_lifecycle</depend>
   <depend>pointcloud_to_laserscan</depend>
   <depend>robot_localization</depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>
