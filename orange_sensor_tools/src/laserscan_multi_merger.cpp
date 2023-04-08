@@ -52,6 +52,8 @@ private:
   double scan_time;
   double range_min;
   double range_max;
+  
+  bool delete_intensity;
 
   string destination_frame;
   string cloud_destination_topic;
@@ -71,6 +73,7 @@ LaserscanMerger::LaserscanMerger() : Node("laserscan_multi_merger")
   this->declare_parameter("scan_time", 0.0);
   this->declare_parameter("range_min", 0.0);
   this->declare_parameter("range_max", 25.0);
+  this->declare_parameter("delete_intensity", false);
 
   this->get_parameter("destination_frame", destination_frame);
   this->get_parameter("cloud_destination_topic", cloud_destination_topic);
@@ -82,6 +85,7 @@ LaserscanMerger::LaserscanMerger() : Node("laserscan_multi_merger")
   this->get_parameter("scan_time", scan_time);
   this->get_parameter("range_min", range_min);
   this->get_parameter("range_max", range_max);
+  this->get_parameter("delete_intensity", delete_intensity);
 
   param_callback_handle_ = this->add_on_set_parameters_callback(
     std::bind(&LaserscanMerger::reconfigureCallback, this, std::placeholders::_1));
@@ -227,6 +231,13 @@ void LaserscanMerger::scanCallback(sensor_msgs::msg::LaserScan::SharedPtr scan, 
     if (topic.compare(input_topics[i]) == 0)
     {
       pcl_conversions::toPCL(tmpCloud2, clouds[i]);
+
+      if (delete_intensity)
+      {
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_without_intensity(new pcl::PointCloud<pcl::PointXYZ>);
+        pcl::fromPCLPointCloud2(clouds[i], *cloud_without_intensity);
+        pcl::toPCLPointCloud2(*cloud_without_intensity, clouds[i]);
+      }
       clouds_modified[i] = true;
     }
   }

@@ -2,6 +2,7 @@
 
   <arg name="use_sim_time" default="true" />
 
+  <arg name="delete_intensity" default="false" />
   <arg name="destination_frame" default="velodyne_link" />
   <arg name="cloud_destination_topic" default="/merged_cloud" />
   <arg name="scan_destination_topic" default="/merged_scan" />
@@ -9,6 +10,7 @@
 
   <!-- laserscan_multi_merger -->
   <node pkg="orange_sensor_tools" exec="laserscan_multi_merger">
+		<param name="delete_intensity" value="$(var delete_intensity)" />
 		<param name="destination_frame" value="$(var destination_frame)" />
 		<param name="cloud_destination_topic" value="$(var cloud_destination_topic)" />
 		<param name="scan_destination_topic" value="$(var scan_destination_topic)" />
