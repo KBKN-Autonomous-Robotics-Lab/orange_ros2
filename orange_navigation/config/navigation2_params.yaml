@@ -44,7 +44,7 @@ amcl:
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
-    scan_topic: /velodyne_scan
+    scan_topic: /merged_scan
 
 amcl_map_client:
   ros__parameters:
@@ -203,7 +203,7 @@ local_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /velodyne_scan
+          topic: /merged_scan
           max_obstacle_height: 2.5
           clearing: True
           marking: True
@@ -235,7 +235,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /velodyne_scan
+          topic: /merged_scan
           max_obstacle_height: 2.5
           clearing: True
           marking: True

@@ -2,11 +2,15 @@
 
   <arg name="use_sim_time" default="true" />
 
-  <arg name="cloud_in" default="/velodyne_points" />
-  <arg name="scan_out" default="/velodyne_scan" />
-  <arg name="odom_in" default="/odom" />
-  <arg name="imu_in" default="/imu" />
-  <arg name="fusion_odom_out" default="/fusion/odom" />
+  <arg name="velodyne_frame" default="velodyne_link" />
+  <arg name="hokuyo_scan_topic" default="/hokuyo_scan" />
+  <arg name="velodyne_scan_topic" default="/velodyne_scan" />
+  <arg name="velodyne_points_topic" default="/velodyne_points" />
+  <arg name="merged_cloud_topic" default="/merged_cloud" />
+  <arg name="merged_scan_topic" default="/merged_scan" />
+  <arg name="odom_topic" default="/odom" />
+  <arg name="imu_topic" default="/imu" />
+  <arg name="fusion_odom_topic" default="/fusion/odom" />
 
   <arg name="world_file_path" default="$(find-pkg-share orange_gazebo)/worlds/orange_world.world" />
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro" />
@@ -14,16 +18,26 @@
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)" />
-    <arg name="cloud_in" value="$(var cloud_in)" />
-    <arg name="scan_out" value="$(var scan_out)" />
+    <arg name="cloud_in" value="$(var velodyne_points_topic)" />
+    <arg name="scan_out" value="$(var velodyne_scan_topic)" />
+  </include>
+
+  <!-- laserscan_multi_merger -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
+    <arg name="use_sim_time" value="$(var use_sim_time)" />
+    <arg name="delete_intensity" value="true" />
+    <arg name="destination_frame" value="$(var velodyne_frame)" />
+    <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)" />
+    <arg name="scan_destination_topic" value="$(var merged_scan_topic)" />
+    <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)" />
   </include>
 
   <!-- robot_localization -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)" />
-    <arg name="odom_in" value="$(var odom_in)" />
-    <arg name="imu_in" value="$(var imu_in)" />
-    <arg name="fusion_odom_out" value="$(var fusion_odom_out)" />
+    <arg name="odom_in" value="$(var odom_topic)" />
+    <arg name="imu_in" value="$(var imu_topic)" />
+    <arg name="fusion_odom_out" value="$(var fusion_odom_topic)" />
   </include>
 
   <!-- gzserver -->
