@@ -1,7 +1,7 @@
-# orange_ros2 v0.5.5 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
+# orange_ros2 v0.5.6 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
 This repository contains [ROS2](https://docs.ros.org/en/humble/index.html) version of Hosei orange, which has competed in the [Tsukuba Challenge](https://tsukubachallenge.connpass.com/) and [IGVC](http://www.igvc.org/). It supports several Gazebo world, SLAM methods and provides navigation feature.
 
-<img src="https://user-images.githubusercontent.com/84959376/215265266-5b24f066-24a1-4a5a-ab69-3daf754b6bd4.png" width="400px">
+<img src="https://user-images.githubusercontent.com/88425011/231134383-1ce0b5ae-ae6e-4078-87c2-fbce2280eca3.jpg" width="400px">
 
 ## Setup
 
@@ -13,7 +13,7 @@ $ rosdep install -r -y -i --from-paths .
 The following 3 gazebo worlds can be run.
 | empty_world  | orange_world | orange_igvc |
 | ------------- | ------------- | ------------- |
-| <img src="https://user-images.githubusercontent.com/84959376/215265403-c2fec88d-c885-438f-9657-a72aae73f695.png" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215265657-59002ed4-90ea-4567-b4ef-1a7e6e52f87c.png" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215265550-11277797-dd37-4ce2-b4f2-2eb4be066d3d.png" width="200px"> |
+| <img src="https://user-images.githubusercontent.com/88425011/231134704-b4ecbc8e-1a5a-4f35-b1e6-37c63cb2e6ed.jpg" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215265657-59002ed4-90ea-4567-b4ef-1a7e6e52f87c.png" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215265550-11277797-dd37-4ce2-b4f2-2eb4be066d3d.png" width="200px"> |
 
 ```
 $ ros2 launch orange_gazebo {GAZEBO_WORLD_NAME}.launch.xml
@@ -21,7 +21,7 @@ $ ros2 launch orange_gazebo {GAZEBO_WORLD_NAME}.launch.xml
 ## Operate orange robot
 Orange robot can be controlled via keyboard or gamepad.
 
-<img src="https://user-images.githubusercontent.com/84959376/215266208-6507d17d-c2be-4d90-b692-3d81d8f21d50.gif" width="400px">
+<img src="https://user-images.githubusercontent.com/88425011/231134980-8a60a306-c561-4b4c-8248-f4a7a27feaf0.mp4" width="400px">
 
 **keyboard**
 
