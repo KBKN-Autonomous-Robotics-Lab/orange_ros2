@@ -21,7 +21,7 @@ $ ros2 launch orange_gazebo {GAZEBO_WORLD_NAME}.launch.xml
 ## Operate orange robot
 Orange robot can be controlled via keyboard or gamepad.
 
-<img src="https://user-images.githubusercontent.com/88425011/231134980-8a60a306-c561-4b4c-8248-f4a7a27feaf0.mp4" width="400px">
+<img src="https://user-images.githubusercontent.com/88425011/231137664-89adb063-e41b-4a9b-99be-15739ade3555.gif" width="400px">
 
 **keyboard**
 
