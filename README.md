@@ -1,4 +1,3 @@
-#Shibuya
 # orange_ros2 v0.5.5 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
 This repository contains [ROS2](https://docs.ros.org/en/humble/index.html) version of Hosei orange, which has competed in the [Tsukuba Challenge](https://tsukubachallenge.connpass.com/) and [IGVC](http://www.igvc.org/). It supports several Gazebo world, SLAM methods and provides navigation feature.
 
