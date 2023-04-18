@@ -12,6 +12,12 @@
             <size>25 25 0.1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>         
       </visual>
       <collision name="collision">
         <geometry>
@@ -42,6 +48,12 @@
             <size>5.99691 2.01004 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGrey</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -60,6 +72,12 @@
             <size>5.99691 2.01004 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGrey</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -78,6 +96,12 @@
             <size>1.98724 2.01004 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGrey</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -96,6 +120,12 @@
             <size>3.98346 2.01004 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -114,6 +144,12 @@
             <size>2.9898 3.03101 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/DarkGrey</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -132,6 +168,12 @@
             <size>2.99398 0.232517 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/White</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -150,6 +192,12 @@
             <size>4.76615 0.232517 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/White</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -168,6 +216,12 @@
             <size>11.008 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -186,6 +240,12 @@
             <size>10.003 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -204,6 +264,12 @@
             <size>5.0278 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -222,6 +288,12 @@
             <size>3.98917 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -240,6 +312,12 @@
             <size>1.91856 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>       
       </visual>
       <collision name="collision">
         <geometry>
@@ -258,6 +336,12 @@
             <size>2.27943 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -276,6 +360,12 @@
             <size>2.27943 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -294,6 +384,12 @@
             <size>2.95324 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -312,6 +408,12 @@
             <size>2.91475 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -330,6 +432,12 @@
             <size>3.49253 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -348,6 +456,12 @@
             <size>0.888064 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -366,6 +480,12 @@
             <size>0.909365 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -384,6 +504,12 @@
             <size>3.49253 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -402,6 +528,12 @@
             <size>2.3271 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -420,6 +552,12 @@
             <size>2.40429 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -438,6 +576,12 @@
             <size>1.12858 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -456,6 +600,12 @@
             <size>1.12858 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -474,6 +624,12 @@
             <size>6.27478 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -492,6 +648,12 @@
             <size>5.52227 0.087484 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Green</name>
+          </script>
+        </material>        
       </visual>
       <collision name="collision">
         <geometry>
@@ -509,7 +671,13 @@
           <box>
             <size>0.043707 20.0311 1</size>
           </box>
-        </geometry>
+        </geometry>   
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>             
       </visual>
       <collision name="collision">
         <geometry>
@@ -527,7 +695,13 @@
           <box>
             <size>0.043707 20.0311 1</size>
           </box>
-        </geometry>
+        </geometry>  
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>              
       </visual>
       <collision name="collision">
         <geometry>
@@ -546,6 +720,12 @@
             <size>0.043707 20.0311 1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>         
       </visual>
       <collision name="collision">
         <geometry>
@@ -563,7 +743,13 @@
           <box>
             <size>0.043707 20.0311 1</size>
           </box>
-        </geometry>
+        </geometry>  
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>             
       </visual>
       <collision name="collision">
         <geometry>
