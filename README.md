@@ -1,4 +1,4 @@
-# orange_ros2 v0.5.6 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
+# orange_ros2 v0.6.8 [![](https://img.shields.io/badge/ROS2%20Humble-stable-green?style=flat-square&logo=ros)](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2)
 This repository contains [ROS2](https://docs.ros.org/en/humble/index.html) version of Hosei orange, which has competed in the [Tsukuba Challenge](https://tsukubachallenge.connpass.com/) and [IGVC](http://www.igvc.org/). It supports several Gazebo world, SLAM methods and provides navigation feature.
 
 <img src="https://user-images.githubusercontent.com/88425011/231134383-1ce0b5ae-ae6e-4078-87c2-fbce2280eca3.jpg" width="400px">
@@ -11,9 +11,9 @@ $ rosdep install -r -y -i --from-paths .
 ```
 ## Launch Gazebo world
 The following 3 gazebo worlds can be run.
-| empty_world  | orange_world | orange_igvc |
-| ------------- | ------------- | ------------- |
-| <img src="https://user-images.githubusercontent.com/88425011/231134704-b4ecbc8e-1a5a-4f35-b1e6-37c63cb2e6ed.jpg" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215265657-59002ed4-90ea-4567-b4ef-1a7e6e52f87c.png" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215265550-11277797-dd37-4ce2-b4f2-2eb4be066d3d.png" width="200px"> |
+| empty_world  | orange_world | orange_igvc | orange_hosei |
+| ------------- | ------------- | ------------- | ------------- |
+| <img src="https://user-images.githubusercontent.com/88425011/231134704-b4ecbc8e-1a5a-4f35-b1e6-37c63cb2e6ed.jpg" width="200px"> | <img src="https://user-images.githubusercontent.com/88425011/232782465-8292dcb0-1a92-4ccf-b283-653ff7ae0243.jpg" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215265550-11277797-dd37-4ce2-b4f2-2eb4be066d3d.png" width="200px"> | <img src="https://user-images.githubusercontent.com/88425011/232783327-9c4ce0dd-4cf5-4cde-a682-dfc72cae310c.jpg" width="200px"> |
 
 ```
 $ ros2 launch orange_gazebo {GAZEBO_WORLD_NAME}.launch.xml
