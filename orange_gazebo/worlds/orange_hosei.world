@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="default">
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <scene>
+      <grid>false</grid>
+      <shadows>false</shadows>
+    </scene>
+
+    <!-- orange_world model -->
+    <include>
+      <pose>9.0 9.0 0 0 0 3.142</pose>
+      <uri>model://orange_hosei</uri>
+      <name>orange_hosei</name>
+    </include>
+  </world>
+</sdf>
