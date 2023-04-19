@@ -10,7 +10,7 @@ $ git clone https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2.git
 $ rosdep install -r -y -i --from-paths .
 ```
 ## Launch Gazebo world
-The following 3 gazebo worlds can be run.
+The following 4 gazebo worlds can be run.
 | empty_world  | orange_world | orange_igvc | orange_hosei |
 | ------------- | ------------- | ------------- | ------------- |
 | <img src="https://user-images.githubusercontent.com/88425011/231134704-b4ecbc8e-1a5a-4f35-b1e6-37c63cb2e6ed.jpg" width="200px"> | <img src="https://user-images.githubusercontent.com/88425011/232782465-8292dcb0-1a92-4ccf-b283-653ff7ae0243.jpg" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215265550-11277797-dd37-4ce2-b4f2-2eb4be066d3d.png" width="200px"> | <img src="https://user-images.githubusercontent.com/88425011/232783327-9c4ce0dd-4cf5-4cde-a682-dfc72cae310c.jpg" width="200px"> |
