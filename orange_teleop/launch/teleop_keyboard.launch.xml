@@ -1,10 +1,8 @@
+<?xml version="1.0"?>
 <launch>
-
-  <arg name="cmd_vel" default="/cmd_vel" />
-
+  <arg name="cmd_vel" default="/cmd_vel"/>
   <!-- teleop_twist_keyboard -->
-  <node pkg="orange_teleop" exec="teleop_twist_keyboard" launch-prefix='xterm -e'>
-    <remap from="/cmd_vel" to="$(var cmd_vel)" />
+  <node pkg="orange_teleop" exec="teleop_twist_keyboard" launch-prefix="xterm -e">
+    <remap from="/cmd_vel" to="$(var cmd_vel)"/>
   </node>
-
 </launch>

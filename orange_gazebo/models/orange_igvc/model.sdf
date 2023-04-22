@@ -2,7 +2,6 @@
 <sdf version="1.6">
   <model name="orange_igvc">
     <static>true</static>
-
     <!--ground-->
     <link name="ground">
       <visual name="visual">
@@ -32,14 +31,13 @@
               <mu2>50</mu2>
             </ode>
           </friction>
-          <bounce />
+          <bounce/>
           <contact>
-            <ode />
+            <ode/>
           </contact>
         </surface>
       </collision>
     </link>
-
     <!--ramp-->
     <link name="ramp_part1">
       <pose>0.9889 13 0.1484 0.148 0 1.570796</pose>
@@ -69,14 +67,13 @@
               <mu2>50</mu2>
             </ode>
           </friction>
-          <bounce />
+          <bounce/>
           <contact>
-            <ode />
+            <ode/>
           </contact>
         </surface>
       </collision>
     </link>
-
     <link name="ramp_part2">
       <pose>-0.9889 13 0.1484 -0.148 0 1.570796</pose>
       <visual name="visual">
@@ -105,14 +102,13 @@
               <mu2>50</mu2>
             </ode>
           </friction>
-          <bounce />
+          <bounce/>
           <contact>
-            <ode />
+            <ode/>
           </contact>
         </surface>
       </collision>
     </link>
-
     <!--barricade-->
     <link name="barricade1">
       <pose>-19.1652 -17.2165 1.5 0 0 -0.8</pose>
@@ -137,7 +133,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="barricade2">
       <pose>18.8846 -17.517 1.5 0 0 0.21445</pose>
       <visual name="visual">
@@ -161,7 +156,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="barricade3">
       <pose>9.57 12.3819 1.5 0 0 -0.30353</pose>
       <visual name="visual">
@@ -185,7 +179,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="barricade4">
       <pose>-8.5858 12.1745 1.5 0 0 0.14831</pose>
       <visual name="visual">
@@ -209,7 +202,6 @@
         </geometry>
       </collision>
     </link>
-
     <!--construction barrel-->
     <link name="construction_barrel1">
       <pose>14.8591 -15.356 0 0 0 0</pose>
@@ -228,7 +220,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel2">
       <pose>20.9235 -13.6107 0 0 0 0</pose>
       <visual name="visual">
@@ -246,7 +237,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel3">
       <pose>17.1121 -9.439 0 0 0 0</pose>
       <visual name="visual">
@@ -264,7 +254,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel4">
       <pose>18.2218 -9.1396 0 0 0 0</pose>
       <visual name="visual">
@@ -282,7 +271,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel5">
       <pose>17.9234 -6.37453 0 0 0 0</pose>
       <visual name="visual">
@@ -300,7 +288,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel6">
       <pose>18.8232 -5.70024 0 0 0 0</pose>
       <visual name="visual">
@@ -318,7 +305,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel7">
       <pose>16.061 -4.40601 0 0 0 0</pose>
       <visual name="visual">
@@ -336,7 +322,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel8">
       <pose>18.100 1.30974 0 0 0 0</pose>
       <visual name="visual">
@@ -354,7 +339,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel9">
       <pose>17.4279 7.243 0 0 0 0</pose>
       <visual name="visual">
@@ -372,7 +356,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel10">
       <pose>20.564 11.0036 0 0 0 0</pose>
       <visual name="visual">
@@ -390,7 +373,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel11">
       <pose>17.6292 14.470 0 0 0 0</pose>
       <visual name="visual">
@@ -408,7 +390,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel12">
       <pose>12.9292 12.123 0 0 0 0</pose>
       <visual name="visual">
@@ -426,7 +407,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel13">
       <pose>12.0142 16.9984 0 0 0 0</pose>
       <visual name="visual">
@@ -444,7 +424,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel14">
       <pose>9.43968 17.4719 0 0 0 0</pose>
       <visual name="visual">
@@ -462,7 +441,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel15">
       <pose>7.19005 17.3195 0 0 0 0</pose>
       <visual name="visual">
@@ -480,7 +458,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel16">
       <pose>6.34524 13.0764 0 0 0 0</pose>
       <visual name="visual">
@@ -498,7 +475,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel17">
       <pose>3.73125 17.5897 0 0 0 0</pose>
       <visual name="visual">
@@ -516,7 +492,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel18">
       <pose>0.061325 16.9475 0 0 0 0</pose>
       <visual name="visual">
@@ -534,7 +509,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel19">
       <pose>-3.46882 16.9529 0 0 0 0</pose>
       <visual name="visual">
@@ -552,7 +526,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel20">
       <pose>-6.95984 17.4552 0 0 0 0</pose>
       <visual name="visual">
@@ -570,7 +543,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel21">
       <pose>-10.1446 16.9341 0 0 0 0</pose>
       <visual name="visual">
@@ -588,7 +560,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel22">
       <pose>-6.01782 12.36 0 0 0 0</pose>
       <visual name="visual">
@@ -606,7 +577,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel23">
       <pose>-12.2652 12.7116 0 0 0 0</pose>
       <visual name="visual">
@@ -624,7 +594,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel24">
       <pose>-12.8712 16.2905 0 0 0 0</pose>
       <visual name="visual">
@@ -642,7 +611,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel25">
       <pose>-18.178 16.2268 0 0 0 0</pose>
       <visual name="visual">
@@ -660,7 +628,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel26">
       <pose>-20.7988 10.4853 0 0 0 0</pose>
       <visual name="visual">
@@ -678,7 +645,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel27">
       <pose>-18.397 8.225 0 0 0 0</pose>
       <visual name="visual">
@@ -696,7 +662,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel28">
       <pose>-17.2492 0.7495 0 0 0 0</pose>
       <visual name="visual">
@@ -714,7 +679,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel29">
       <pose>-16.1784 -5.72593 0 0 0 0</pose>
       <visual name="visual">
@@ -732,7 +696,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel30">
       <pose>-19.1376 -6.88455 0 0 0 0</pose>
       <visual name="visual">
@@ -750,7 +713,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel31">
       <pose>-20.0303 -6.42554 0 0 0 0</pose>
       <visual name="visual">
@@ -768,7 +730,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel32">
       <pose>-18.4685 -9.4751 0 0 0 0</pose>
       <visual name="visual">
@@ -786,7 +747,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel33">
       <pose>-17.3279 -9.55999 0 0 0 0</pose>
       <visual name="visual">
@@ -804,7 +764,6 @@
         </geometry>
       </collision>
     </link>
-
     <link name="construction_barrel34">
       <pose>-16.102 -15.2392 0 0 0 0</pose>
       <visual name="visual">
