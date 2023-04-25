@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
   <arg name="config_file_path" default="$(find-pkg-share orange_description)/rviz2/orange_robot.rviz"/>
   <!-- rviz2 -->
