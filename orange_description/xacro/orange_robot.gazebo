@@ -9,7 +9,6 @@
     <minDepth>0.001</minDepth>
     <maxVel>1.0</maxVel>
   </gazebo>
-
   <gazebo reference="right_wheel">
     <mu1>5.0</mu1>
     <mu2>5.0</mu2>
@@ -18,18 +17,15 @@
     <minDepth>0.001</minDepth>
     <maxVel>1.0</maxVel>
   </gazebo>
-
   <!--caster-->
   <gazebo reference="left_caster_link">
     <mu1>0.0</mu1>
     <mu2>0.0</mu2>
   </gazebo>
-
   <gazebo reference="right_caster_link">
     <mu1>0.0</mu1>
     <mu2>0.0</mu2>
   </gazebo>
-
   <!--plugins-->
   <gazebo>
     <plugin name="diff_drive_controller" filename="libgazebo_ros_diff_drive.so">
@@ -48,7 +44,6 @@
       <odometry_frame>odom</odometry_frame>
       <robot_base_frame>base_footprint</robot_base_frame>
     </plugin>
-
     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
       <ros>
         <remapping>~/out:=joint_states</remapping>

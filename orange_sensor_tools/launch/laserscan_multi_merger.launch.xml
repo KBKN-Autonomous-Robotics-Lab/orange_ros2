@@ -1,27 +1,24 @@
+<?xml version="1.0"?>
 <launch>
-
-  <arg name="use_sim_time" default="true" />
-
-  <arg name="delete_intensity" default="false" />
-  <arg name="destination_frame" default="velodyne_link" />
-  <arg name="cloud_destination_topic" default="/merged_cloud" />
-  <arg name="scan_destination_topic" default="/merged_scan" />
-  <arg name="laserscan_topics" default="/hokuyo_scan /velodyne_scan" />
-
+  <arg name="use_sim_time" default="true"/>
+  <arg name="delete_intensity" default="false"/>
+  <arg name="destination_frame" default="velodyne_link"/>
+  <arg name="cloud_destination_topic" default="/merged_cloud"/>
+  <arg name="scan_destination_topic" default="/merged_scan"/>
+  <arg name="laserscan_topics" default="/hokuyo_scan /velodyne_scan"/>
   <!-- laserscan_multi_merger -->
   <node pkg="orange_sensor_tools" exec="laserscan_multi_merger">
-		<param name="delete_intensity" value="$(var delete_intensity)" />
-		<param name="destination_frame" value="$(var destination_frame)" />
-		<param name="cloud_destination_topic" value="$(var cloud_destination_topic)" />
-		<param name="scan_destination_topic" value="$(var scan_destination_topic)" />
-		<param name="laserscan_topics" value="$(var laserscan_topics)" />
+    <param name="delete_intensity" value="$(var delete_intensity)"/>
+    <param name="destination_frame" value="$(var destination_frame)"/>
+    <param name="cloud_destination_topic" value="$(var cloud_destination_topic)"/>
+    <param name="scan_destination_topic" value="$(var scan_destination_topic)"/>
+    <param name="laserscan_topics" value="$(var laserscan_topics)"/>
     <!-- LIST OF THE LASER SCAN TOPICS TO SUBSCRIBE -->
-		<param name="angle_min" value="-2.65" />
-		<param name="angle_max" value="2.65" />
-		<param name="angle_increment" value="0.0087" />
-		<param name="scan_time" value="0.3333" />
-		<param name="range_min" value="0.2" />
-		<param name="range_max" value="100.0" />
+    <param name="angle_min" value="-2.65"/>
+    <param name="angle_max" value="2.65"/>
+    <param name="angle_increment" value="0.0087"/>
+    <param name="scan_time" value="0.3333"/>
+    <param name="range_min" value="0.2"/>
+    <param name="range_max" value="100.0"/>
   </node>
-
 </launch>

@@ -1,21 +1,17 @@
+<?xml version="1.0"?>
 <launch>
-
-  <arg name="joy_dev" default="/dev/input/js0" />
-  <arg name="cmd_vel" default="/cmd_vel" />
-
-  <arg name="config_file_path" default="$(find-pkg-share orange_teleop)/config/elecom.yaml" />
-
+  <arg name="joy_dev" default="/dev/input/js0"/>
+  <arg name="cmd_vel" default="/cmd_vel"/>
+  <arg name="config_file_path" default="$(find-pkg-share orange_teleop)/config/elecom.yaml"/>
   <!-- joy_node -->
   <node pkg="joy" exec="joy_node">
-    <param name="dev" value="$(var joy_dev)" />
-    <param name="deadzone" value="0.3" />
-    <param name="autorepeat_rate" value="20.0" />
+    <param name="dev" value="$(var joy_dev)"/>
+    <param name="deadzone" value="0.3"/>
+    <param name="autorepeat_rate" value="20.0"/>
   </node>
-
   <!-- teleop_twist_joy -->
   <node pkg="teleop_twist_joy" exec="teleop_node">
-    <param from="$(var config_file_path)" />
-    <remap from="/cmd_vel" to="$(var cmd_vel)" />
+    <param from="$(var config_file_path)"/>
+    <remap from="/cmd_vel" to="$(var cmd_vel)"/>
   </node>
-
 </launch>
