@@ -3,7 +3,7 @@ from glob import glob
 
 from setuptools import setup
 
-package_name = "orange_teleop"
+package_name = "orange_bringup"
 
 setup(
     name=package_name,
@@ -28,7 +28,7 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "teleop_twist_keyboard = orange_teleop.teleop_twist_keyboard:main",
+            "motor_driver_node = orange_bringup.motor_driver_node:main"
         ],
     },
 )
