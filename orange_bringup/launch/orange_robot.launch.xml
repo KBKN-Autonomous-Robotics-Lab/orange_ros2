@@ -1,61 +1,52 @@
 <?xml version="1.0"?>
 <launch>
-
-  <arg name="use_sim_time" default="true" />
-
-  <arg name="port" default="/dev/ZLAC8015D" />
+  <arg name="use_sim_time" default="true"/>
+  <arg name="port" default="/dev/ZLAC8015D"/>
   <!--# Control mode
       # 1: relative position control mode
       # Default: Subscribe to "/zlac8015d/pos/cmd_deg" and "/zlac8015d/pos/cmd_dist"
       # 3: Speed rpm control mode
       # Default: Subscribe to "/zlac8015d/twist/cmd_vel", "/zlac8015d/vel/cmd_vel" and "/zlac8015d/vel/cmd_rpm"-->
-  <arg name="control_mode" default="3" />
-  <arg name="debug" default="false" />
-  <arg name="twist_cmd_vel_topic" default="/cmd_vel" />
-  <arg name="cmd_vel_topic" default="/vel/cmd_vel" />
-  <arg name="cmd_rpm_topic" default="/vel/cmd_rpm" />
-  <arg name="cmd_deg_topic" default="/pos/cmd_deg" />
-  <arg name="cmd_dist_topic" default="/pos/cmd_dist" />
-  <arg name="publish_TF" default="true" />
-  <arg name="TF_header_frame" default="odom" />
-  <arg name="TF_child_frame" default="base_footprint" />
-  <arg name="publish_odom" default="true" />
-  <arg name="odom_header_frame" default="odom" />
-  <arg name="odom_child_frame" default="base_footprint" />
-
+  <arg name="control_mode" default="3"/>
+  <arg name="debug" default="false"/>
+  <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
+  <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
+  <arg name="cmd_rpm_topic" default="/vel/cmd_rpm"/>
+  <arg name="cmd_deg_topic" default="/pos/cmd_deg"/>
+  <arg name="cmd_dist_topic" default="/pos/cmd_dist"/>
+  <arg name="publish_TF" default="true"/>
+  <arg name="TF_header_frame" default="odom"/>
+  <arg name="TF_child_frame" default="base_footprint"/>
+  <arg name="publish_odom" default="true"/>
+  <arg name="odom_header_frame" default="odom"/>
+  <arg name="odom_child_frame" default="base_footprint"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
-  <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml" />
-
+  <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
-
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
-    <param from="$(var motor_driver_config_file_path)" />
-    <param name="use_sim_time" value="$(var use_sim_time)" />
-    <param name="port" value="$(var port)" />
-    <param name="control_mode" value="$(var control_mode)" />
-    <param name="debug" value="$(var debug)" />
-    <param name="twist_cmd_vel_topic" value="$(var twist_cmd_vel_topic)" />
-    <param name="cmd_vel_topic" value="$(var cmd_vel_topic)" />
-    <param name="cmd_rpm_topic" value="$(var cmd_rpm_topic)" />
-    <param name="cmd_deg_topic" value="$(var cmd_deg_topic)" />
-    <param name="cmd_dist_topic" value="$(var cmd_dist_topic)" />
-    <param name="publish_TF" value="$(var publish_TF)" />
-    <param name="TF_header_frame" value="$(var TF_header_frame)" />
-    <param name="TF_child_frame" value="$(var TF_child_frame)" />
-    <param name="publish_odom" value="$(var publish_odom)" />
-    <param name="odom_header_frame" value="$(var odom_header_frame)" />
-    <param name="odom_child_frame" value="$(var odom_child_frame)" />
+    <param from="$(var motor_driver_config_file_path)"/>
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="port" value="$(var port)"/>
+    <param name="control_mode" value="$(var control_mode)"/>
+    <param name="debug" value="$(var debug)"/>
+    <param name="twist_cmd_vel_topic" value="$(var twist_cmd_vel_topic)"/>
+    <param name="cmd_vel_topic" value="$(var cmd_vel_topic)"/>
+    <param name="cmd_rpm_topic" value="$(var cmd_rpm_topic)"/>
+    <param name="cmd_deg_topic" value="$(var cmd_deg_topic)"/>
+    <param name="cmd_dist_topic" value="$(var cmd_dist_topic)"/>
+    <param name="publish_TF" value="$(var publish_TF)"/>
+    <param name="TF_header_frame" value="$(var TF_header_frame)"/>
+    <param name="TF_child_frame" value="$(var TF_child_frame)"/>
+    <param name="publish_odom" value="$(var publish_odom)"/>
+    <param name="odom_header_frame" value="$(var odom_header_frame)"/>
+    <param name="odom_child_frame" value="$(var odom_child_frame)"/>
   </node>
-
   <!-- velodyne TODO -->
-
   <!-- hokuyo TODO -->
-
   <!-- imu TODO -->
-
 </launch>
