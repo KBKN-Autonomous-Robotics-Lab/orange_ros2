@@ -8,10 +8,14 @@
   <maintainer email="koki.kubota.8p@stu.hosei.ac.jp">Kubota</maintainer>
   <maintainer email="kimihiro.mori.4k@stu.hosei.ac.jp">Mori</maintainer>
   <license>Apache-2.0</license>
-  <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>orange_description</depend>
   <depend>rviz2</depend>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>python3-pymodbus</depend>
   <export>
-    <build_type>ament_cmake</build_type>
+    <build_type>ament_python</build_type>
   </export>
 </package>

@@ -1,0 +1,32 @@
+motor_driver_node:
+  ros__parameters:
+    # Wheel & Encoder Parameters
+    # Default: 8 inches wheel
+    ###############################
+    # Wheel radius
+    left_wheel_radius: 0.1015 # meter
+    right_wheel_radius: 0.1015 # meter
+    # For odometry computation
+    computation_left_wheel_radius: 0.1015 # meter
+    computation_right_wheel_radius: 0.1015 # meter
+    # Encoder CPR(counts per revolution)
+    cpr: 16385
+    ###############################
+
+    # Distance between Wheels
+    wheels_base_width: 0.5668 # meter
+    # Motor automatically stops if no topics are received for a certain period of time
+    callback_timeout: 0.5 # seconds
+
+    # Time to reach target position
+    set_accel_time_left: 200 # ms
+    set_accel_time_right: 200 # ms
+    set_decel_time_left: 200 # ms
+    set_decel_time_right: 200 # ms
+
+    # Maximum rpm
+    max_left_rpm: 150
+    max_right_rpm: 150
+    # Width of rpm to be regarded as 0
+    # If 3, then -3 to 3 is considered rpm 0
+    deadband_rpm: 3
