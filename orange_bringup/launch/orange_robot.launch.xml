@@ -22,11 +22,9 @@
   <arg name="odom_child_frame" default="base_footprint"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
   <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
-  
-  <!--
-  <arg name="velodyne_params_file" default="$(find velodyne_pointcloud)/config/VLP16-velodyne_transform_node-params.yaml"/>
-  <arg name="velodyne_calibration_file" default="$(find velodyne_pointcloud)/params/VLP16db.yaml/>
-  -->
+  <arg name="transform_node_config_file_path" default="$(find velodyne_pointcloud)/config/VLP16-velodyne_transform_node-params.yaml"/>
+  <arg name="driver_node_config_file_path" default="$(find velodyne_driver)/config/VLP16-velodyne_driver_node-params.yaml"/>
+
   
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
@@ -53,11 +51,15 @@
     <param name="odom_child_frame" value="$(var odom_child_frame)"/>
   </node>
   
-  <!-- velodyne TODO -->
-  <rosparam command="load" file="$(arg params_file)"/>
+  <!-- velodyne -->
   <node pkg="velodyne_pointcloud" exec="velodyne_transform_node">
-    <param name="calibration" value="$(var calibratin_file)"/>
+    <param from="$(var transform_node_config_file_path)"/>
+    <pram name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
   </node>
+  <node pkg="velodyne_driver" exec="velodyne_driver_node">
+    <param from="$(var driver_node_config_file_path)"/>
+  </node>
+ 
   
   <!-- hokuyo TODO -->
   <!-- imu TODO -->
