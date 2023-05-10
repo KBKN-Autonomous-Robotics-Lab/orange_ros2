@@ -104,7 +104,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        velodyne_link:
+        velodyne:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -140,7 +140,7 @@ Visualization Manager:
           Value: true
         right_wheel:
           Value: true
-        velodyne_link:
+        velodyne:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -163,7 +163,7 @@ Visualization Manager:
                 {}
               right_wheel:
                 {}
-              velodyne_link:
+              velodyne:
                 {}
       Update Interval: 0
       Value: true

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="use_sim_time" default="true"/>
-  <arg name="velodyne_frame" default="velodyne_link"/>
+  <arg name="velodyne_frame" default="velodyne"/>
   <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
   <arg name="velodyne_points_topic" default="/velodyne_points"/>
