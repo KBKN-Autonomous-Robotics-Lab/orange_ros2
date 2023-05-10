@@ -21,7 +21,6 @@
   <arg name="odom_header_frame" default="odom"/>
   <arg name="odom_child_frame" default="base_footprint"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
-  <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
@@ -46,7 +45,22 @@
     <param name="odom_header_frame" value="$(var odom_header_frame)"/>
     <param name="odom_child_frame" value="$(var odom_child_frame)"/>
   </node>
-  <!-- velodyne TODO -->
+  <!-- velodyne -->
+  <node pkg="velodyne_driver" exec="velodyne_driver_node">
+    <param name="device_ip" value=""/>
+    <param name="gps_time" value="false"/>
+    <param name="time_offset" value="0.0"/>
+    <param name="enabled" value="true"/>
+    <param name="read_once" value="false"/>
+    <param name="read_fast" value="false"/>
+    <param name="repeat_delay" value="0.0"/>
+    <param name="frame_id" value="velodyne"/>
+    <param name="model" value="VLP16"/>
+    <param name="rpm" value="600.0"/>
+    <param name="port" value="2368"/>
+    <param name="timestamp_first_packet" value="false"/>
+  </node>
+  <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_node-VLP16-launch.py"/>
   <!-- hokuyo TODO -->
   <!-- imu TODO -->
 </launch>

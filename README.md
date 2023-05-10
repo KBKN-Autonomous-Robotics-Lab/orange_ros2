@@ -7,6 +7,8 @@ This repository contains [ROS2](https://docs.ros.org/en/humble/index.html) versi
 
 ```
 $ git clone https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2.git
+$ wstool merge orange_ros2/orange_ros2.rosinstall
+$ wstool update
 $ rosdep install -r -y -i --from-paths .
 ```
 ## Launch Gazebo world

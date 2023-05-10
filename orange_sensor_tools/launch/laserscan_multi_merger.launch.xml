@@ -2,7 +2,7 @@
 <launch>
   <arg name="use_sim_time" default="true"/>
   <arg name="delete_intensity" default="false"/>
-  <arg name="destination_frame" default="velodyne_link"/>
+  <arg name="destination_frame" default="velodyne"/>
   <arg name="cloud_destination_topic" default="/merged_cloud"/>
   <arg name="scan_destination_topic" default="/merged_scan"/>
   <arg name="laserscan_topics" default="/hokuyo_scan /velodyne_scan"/>
