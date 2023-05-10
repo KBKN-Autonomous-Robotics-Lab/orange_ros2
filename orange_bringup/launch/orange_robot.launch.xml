@@ -21,8 +21,6 @@
   <arg name="odom_header_frame" default="odom"/>
   <arg name="odom_child_frame" default="base_footprint"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
-  <arg name="driver_node_config_file_path" default="$(find velodyne_driver)/config/VLP16-velodyne_driver_node-params.yaml"/>
-  <arg name="transform_node_config_file_path" default="$(find velodyne_pointcloud)/config/VLP16-velodyne_transform_node-params.yaml"/>
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
@@ -56,13 +54,14 @@
     <param name="read_once" value="false"/>
     <param name="read_fast" value="false"/>
     <param name="repeat_delay" value="0.0"/>
-    <param name="frame_id" value="velodyne_link"/>
+    <param name="frame_id" value="velodyne"/>
     <param name="model" value="VLP16"/>
     <param name="rpm" value="600.0"/>
     <param name="port" value="2368"/>
-    <param name="timestamp_first_packet" valur="false"/>
+    <param name="timestamp_first_packet" value="false"/>
+  <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_VLP16-launch.py"/>
   <node pkg="velodyne_pointcloud" exec="velodyne_transform_node">
-    <pram name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
+    <param name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
     <param name="model" value="VLP16"/>
     <param name="min_range" value="0.4"/>
     <param name="max_range" value="130.0"/>
