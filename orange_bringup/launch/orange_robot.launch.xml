@@ -24,8 +24,6 @@
   <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
   <arg name="transform_node_config_file_path" default="$(find velodyne_pointcloud)/config/VLP16-velodyne_transform_node-params.yaml"/>
   <arg name="driver_node_config_file_path" default="$(find velodyne_driver)/config/VLP16-velodyne_driver_node-params.yaml"/>
-
-  
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
@@ -50,7 +48,6 @@
     <param name="odom_header_frame" value="$(var odom_header_frame)"/>
     <param name="odom_child_frame" value="$(var odom_child_frame)"/>
   </node>
-  
   <!-- velodyne -->
   <node pkg="velodyne_pointcloud" exec="velodyne_transform_node">
     <param from="$(var transform_node_config_file_path)"/>
@@ -59,8 +56,6 @@
   <node pkg="velodyne_driver" exec="velodyne_driver_node">
     <param from="$(var driver_node_config_file_path)"/>
   </node>
- 
-  
   <!-- hokuyo TODO -->
   <!-- imu TODO -->
 </launch>
