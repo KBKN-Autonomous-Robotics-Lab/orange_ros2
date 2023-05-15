@@ -21,6 +21,7 @@
   <arg name="odom_header_frame" default="odom"/>
   <arg name="odom_child_frame" default="base_footprint"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
+  <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
   <arg name="urg_config_file_path" default="$(find-pkg-share orange_bringup)/config/urg.yaml"/>
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
