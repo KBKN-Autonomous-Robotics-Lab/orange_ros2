@@ -16,6 +16,7 @@
   <depend>nav_msgs</depend>
   <depend>python3-pymodbus</depend>
   <depend>velodyne</depend>
+  <depend>urg_node</depend>
   <export>
     <build_type>ament_python</build_type>
   </export>
