@@ -21,6 +21,7 @@
   <arg name="odom_header_frame" default="odom"/>
   <arg name="odom_child_frame" default="base_footprint"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
+  <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
@@ -61,6 +62,13 @@
     <param name="timestamp_first_packet" value="false"/>
   </node>
   <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_node-VLP16-launch.py"/>
-  <!-- hokuyo TODO -->
+  <!-- hokuyo -->
+  <node pkg="urg_node" exec="urg_node_driver">
+    <param name="serial_port" value="/dev/sensors/hokuyo_urg"/>
+    <param name="laser_frame_id" value="hokuyo_link"/>
+    <param name="angle_max" value="1.22"/>
+    <param name="angle_min" value="-1.22"/>
+    <remap from="/scan" to="/hokuyo_scan"/>
+  </node>
   <!-- imu TODO -->
 </launch>
