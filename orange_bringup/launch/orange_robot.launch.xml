@@ -71,4 +71,19 @@
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>
   <!-- imu TODO -->
+  <!-- pointcloud_to_laserscan -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="cloud_in" value="$(var velodyne_points_topic)"/>
+    <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
+  </include>
+  <!-- laserscan_multi_merger -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="delete_intensity" value="true"/>
+    <arg name="destination_frame" value="$(var velodyne_frame)"/>
+    <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
+    <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
+    <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
+  </include>
 </launch>
