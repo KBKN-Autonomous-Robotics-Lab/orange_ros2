@@ -20,6 +20,12 @@
   <arg name="publish_odom" default="true"/>
   <arg name="odom_header_frame" default="odom"/>
   <arg name="odom_child_frame" default="base_footprint"/>
+  <arg name="velodyne_frame" default="velodyne"/>
+  <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
+  <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
+  <arg name="velodyne_points_topic" default="/velodyne_points"/>
+  <arg name="merged_cloud_topic" default="/merged_cloud"/>
+  <arg name="merged_scan_topic" default="/merged_scan"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
   <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
   <!-- robot_state_publisher -->
