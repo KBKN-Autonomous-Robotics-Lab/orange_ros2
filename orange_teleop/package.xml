@@ -12,6 +12,7 @@
   <depend>rclpy</depend>
   <depend>teleop_twist_joy</depend>
   <depend>xterm</depend>
+  <depend>joy_linux</depend>
   <export>
     <build_type>ament_python</build_type>
   </export>
