@@ -67,9 +67,6 @@
     <param name="port" value="2368"/>
     <param name="timestamp_first_packet" value="false"/>
   </node>
-  <!--
-  <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_node-VLP16-launch.py"/>
-  -->
   <node pkg="velodyne_pointcloud" exec="velodyne_transform_node">
     <param name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
     <param name="model" value="VLP16"/>
