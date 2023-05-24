@@ -67,7 +67,19 @@
     <param name="port" value="2368"/>
     <param name="timestamp_first_packet" value="false"/>
   </node>
+  <!--
   <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_node-VLP16-launch.py"/>
+  -->
+  <node pkg="velodyne_pointcloud" exec="velodyne_transform_node">
+    <param name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
+    <param name="model" value="VLP16"/>
+    <param name="min_range" value="0.9"/>
+    <param name="max_range" value="130.0"/>
+    <param name="view_direction" value="0.0"/>
+    <param name="fixed_frame" value=""/>
+    <param name="target_frame" value=""/>
+    <param name="organixe_cloud" value="false"/>
+  </node>
   <!-- hokuyo -->
   <node pkg="urg_node" exec="urg_node_driver">
     <param name="serial_port" value="/dev/sensors/hokuyo_urg"/>
