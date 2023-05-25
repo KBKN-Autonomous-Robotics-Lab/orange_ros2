@@ -75,7 +75,7 @@
     <param name="view_direction" value="0.0"/>
     <param name="fixed_frame" value=""/>
     <param name="target_frame" value=""/>
-    <param name="organixe_cloud" value="false"/>
+    <param name="organize_cloud" value="false"/>
   </node>
   <!-- hokuyo -->
   <node pkg="urg_node" exec="urg_node_driver">
