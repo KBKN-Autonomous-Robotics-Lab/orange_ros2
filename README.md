@@ -36,7 +36,7 @@ $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 $ ros2 launch orange_teleop teleop_joy.launch.xml
 ```
 ## RViz2 visualization
-<img src="https://user-images.githubusercontent.com/84959376/211379404-81bacf08-63d7-4fb6-bd76-46f2627bbe23.png" width="500px">
+<img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/88b06df7-79ef-4791-b530-ff3582f8cdb8" width="500px">
 
 ```
 $ ros2 launch orange_bringup rviz2.launch.xml
