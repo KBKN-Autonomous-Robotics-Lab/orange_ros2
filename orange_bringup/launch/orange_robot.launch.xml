@@ -90,7 +90,7 @@
     <param name="angle_min" value="-1.22"/>
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>
-  <!-- imu TODO -->
+  <!-- imu  -->
   <node pkg="icm_20948" exec="imu_node" output="screen">
     <param name="port" value="$(var port)"/>
     <param name="time_out" value="$(var time_out)"/>
