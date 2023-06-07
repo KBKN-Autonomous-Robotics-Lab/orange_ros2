@@ -22,6 +22,11 @@
   <arg name="odom_child_frame" default="base_footprint"/>
   <arg name="velodyne_frame" default="velodyne"/>
   <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
+  <arg name="port" default="/dev/sensors/imu"/>
+  <arg name="time_out" default="0.5"/>
+  <arg name="baudrate" default="115200"/>
+  <arg name="imu_topic" default="/imu"/>
+  <arg name="frame_id" default="imu_link"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
   <arg name="velodyne_points_topic" default="/velodyne_points"/>
   <arg name="merged_cloud_topic" default="/merged_cloud"/>
@@ -85,7 +90,14 @@
     <param name="angle_min" value="-1.22"/>
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>
-  <!-- imu TODO -->
+  <!-- imu  -->
+  <node pkg="icm_20948" exec="imu_node">
+    <param name="port" value="$(var port)"/>
+    <param name="time_out" value="$(var time_out)"/>
+    <param name="baudrate" value="$(var baudrate)"/>
+    <param name="imu_topic" value="$(var imu_topic)"/>
+    <param name="frame_id" value="$(var frame_id)"/>
+  </node>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
