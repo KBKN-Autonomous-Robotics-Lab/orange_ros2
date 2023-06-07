@@ -4,5 +4,5 @@
     version: ros2
 - git:
     local-name: icm_20948
-    uri: https://github.com/Alpaca-zip/icm_20948.git
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/icm_20948.git
     version: humble-devel
