@@ -91,7 +91,7 @@
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>
   <!-- imu  -->
-  <node pkg="icm_20948" exec="imu_node" output="screen">
+  <node pkg="icm_20948" exec="imu_node">
     <param name="port" value="$(var port)"/>
     <param name="time_out" value="$(var time_out)"/>
     <param name="baudrate" value="$(var baudrate)"/>
