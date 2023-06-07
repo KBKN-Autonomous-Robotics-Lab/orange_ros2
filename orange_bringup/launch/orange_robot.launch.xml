@@ -25,7 +25,7 @@
   <arg name="port" default="/dev/sensors/imu"/>
   <arg name="time_out" default="0.5"/>
   <arg name="baudrate" default="115200"/>
-  <arg name="imu_topic" default="imu"/>
+  <arg name="imu_topic" default="/imu"/>
   <arg name="frame_id" default="imu_link"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
   <arg name="velodyne_points_topic" default="/velodyne_points"/>
