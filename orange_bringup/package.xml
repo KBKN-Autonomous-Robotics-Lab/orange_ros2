@@ -17,6 +17,7 @@
   <depend>python3-pymodbus</depend>
   <depend>velodyne</depend>
   <depend>urg_node</depend>
+  <depend>icm_20948</depend>
   <export>
     <build_type>ament_python</build_type>
   </export>
