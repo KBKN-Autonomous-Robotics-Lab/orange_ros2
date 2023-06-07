@@ -2,4 +2,7 @@
     local-name: velodyne
     uri: https://github.com/ros-drivers/velodyne.git
     version: ros2
-
+- git:
+    local-name:icm_20948
+    uri:  https://github.com/Alpaca-zip/icm_20948.git
+    version: ros2
