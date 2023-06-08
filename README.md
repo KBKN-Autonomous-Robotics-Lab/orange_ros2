@@ -36,7 +36,7 @@ $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 $ ros2 launch orange_teleop teleop_joy.launch.xml
 ```
 ## RViz2 visualization
-<img src="https://user-images.githubusercontent.com/84959376/211379404-81bacf08-63d7-4fb6-bd76-46f2627bbe23.png" width="500px">
+<img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/88b06df7-79ef-4791-b530-ff3582f8cdb8" width="500px">
 
 ```
 $ ros2 launch orange_bringup rviz2.launch.xml
@@ -45,7 +45,7 @@ $ ros2 launch orange_bringup rviz2.launch.xml
 The following SLAM methods can be run.
 | slam_toolbox  | cartographer |
 | ------------- | ------------- |
-| <img src="https://user-images.githubusercontent.com/84959376/215267963-16a0476b-3edd-4d58-a067-a416555f5dec.gif" width="200px"> | <img src="https://user-images.githubusercontent.com/84959376/215267937-0203156d-dbe0-4d4e-a496-96c2c9ec00c2.gif" width="200px"> |
+| <img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/c5d295ca-7304-4aa5-b4df-697301505d9d" width="200px"> | <img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/ba0b84e9-d291-4d64-a164-ea0d5bf2e10a" width="200px"> |
 
 **Gazebo simulation**
 ```
@@ -63,7 +63,7 @@ You can try Navigation2 with a map created by slam_toolbox or cartographer.
 
 **Gazebo simulation**
 
-<img src="https://user-images.githubusercontent.com/84959376/215110831-6732c2e6-726c-47e6-a272-a0c874311e3c.gif" width="400">
+<img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/eb644f26-6122-451a-bb41-2db72f260b22" width="400">
 
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
