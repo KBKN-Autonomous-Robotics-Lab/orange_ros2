@@ -63,7 +63,7 @@ You can try Navigation2 with a map created by slam_toolbox or cartographer.
 
 **Gazebo simulation**
 
-<img src="https://user-images.githubusercontent.com/84959376/215110831-6732c2e6-726c-47e6-a272-a0c874311e3c.gif" width="400">
+<img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/eb644f26-6122-451a-bb41-2db72f260b22" width="400">
 
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
