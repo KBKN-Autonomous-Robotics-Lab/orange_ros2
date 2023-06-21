@@ -12,7 +12,9 @@ find_package(rclcpp_action REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-add_executable(waypoint_follower_client src/waypoint_navigation.cpp)
+include_directories(include)
+
+add_executable(waypoint_follower_client src/waypoint_follower_client.cpp)
 ament_target_dependencies(waypoint_follower_client rclcpp rclcpp_action nav2_msgs geometry_msgs)
 
 # install

@@ -16,8 +16,6 @@
   <include file="$(find-pkg-share orange_bringup)/launch/rviz2.launch.xml">
     <arg name="config_file_path" value="$(var rviz_config_file_path)"/>
   </include>
-  <!-- WaypointNavigation TODO -->
-  <!--
+  <!-- waypoint_follower_client -->
   <node pkg="orange_navigation" exec="waypoint_follower_client"/>
-  -->
 </launch>
