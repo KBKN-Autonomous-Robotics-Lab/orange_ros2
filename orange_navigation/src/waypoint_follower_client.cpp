@@ -7,27 +7,34 @@ WaypointFollowerClient::WaypointFollowerClient()
   is_valid_goal_handle_ = false;
   this->declare_parameter<std::string>("waypoints_file_path", "");
   this->get_parameter("waypoints_file_path", waypoint_file_path_);
-  timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&WaypointFollowerClient::checkGoalStatus, this));
+  timer_ = this->create_wall_timer(
+      std::chrono::seconds(1),
+      std::bind(&WaypointFollowerClient::checkGoalStatus, this));
 }
 
 void WaypointFollowerClient::sendGoals() {
   auto goal_msg = FollowWaypoints::Goal();
 
   YAML::Node waypoints_yaml = YAML::LoadFile(waypoint_file_path_);
-  const auto& waypoints = waypoints_yaml["waypoints"];
+  const auto &waypoints = waypoints_yaml["waypoints"];
 
   goal_msg.poses.resize(waypoints.size());
 
-  for (size_t i = 0; i < waypoints.size(); i++)
-  {
+  for (size_t i = 0; i < waypoints.size(); i++) {
     goal_msg.poses[i].header.frame_id = "map";
     goal_msg.poses[i].header.stamp = this->now();
-    goal_msg.poses[i].pose.position.x = waypoints[i]["pose"]["position"]["x"].as<double>();
-    goal_msg.poses[i].pose.position.y = waypoints[i]["pose"]["position"]["y"].as<double>();
-    goal_msg.poses[i].pose.orientation.x = waypoints[i]["pose"]["orientation"]["x"].as<double>();
-    goal_msg.poses[i].pose.orientation.y = waypoints[i]["pose"]["orientation"]["y"].as<double>();
-    goal_msg.poses[i].pose.orientation.z = waypoints[i]["pose"]["orientation"]["z"].as<double>();
-    goal_msg.poses[i].pose.orientation.w = waypoints[i]["pose"]["orientation"]["w"].as<double>();
+    goal_msg.poses[i].pose.position.x =
+        waypoints[i]["pose"]["position"]["x"].as<double>();
+    goal_msg.poses[i].pose.position.y =
+        waypoints[i]["pose"]["position"]["y"].as<double>();
+    goal_msg.poses[i].pose.orientation.x =
+        waypoints[i]["pose"]["orientation"]["x"].as<double>();
+    goal_msg.poses[i].pose.orientation.y =
+        waypoints[i]["pose"]["orientation"]["y"].as<double>();
+    goal_msg.poses[i].pose.orientation.z =
+        waypoints[i]["pose"]["orientation"]["z"].as<double>();
+    goal_msg.poses[i].pose.orientation.w =
+        waypoints[i]["pose"]["orientation"]["w"].as<double>();
   }
 
   RCLCPP_INFO(this->get_logger(), "Sending goal");
@@ -44,11 +51,10 @@ void WaypointFollowerClient::sendGoals() {
   auto result = client_ptr_->async_send_goal(goal_msg, send_goal_options);
 }
 
-void WaypointFollowerClient::checkGoalStatus()
-{
+void WaypointFollowerClient::checkGoalStatus() {
   auto now = std::chrono::steady_clock::now();
-  if (now - last_goal_accept_time_ > std::chrono::seconds(1) && !is_valid_goal_handle_)
-  {
+  if (now - last_goal_accept_time_ > std::chrono::seconds(1) &&
+      !is_valid_goal_handle_) {
     sendGoals();
   }
 }
