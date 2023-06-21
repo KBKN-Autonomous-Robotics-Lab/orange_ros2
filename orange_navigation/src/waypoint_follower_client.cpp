@@ -4,48 +4,31 @@ WaypointFollowerClient::WaypointFollowerClient()
     : Node("waypoint_follower_client") {
   client_ptr_ =
       rclcpp_action::create_client<FollowWaypoints>(this, "follow_waypoints");
-  is_valid_goal_handle = false;
+  is_valid_goal_handle_ = false;
+  this->declare_parameter<std::string>("waypoints_file_path", "");
+  this->get_parameter("waypoints_file_path", waypoint_file_path_);
+  timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&WaypointFollowerClient::checkGoalStatus, this));
 }
 
 void WaypointFollowerClient::sendGoals() {
   auto goal_msg = FollowWaypoints::Goal();
-  goal_msg.poses.resize(4);
 
-  goal_msg.poses[0].header.frame_id = "map";
-  goal_msg.poses[0].header.stamp = this->now();
-  goal_msg.poses[0].pose.position.x = 2.0;
-  goal_msg.poses[0].pose.position.y = 0.0;
-  goal_msg.poses[0].pose.orientation.x = 0.0;
-  goal_msg.poses[0].pose.orientation.y = 0.0;
-  goal_msg.poses[0].pose.orientation.z = 1.0;
-  goal_msg.poses[0].pose.orientation.w = 0.0;
+  YAML::Node waypoints_yaml = YAML::LoadFile(waypoint_file_path_);
+  const auto& waypoints = waypoints_yaml["waypoints"];
 
-  goal_msg.poses[1].header.frame_id = "map";
-  goal_msg.poses[1].header.stamp = this->now();
-  goal_msg.poses[1].pose.position.x = 0.0;
-  goal_msg.poses[1].pose.position.y = 2.0;
-  goal_msg.poses[1].pose.orientation.x = 0.0;
-  goal_msg.poses[1].pose.orientation.y = 0.0;
-  goal_msg.poses[1].pose.orientation.z = -0.7;
-  goal_msg.poses[1].pose.orientation.w = 0.7;
+  goal_msg.poses.resize(waypoints.size());
 
-  goal_msg.poses[2].header.frame_id = "map";
-  goal_msg.poses[2].header.stamp = this->now();
-  goal_msg.poses[2].pose.position.x = -2.0;
-  goal_msg.poses[2].pose.position.y = 0.0;
-  goal_msg.poses[2].pose.orientation.x = 0.0;
-  goal_msg.poses[2].pose.orientation.y = 0.0;
-  goal_msg.poses[2].pose.orientation.z = 0.0;
-  goal_msg.poses[2].pose.orientation.w = 1.0;
-
-  goal_msg.poses[3].header.frame_id = "map";
-  goal_msg.poses[3].header.stamp = this->now();
-  goal_msg.poses[3].pose.position.x = 0.0;
-  goal_msg.poses[3].pose.position.y = -2.0;
-  goal_msg.poses[3].pose.orientation.x = 0.0;
-  goal_msg.poses[3].pose.orientation.y = 0.0;
-  goal_msg.poses[3].pose.orientation.z = 0.7;
-  goal_msg.poses[3].pose.orientation.w = 0.7;
+  for (size_t i = 0; i < waypoints.size(); i++)
+  {
+    goal_msg.poses[i].header.frame_id = "map";
+    goal_msg.poses[i].header.stamp = this->now();
+    goal_msg.poses[i].pose.position.x = waypoints[i]["pose"]["position"]["x"].as<double>();
+    goal_msg.poses[i].pose.position.y = waypoints[i]["pose"]["position"]["y"].as<double>();
+    goal_msg.poses[i].pose.orientation.x = waypoints[i]["pose"]["orientation"]["x"].as<double>();
+    goal_msg.poses[i].pose.orientation.y = waypoints[i]["pose"]["orientation"]["y"].as<double>();
+    goal_msg.poses[i].pose.orientation.z = waypoints[i]["pose"]["orientation"]["z"].as<double>();
+    goal_msg.poses[i].pose.orientation.w = waypoints[i]["pose"]["orientation"]["w"].as<double>();
+  }
 
   RCLCPP_INFO(this->get_logger(), "Sending goal");
   auto send_goal_options =
@@ -57,18 +40,24 @@ void WaypointFollowerClient::sendGoals() {
   send_goal_options.result_callback =
       std::bind(&WaypointFollowerClient::onResultReceived, this, _1);
 
-  while (!is_valid_goal_handle) {
-    auto result = client_ptr_->async_send_goal(goal_msg, send_goal_options);
-    RCLCPP_INFO(get_logger(), "Waiting for action server...");
-    rclcpp::sleep_for(5s);
+  std::this_thread::sleep_for(1s);
+  auto result = client_ptr_->async_send_goal(goal_msg, send_goal_options);
+}
+
+void WaypointFollowerClient::checkGoalStatus()
+{
+  auto now = std::chrono::steady_clock::now();
+  if (now - last_goal_accept_time_ > std::chrono::seconds(1) && !is_valid_goal_handle_)
+  {
+    sendGoals();
   }
 }
 
 void WaypointFollowerClient::onGoalResponseReceived(
     const GoalHandleFollowWaypoints::SharedPtr &future) {
   auto goal_handle = future.get();
-  is_valid_goal_handle = static_cast<bool>(goal_handle);
-  if (!is_valid_goal_handle) {
+  is_valid_goal_handle_ = static_cast<bool>(goal_handle);
+  if (!is_valid_goal_handle_) {
     RCLCPP_ERROR(this->get_logger(), "Goal was rejected by server");
   } else {
     RCLCPP_INFO(this->get_logger(),
@@ -81,7 +70,7 @@ void WaypointFollowerClient::onFeedbackReceived(
     const std::shared_ptr<const FollowWaypoints::Feedback> feedback) {
   RCLCPP_INFO(this->get_logger(), "CurrentWaypoint = %d",
               feedback->current_waypoint);
-  rclcpp::sleep_for(5s);
+  rclcpp::sleep_for(1s);
 }
 
 void WaypointFollowerClient::onResultReceived(

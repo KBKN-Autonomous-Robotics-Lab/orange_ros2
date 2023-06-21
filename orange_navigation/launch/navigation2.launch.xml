@@ -6,6 +6,7 @@
   <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/navigation2.rviz"/>
   <arg name="map_file_path" default="$(find-pkg-share orange_navigation)/maps/$(var slam_method)/$(var map_file_name)"/>
   <arg name="config_file_path" default="$(find-pkg-share orange_navigation)/config/navigation2_params.yaml"/>
+  <arg name="waypoints_file_path" default="$(find-pkg-share orange_navigation)/config/waypoints.yaml"/>
   <!-- navigation2 -->
   <include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
@@ -17,5 +18,7 @@
     <arg name="config_file_path" value="$(var rviz_config_file_path)"/>
   </include>
   <!-- waypoint_follower_client -->
-  <node pkg="orange_navigation" exec="waypoint_follower_client"/>
+  <node pkg="orange_navigation" exec="waypoint_follower_client">
+    <param name="waypoints_file_path" value="$(var waypoints_file_path)"/>
+  </node>
 </launch>
