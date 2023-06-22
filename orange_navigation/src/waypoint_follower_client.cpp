@@ -5,8 +5,10 @@ WaypointFollowerClient::WaypointFollowerClient()
   client_ptr_ =
       rclcpp_action::create_client<FollowWaypoints>(this, "follow_waypoints");
   is_valid_goal_handle_ = false;
-  orange_nav_path_ = ament_index_cpp::get_package_share_directory("orange_navigation");
-  this->declare_parameter<std::string>("waypoints_file_path", orange_nav_path_ + "/config/waypoints.yaml");
+  orange_nav_path_ =
+      ament_index_cpp::get_package_share_directory("orange_navigation");
+  this->declare_parameter<std::string>(
+      "waypoints_file_path", orange_nav_path_ + "/config/waypoints.yaml");
   this->get_parameter("waypoints_file_path", waypoint_file_path_);
 }
 
