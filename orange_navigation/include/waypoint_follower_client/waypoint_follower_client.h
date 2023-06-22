@@ -8,6 +8,7 @@
 #include <rclcpp/time.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
 #include <yaml-cpp/yaml.h>
+#include <ament_index_cpp/get_package_share_directory.hpp>
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;
@@ -22,6 +23,7 @@ private:
   rclcpp_action::ResultCode result_code_;
   bool is_valid_goal_handle_;
   std::string waypoint_file_path_;
+  std::string orange_nav_path_;
 
 public:
   WaypointFollowerClient();
