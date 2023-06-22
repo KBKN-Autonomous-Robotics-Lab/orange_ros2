@@ -68,6 +68,7 @@ You can try Navigation2 with a map created by slam_toolbox or cartographer.
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
 $ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME}
+$ ros2 run orange_navigation waypoint_follower_client
 ```
 ## Sample dataset
 You can download the ros2 bag obtained from orange_world.
