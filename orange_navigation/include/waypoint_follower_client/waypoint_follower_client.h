@@ -20,15 +20,12 @@ class WaypointFollowerClient : public rclcpp::Node {
 private:
   rclcpp_action::Client<FollowWaypoints>::SharedPtr client_ptr_;
   rclcpp_action::ResultCode result_code_;
-  rclcpp::TimerBase::SharedPtr timer_;
   bool is_valid_goal_handle_;
   std::string waypoint_file_path_;
-  std::chrono::steady_clock::time_point last_goal_accept_time_;
 
 public:
   WaypointFollowerClient();
   void sendGoals();
-  void checkGoalStatus();
   void
   onGoalResponseReceived(const GoalHandleFollowWaypoints::SharedPtr &future);
   void onFeedbackReceived(

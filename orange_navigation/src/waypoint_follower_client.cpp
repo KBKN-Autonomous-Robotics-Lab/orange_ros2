@@ -7,12 +7,12 @@ WaypointFollowerClient::WaypointFollowerClient()
   is_valid_goal_handle_ = false;
   this->declare_parameter<std::string>("waypoints_file_path", "");
   this->get_parameter("waypoints_file_path", waypoint_file_path_);
-  timer_ = this->create_wall_timer(
-      std::chrono::seconds(1),
-      std::bind(&WaypointFollowerClient::checkGoalStatus, this));
 }
 
 void WaypointFollowerClient::sendGoals() {
+  while (!this->client_ptr_->wait_for_action_server()) {
+    RCLCPP_INFO(this->get_logger(), "Waiting for action server...");
+  }
   auto goal_msg = FollowWaypoints::Goal();
 
   YAML::Node waypoints_yaml = YAML::LoadFile(waypoint_file_path_);
@@ -51,20 +51,13 @@ void WaypointFollowerClient::sendGoals() {
   auto result = client_ptr_->async_send_goal(goal_msg, send_goal_options);
 }
 
-void WaypointFollowerClient::checkGoalStatus() {
-  auto now = std::chrono::steady_clock::now();
-  if (now - last_goal_accept_time_ > std::chrono::seconds(1) &&
-      !is_valid_goal_handle_) {
-    sendGoals();
-  }
-}
-
 void WaypointFollowerClient::onGoalResponseReceived(
     const GoalHandleFollowWaypoints::SharedPtr &future) {
   auto goal_handle = future.get();
   is_valid_goal_handle_ = static_cast<bool>(goal_handle);
   if (!is_valid_goal_handle_) {
     RCLCPP_ERROR(this->get_logger(), "Goal was rejected by server");
+    sendGoals();
   } else {
     RCLCPP_INFO(this->get_logger(),
                 "Goal accepted by server, waiting for result");
