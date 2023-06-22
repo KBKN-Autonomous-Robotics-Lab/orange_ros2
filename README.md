@@ -65,9 +65,18 @@ You can try Navigation2 with a map created by slam_toolbox or cartographer.
 
 <img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/eb644f26-6122-451a-bb41-2db72f260b22" width="400">
 
+
+**Turn-by-turn Navigation**
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
 $ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME}
+```
+
+**Waypoint Navigetion**
+```
+$ ros2 launch orange_gazebo orange_world.launch.xml
+$ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME}
+$ ros2 run orange_navigation waypoint_follower_client
 ```
 ## Sample dataset
 You can download the ros2 bag obtained from orange_world.
