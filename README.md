@@ -72,7 +72,7 @@ $ ros2 launch orange_gazebo orange_world.launch.xml
 $ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME}
 ```
 
-**Waypoint Navigetion**
+**Waypoint Navigation**
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
 $ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME}
