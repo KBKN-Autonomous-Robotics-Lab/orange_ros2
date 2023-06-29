@@ -1,18 +1,17 @@
 #include "waypoint_follower_client/waypoint_follower_client.h"
 
-WaypointFollowerClient::WaypointFollowerClient()
-    : Node("waypoint_follower_client") {
-  client_ptr_ =
-      rclcpp_action::create_client<FollowWaypoints>(this, "follow_waypoints");
+WaypointFollowerClient::WaypointFollowerClient() : Node("waypoint_follower_client")
+{
+  client_ptr_ = rclcpp_action::create_client<FollowWaypoints>(this, "follow_waypoints");
   is_valid_goal_handle_ = false;
-  orange_nav_path_ =
-      ament_index_cpp::get_package_share_directory("orange_navigation");
+  orange_nav_path_ = ament_index_cpp::get_package_share_directory("orange_navigation");
   this->declare_parameter<std::string>(
-      "waypoints_file_path", orange_nav_path_ + "/config/waypoints.yaml");
+    "waypoints_file_path", orange_nav_path_ + "/config/waypoints.yaml");
   this->get_parameter("waypoints_file_path", waypoint_file_path_);
 }
 
-void WaypointFollowerClient::sendGoals() {
+void WaypointFollowerClient::sendGoals()
+{
   while (!this->client_ptr_->wait_for_action_server()) {
     RCLCPP_INFO(this->get_logger(), "Waiting for action server...");
     rclcpp::sleep_for(1s);
@@ -20,87 +19,81 @@ void WaypointFollowerClient::sendGoals() {
   auto goal_msg = FollowWaypoints::Goal();
 
   YAML::Node waypoints_yaml = YAML::LoadFile(waypoint_file_path_);
-  const auto &waypoints = waypoints_yaml["waypoints"];
+  const auto & waypoints = waypoints_yaml["waypoints"];
 
   goal_msg.poses.resize(waypoints.size());
 
   for (size_t i = 0; i < waypoints.size(); i++) {
     goal_msg.poses[i].header.frame_id = "map";
     goal_msg.poses[i].header.stamp = this->now();
-    goal_msg.poses[i].pose.position.x =
-        waypoints[i]["pose"]["position"]["x"].as<double>();
-    goal_msg.poses[i].pose.position.y =
-        waypoints[i]["pose"]["position"]["y"].as<double>();
-    goal_msg.poses[i].pose.orientation.x =
-        waypoints[i]["pose"]["orientation"]["x"].as<double>();
-    goal_msg.poses[i].pose.orientation.y =
-        waypoints[i]["pose"]["orientation"]["y"].as<double>();
-    goal_msg.poses[i].pose.orientation.z =
-        waypoints[i]["pose"]["orientation"]["z"].as<double>();
-    goal_msg.poses[i].pose.orientation.w =
-        waypoints[i]["pose"]["orientation"]["w"].as<double>();
+    goal_msg.poses[i].pose.position.x = waypoints[i]["pose"]["position"]["x"].as<double>();
+    goal_msg.poses[i].pose.position.y = waypoints[i]["pose"]["position"]["y"].as<double>();
+    goal_msg.poses[i].pose.orientation.x = waypoints[i]["pose"]["orientation"]["x"].as<double>();
+    goal_msg.poses[i].pose.orientation.y = waypoints[i]["pose"]["orientation"]["y"].as<double>();
+    goal_msg.poses[i].pose.orientation.z = waypoints[i]["pose"]["orientation"]["z"].as<double>();
+    goal_msg.poses[i].pose.orientation.w = waypoints[i]["pose"]["orientation"]["w"].as<double>();
   }
 
   RCLCPP_INFO(this->get_logger(), "Sending goal");
-  auto send_goal_options =
-      rclcpp_action::Client<FollowWaypoints>::SendGoalOptions();
+  auto send_goal_options = rclcpp_action::Client<FollowWaypoints>::SendGoalOptions();
   send_goal_options.goal_response_callback =
-      std::bind(&WaypointFollowerClient::onGoalResponseReceived, this, _1);
+    std::bind(&WaypointFollowerClient::onGoalResponseReceived, this, _1);
   send_goal_options.feedback_callback =
-      std::bind(&WaypointFollowerClient::onFeedbackReceived, this, _1, _2);
+    std::bind(&WaypointFollowerClient::onFeedbackReceived, this, _1, _2);
   send_goal_options.result_callback =
-      std::bind(&WaypointFollowerClient::onResultReceived, this, _1);
+    std::bind(&WaypointFollowerClient::onResultReceived, this, _1);
 
   std::this_thread::sleep_for(1s);
   auto result = client_ptr_->async_send_goal(goal_msg, send_goal_options);
 }
 
 void WaypointFollowerClient::onGoalResponseReceived(
-    const GoalHandleFollowWaypoints::SharedPtr &future) {
+  const GoalHandleFollowWaypoints::SharedPtr & future)
+{
   auto goal_handle = future.get();
   is_valid_goal_handle_ = static_cast<bool>(goal_handle);
   if (!is_valid_goal_handle_) {
     RCLCPP_ERROR(this->get_logger(), "Goal was rejected by server");
     sendGoals();
   } else {
-    RCLCPP_INFO(this->get_logger(),
-                "Goal accepted by server, waiting for result");
+    RCLCPP_INFO(this->get_logger(), "Goal accepted by server, waiting for result");
   }
 }
 
 void WaypointFollowerClient::onFeedbackReceived(
-    GoalHandleFollowWaypoints::SharedPtr,
-    const std::shared_ptr<const FollowWaypoints::Feedback> feedback) {
-  RCLCPP_INFO(this->get_logger(), "CurrentWaypoint = %d",
-              feedback->current_waypoint);
+  GoalHandleFollowWaypoints::SharedPtr,
+  const std::shared_ptr<const FollowWaypoints::Feedback> feedback)
+{
+  RCLCPP_INFO(this->get_logger(), "CurrentWaypoint = %d", feedback->current_waypoint);
   rclcpp::sleep_for(1s);
 }
 
 void WaypointFollowerClient::onResultReceived(
-    const GoalHandleFollowWaypoints::WrappedResult &result) {
+  const GoalHandleFollowWaypoints::WrappedResult & result)
+{
   result_code_ = result.code;
 
   switch (result.code) {
-  case rclcpp_action::ResultCode::SUCCEEDED:
-    RCLCPP_INFO(this->get_logger(), "Goal was succeeded");
-    for (unsigned int i = 0; i < result.result->missed_waypoints.size(); i++) {
-      RCLCPP_INFO(this->get_logger(), "missed waypoints: %d",
-                  result.result->missed_waypoints[i]);
-    }
-    break;
-  case rclcpp_action::ResultCode::ABORTED:
-    RCLCPP_ERROR(this->get_logger(), "Goal was aborted");
-    return;
-  case rclcpp_action::ResultCode::CANCELED:
-    RCLCPP_ERROR(this->get_logger(), "Goal was canceled");
-    return;
-  default:
-    RCLCPP_ERROR(this->get_logger(), "Unknown result code");
-    return;
+    case rclcpp_action::ResultCode::SUCCEEDED:
+      RCLCPP_INFO(this->get_logger(), "Goal was succeeded");
+      for (unsigned int i = 0; i < result.result->missed_waypoints.size(); i++) {
+        RCLCPP_INFO(this->get_logger(), "missed waypoints: %d", result.result->missed_waypoints[i]);
+      }
+      break;
+    case rclcpp_action::ResultCode::ABORTED:
+      RCLCPP_ERROR(this->get_logger(), "Goal was aborted");
+      return;
+    case rclcpp_action::ResultCode::CANCELED:
+      RCLCPP_ERROR(this->get_logger(), "Goal was canceled");
+      return;
+    default:
+      RCLCPP_ERROR(this->get_logger(), "Unknown result code");
+      return;
   }
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char * argv[])
+{
   rclcpp::init(argc, argv);
   auto node = std::make_shared<WaypointFollowerClient>();
   node->sendGoals();
