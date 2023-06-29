@@ -18,7 +18,8 @@ class MotorDriverNode(Node):
         super().__init__("motor_driver_node")
 
         self.declare_parameter("port", "/dev/ttyUSB0")
-        self.declare_parameter("twist_cmd_vel_topic", "/zlac8015d/twist/cmd_vel")
+        self.declare_parameter("twist_cmd_vel_topic",
+                               "/zlac8015d/twist/cmd_vel")
         self.declare_parameter("cmd_vel_topic", "/zlac8015d/vel/cmd_vel")
         self.declare_parameter("cmd_rpm_topic", "/zlac8015d/vel/cmd_rpm")
         self.declare_parameter("cmd_deg_topic", "/zlac8015d/pos/cmd_deg")
@@ -96,25 +97,29 @@ class MotorDriverNode(Node):
         )
         self.create_subscription(
             Float32MultiArray,
-            self.get_parameter("cmd_vel_topic").get_parameter_value().string_value,
+            self.get_parameter(
+                "cmd_vel_topic").get_parameter_value().string_value,
             self.vel_cmd_callback,
             10,
         )
         self.create_subscription(
             Float32MultiArray,
-            self.get_parameter("cmd_rpm_topic").get_parameter_value().string_value,
+            self.get_parameter(
+                "cmd_rpm_topic").get_parameter_value().string_value,
             self.rpm_cmd_callback,
             10,
         )
         self.create_subscription(
             Float32MultiArray,
-            self.get_parameter("cmd_deg_topic").get_parameter_value().string_value,
+            self.get_parameter(
+                "cmd_deg_topic").get_parameter_value().string_value,
             self.deg_cmd_callback,
             10,
         )
         self.create_subscription(
             Float32MultiArray,
-            self.get_parameter("cmd_dist_topic").get_parameter_value().string_value,
+            self.get_parameter(
+                "cmd_dist_topic").get_parameter_value().string_value,
             self.dist_cmd_callback,
             10,
         )
@@ -122,7 +127,8 @@ class MotorDriverNode(Node):
 
         # -----Initialize Control Mode-----
         self.control_mode = (
-            self.get_parameter("control_mode").get_parameter_value().integer_value
+            self.get_parameter(
+                "control_mode").get_parameter_value().integer_value
         )
         if self.control_mode == 3:
             self.speed_mode_init()
@@ -131,16 +137,20 @@ class MotorDriverNode(Node):
 
         # -----Initialize Variable-----
         self.callback_timeout = (
-            self.get_parameter("callback_timeout").get_parameter_value().double_value
+            self.get_parameter(
+                "callback_timeout").get_parameter_value().double_value
         )
         self.wheels_base_width = (
-            self.get_parameter("wheels_base_width").get_parameter_value().double_value
+            self.get_parameter(
+                "wheels_base_width").get_parameter_value().double_value
         )
         self.left_wheel_radius = (
-            self.get_parameter("left_wheel_radius").get_parameter_value().double_value
+            self.get_parameter(
+                "left_wheel_radius").get_parameter_value().double_value
         )
         self.right_wheel_radius = (
-            self.get_parameter("right_wheel_radius").get_parameter_value().double_value
+            self.get_parameter(
+                "right_wheel_radius").get_parameter_value().double_value
         )
         self.computation_left_wheel_radius = (
             self.get_parameter("computation_left_wheel_radius")
@@ -152,15 +162,19 @@ class MotorDriverNode(Node):
             .get_parameter_value()
             .double_value
         )
-        self.cpr = self.get_parameter("cpr").get_parameter_value().integer_value
+        self.cpr = self.get_parameter(
+            "cpr").get_parameter_value().integer_value
         self.deadband_rpm = (
-            self.get_parameter("deadband_rpm").get_parameter_value().integer_value
+            self.get_parameter(
+                "deadband_rpm").get_parameter_value().integer_value
         )
         self.left_rpm_lim = (
-            self.get_parameter("max_left_rpm").get_parameter_value().integer_value
+            self.get_parameter(
+                "max_left_rpm").get_parameter_value().integer_value
         )
         self.right_rpm_lim = (
-            self.get_parameter("max_right_rpm").get_parameter_value().integer_value
+            self.get_parameter(
+                "max_right_rpm").get_parameter_value().integer_value
         )
         self.publish_TF = (
             self.get_parameter("publish_TF").get_parameter_value().bool_value
@@ -169,18 +183,23 @@ class MotorDriverNode(Node):
             self.get_parameter("publish_odom").get_parameter_value().bool_value
         )
         self.TF_header_frame = (
-            self.get_parameter("TF_header_frame").get_parameter_value().string_value
+            self.get_parameter(
+                "TF_header_frame").get_parameter_value().string_value
         )
         self.TF_child_frame = (
-            self.get_parameter("TF_child_frame").get_parameter_value().string_value
+            self.get_parameter(
+                "TF_child_frame").get_parameter_value().string_value
         )
         self.odom_header_frame = (
-            self.get_parameter("odom_header_frame").get_parameter_value().string_value
+            self.get_parameter(
+                "odom_header_frame").get_parameter_value().string_value
         )
         self.odom_child_frame = (
-            self.get_parameter("odom_child_frame").get_parameter_value().string_value
+            self.get_parameter(
+                "odom_child_frame").get_parameter_value().string_value
         )
-        self.debug = self.get_parameter("debug").get_parameter_value().bool_value
+        self.debug = self.get_parameter(
+            "debug").get_parameter_value().bool_value
 
         self.linear_vel_cmd = 0.0
         self.angular_vel_cmd = 0.0
@@ -351,10 +370,12 @@ class MotorDriverNode(Node):
 
         # -----Set Position Async Control-----
         max_L_rpm = (
-            self.get_parameter("max_left_rpm").get_parameter_value().integer_value
+            self.get_parameter(
+                "max_left_rpm").get_parameter_value().integer_value
         )
         max_R_rpm = (
-            self.get_parameter("max_right_rpm").get_parameter_value().integer_value
+            self.get_parameter(
+                "max_right_rpm").get_parameter_value().integer_value
         )
         if max_L_rpm > 1000:
             max_L_rpm = 1000
@@ -460,7 +481,8 @@ class MotorDriverNode(Node):
         l_pulse = np.int32(((l_pul_hi & 0xFFFF) << 16) | (l_pul_lo & 0xFFFF))
         r_pulse = np.int32(((r_pul_hi & 0xFFFF) << 16) | (r_pul_lo & 0xFFFF))
         l_travelled = (
-            (float(l_pulse) / self.cpr) * self.computation_left_wheel_radius * np.pi * 8
+            (float(l_pulse) / self.cpr) *
+            self.computation_left_wheel_radius * np.pi * 8
         )  # unit in meter
         r_travelled = (
             (float(r_pulse) / self.cpr)
@@ -474,7 +496,8 @@ class MotorDriverNode(Node):
         read_success = False
         reg = [None] * WORD
         while not read_success:
-            result = self.client.read_holding_registers(ADDR, WORD, slave=self.ID)
+            result = self.client.read_holding_registers(
+                ADDR, WORD, slave=self.ID)
             try:
                 for i in range(WORD):
                     reg[i] = result.registers[i]
@@ -643,18 +666,21 @@ class MotorDriverNode(Node):
                     self.left_rpm_cmd, self.right_rpm_cmd = self.twist_to_rpm(
                         self.linear_vel_cmd, self.angular_vel_cmd
                     )
-                    self.set_rpm_with_limit(self.left_rpm_cmd, self.right_rpm_cmd)
+                    self.set_rpm_with_limit(
+                        self.left_rpm_cmd, self.right_rpm_cmd)
                     self.got_twist_cmd = False
 
                 elif self.got_vel_cmd:
                     self.left_rpm_cmd, self.right_rpm_cmd = self.vel_to_rpm(
                         self.left_vel_cmd, self.right_vel_cmd
                     )
-                    self.set_rpm_with_limit(self.left_rpm_cmd, self.right_rpm_cmd)
+                    self.set_rpm_with_limit(
+                        self.left_rpm_cmd, self.right_rpm_cmd)
                     self.got_vel_cmd = False
 
                 elif self.got_vel_rpm_cmd:
-                    self.set_rpm_with_limit(self.left_rpm_cmd, self.right_rpm_cmd)
+                    self.set_rpm_with_limit(
+                        self.left_rpm_cmd, self.right_rpm_cmd)
                     self.got_vel_rpm_cmd = False
 
                 elif (
@@ -662,7 +688,8 @@ class MotorDriverNode(Node):
                 ) > self.callback_timeout:
                     self.left_rpm_cmd = 0.0
                     self.right_rpm_cmd = 0.0
-                    self.set_rpm_with_limit(self.left_rpm_cmd, self.right_rpm_cmd)
+                    self.set_rpm_with_limit(
+                        self.left_rpm_cmd, self.right_rpm_cmd)
 
             # -----Position Control-----
             elif self.control_mode == 1:
