@@ -7,17 +7,16 @@
       # 3: Speed rpm control mode
       # Default: Subscribe to "/zlac8015d/twist/cmd_vel", "/zlac8015d/vel/cmd_vel" and "/zlac8015d/vel/cmd_rpm"-->
   <arg name="control_mode" default="3"/>
-  <arg name="debug" default="false"/>
+  <arg name="debug_motor" default="false"/>
+  <arg name="debug_imu" default="false"/>
+  <arg name="publish_TF" default="true"/>
+  <arg name="publish_odom" default="true"/>
   <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
   <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
   <arg name="cmd_rpm_topic" default="/vel/cmd_rpm"/>
   <arg name="cmd_deg_topic" default="/pos/cmd_deg"/>
   <arg name="cmd_dist_topic" default="/pos/cmd_dist"/>
-  <arg name="publish_TF" default="true"/>
-  <arg name="publish_odom" default="true"/>
   <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
-  <arg name="time_out" default="0.5"/>
-  <arg name="baudrate" default="115200"/>
   <arg name="imu_topic" default="/imu"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
   <arg name="velodyne_points_topic" default="/velodyne_points"/>
@@ -25,7 +24,6 @@
   <arg name="merged_scan_topic" default="/merged_scan"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
   <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
-  <arg name="debug_imu" default="false"/>
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
@@ -37,7 +35,7 @@
     <param name="use_sim_time" value="$(var use_sim_time)"/>
     <param name="port" value="/dev/ZLAC8015D"/>
     <param name="control_mode" value="$(var control_mode)"/>
-    <param name="debug" value="$(var debug)"/>
+    <param name="debug" value="$(var debug_motor)"/>
     <param name="twist_cmd_vel_topic" value="$(var twist_cmd_vel_topic)"/>
     <param name="cmd_vel_topic" value="$(var cmd_vel_topic)"/>
     <param name="cmd_rpm_topic" value="$(var cmd_rpm_topic)"/>
