@@ -1,32 +1,23 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="use_sim_time" default="true"/>
-  <arg name="port" default="/dev/ZLAC8015D"/>
   <!--# Control mode
       # 1: relative position control mode
       # Default: Subscribe to "/zlac8015d/pos/cmd_deg" and "/zlac8015d/pos/cmd_dist"
       # 3: Speed rpm control mode
       # Default: Subscribe to "/zlac8015d/twist/cmd_vel", "/zlac8015d/vel/cmd_vel" and "/zlac8015d/vel/cmd_rpm"-->
   <arg name="control_mode" default="3"/>
-  <arg name="debug" default="false"/>
+  <arg name="debug_motor" default="false"/>
+  <arg name="debug_imu" default="false"/>
+  <arg name="publish_TF" default="true"/>
+  <arg name="publish_odom" default="true"/>
   <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
   <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
   <arg name="cmd_rpm_topic" default="/vel/cmd_rpm"/>
   <arg name="cmd_deg_topic" default="/pos/cmd_deg"/>
   <arg name="cmd_dist_topic" default="/pos/cmd_dist"/>
-  <arg name="publish_TF" default="true"/>
-  <arg name="TF_header_frame" default="odom"/>
-  <arg name="TF_child_frame" default="base_footprint"/>
-  <arg name="publish_odom" default="true"/>
-  <arg name="odom_header_frame" default="odom"/>
-  <arg name="odom_child_frame" default="base_footprint"/>
-  <arg name="velodyne_frame" default="velodyne"/>
   <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
-  <arg name="port" default="/dev/sensors/imu"/>
-  <arg name="time_out" default="0.5"/>
-  <arg name="baudrate" default="115200"/>
   <arg name="imu_topic" default="/imu"/>
-  <arg name="frame_id" default="imu_link"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
   <arg name="velodyne_points_topic" default="/velodyne_points"/>
   <arg name="merged_cloud_topic" default="/merged_cloud"/>
@@ -42,20 +33,20 @@
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
     <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="port" value="$(var port)"/>
+    <param name="port" value="/dev/ZLAC8015D"/>
     <param name="control_mode" value="$(var control_mode)"/>
-    <param name="debug" value="$(var debug)"/>
+    <param name="debug" value="$(var debug_motor)"/>
     <param name="twist_cmd_vel_topic" value="$(var twist_cmd_vel_topic)"/>
     <param name="cmd_vel_topic" value="$(var cmd_vel_topic)"/>
     <param name="cmd_rpm_topic" value="$(var cmd_rpm_topic)"/>
     <param name="cmd_deg_topic" value="$(var cmd_deg_topic)"/>
     <param name="cmd_dist_topic" value="$(var cmd_dist_topic)"/>
     <param name="publish_TF" value="$(var publish_TF)"/>
-    <param name="TF_header_frame" value="$(var TF_header_frame)"/>
-    <param name="TF_child_frame" value="$(var TF_child_frame)"/>
+    <param name="TF_header_frame" value="odom"/>
+    <param name="TF_child_frame" value="base_footprint"/>
     <param name="publish_odom" value="$(var publish_odom)"/>
-    <param name="odom_header_frame" value="$(var odom_header_frame)"/>
-    <param name="odom_child_frame" value="$(var odom_child_frame)"/>
+    <param name="odom_header_frame" value="odom"/>
+    <param name="odom_child_frame" value="base_footprint"/>
   </node>
   <!-- velodyne -->
   <node pkg="velodyne_driver" exec="velodyne_driver_node">
@@ -91,13 +82,14 @@
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>
   <!-- imu  -->
-  <node pkg="icm_20948" exec="imu_node">
-    <param name="port" value="$(var port)"/>
-    <param name="time_out" value="$(var time_out)"/>
-    <param name="baudrate" value="$(var baudrate)"/>
-    <param name="imu_topic" value="$(var imu_topic)"/>
-    <param name="frame_id" value="$(var frame_id)"/>
-  </node>
+  <include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
+    <arg name="port" value="/dev/sensors/imu"/>
+    <arg name="time_out" value="0.5"/>
+    <arg name="baudrate" value="115200"/>
+    <arg name="imu_topic" value="imu"/>
+    <arg name="frame_id" value="imu_link"/>
+    <arg name="debug" value="$(var debug_imu)"/>
+  </include>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
@@ -108,7 +100,7 @@
   <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
     <arg name="delete_intensity" value="true"/>
-    <arg name="destination_frame" value="$(var velodyne_frame)"/>
+    <arg name="destination_frame" value="velodyne"/>
     <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
     <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
     <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
