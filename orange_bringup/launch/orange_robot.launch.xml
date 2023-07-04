@@ -33,6 +33,7 @@
   <arg name="merged_scan_topic" default="/merged_scan"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
   <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
+  <arg name="debug_imu" default="false"/>
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
@@ -91,13 +92,14 @@
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>
   <!-- imu  -->
-  <node pkg="icm_20948" exec="imu_node">
-    <param name="port" value="$(var port)"/>
-    <param name="time_out" value="$(var time_out)"/>
-    <param name="baudrate" value="$(var baudrate)"/>
-    <param name="imu_topic" value="$(var imu_topic)"/>
-    <param name="frame_id" value="$(var frame_id)"/>
-  </node>
+  <include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
+    <arg name="port" value="/dev/sensors/imu"/>
+    <arg name="time_out" value="0.5"/>
+    <arg name="baudrate" value="115200"/>
+    <arg name="imu_topic" value="imu"/>
+    <arg name="frame_id" value="imu_link"/>
+    <arg name="debug" value="$(var debug_imu)"/>
+  </include>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
