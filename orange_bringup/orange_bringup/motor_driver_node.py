@@ -93,35 +93,35 @@ class MotorDriverNode(Node):
             .get_parameter_value()
             .string_value,
             self.twist_cmd_callback,
-            10,
+            1,
         )
         self.create_subscription(
             Float32MultiArray,
             self.get_parameter(
                 "cmd_vel_topic").get_parameter_value().string_value,
             self.vel_cmd_callback,
-            10,
+            1,
         )
         self.create_subscription(
             Float32MultiArray,
             self.get_parameter(
                 "cmd_rpm_topic").get_parameter_value().string_value,
             self.rpm_cmd_callback,
-            10,
+            1,
         )
         self.create_subscription(
             Float32MultiArray,
             self.get_parameter(
                 "cmd_deg_topic").get_parameter_value().string_value,
             self.deg_cmd_callback,
-            10,
+            1,
         )
         self.create_subscription(
             Float32MultiArray,
             self.get_parameter(
                 "cmd_dist_topic").get_parameter_value().string_value,
             self.dist_cmd_callback,
-            10,
+            1,
         )
         self.create_subscription(Bool, "/estop", self.estop_callback, 10)
 
