@@ -763,7 +763,7 @@ def main(args=None):
         motor_driver_node = MotorDriverNode()
         while rclpy.ok():
             motor_driver_node.control_loop()
-            rclpy.spin_once(motor_driver_node)
+            rclpy.spin_once(motor_driver_node, timeout_sec=0.0)
     except KeyboardInterrupt:
         pass
     finally:
