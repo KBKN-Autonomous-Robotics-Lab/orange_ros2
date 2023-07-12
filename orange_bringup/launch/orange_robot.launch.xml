@@ -9,7 +9,7 @@
   <arg name="control_mode" default="3"/>
   <arg name="debug_motor" default="false"/>
   <arg name="debug_imu" default="false"/>
-  <arg name="publish_TF" default="true"/>
+  <arg name="publish_TF" default="false"/>
   <arg name="publish_odom" default="true"/>
   <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
   <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
