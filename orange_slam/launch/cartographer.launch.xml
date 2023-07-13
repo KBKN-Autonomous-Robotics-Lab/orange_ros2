@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="use_sim_time" default="true"/>
   <arg name="with_ros2bag" default="false"/>
   <arg name="scan_1" default="/velodyne_scan"/>
   <arg name="scan_2" default="/hokuyo_scan"/>
@@ -15,20 +14,15 @@
   <include file="$(find-pkg-share orange_bringup)/launch/rviz2.launch.xml">
     <arg name="config_file_path" value="$(var rviz_config_file_path)"/>
   </include>
-  <!-- robot_state_publisher -->
-  <node if="$(var with_ros2bag)" pkg="robot_state_publisher" exec="robot_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
-  </node>
   <!-- cartographer_node -->
   <node pkg="cartographer_ros" exec="cartographer_node" args="-configuration_directory $(var slam_config_file_dir)    -configuration_basename $(var slam_config_file_name)">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="use_sim_time" value="$(var with_ros2bag)"/>
     <remap from="/scan_1" to="$(var scan_1)"/>
     <remap from="/scan_2" to="$(var scan_2)"/>
     <remap from="/odom" to="$(var odom)"/>
   </node>
   <!-- occupancy_grid -->
   <node pkg="cartographer_ros" exec="cartographer_occupancy_grid_node" args="-resolution $(var resolution)    -publish_period_sec $(var publish_period_sec)">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="use_sim_time" value="$(var with_ros2bag)"/>
   </node>
 </launch>

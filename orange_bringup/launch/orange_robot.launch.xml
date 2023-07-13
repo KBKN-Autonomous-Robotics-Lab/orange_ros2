@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="use_sim_time" default="true"/>
   <!--# Control mode
       # 1: relative position control mode
       # Default: Subscribe to "/zlac8015d/pos/cmd_deg" and "/zlac8015d/pos/cmd_dist"
@@ -26,13 +25,11 @@
   <arg name="motor_driver_config_file_path" default="$(find-pkg-share orange_bringup)/config/motor_driver_params.yaml"/>
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
     <param name="port" value="/dev/ZLAC8015D"/>
     <param name="control_mode" value="$(var control_mode)"/>
     <param name="debug" value="$(var debug_motor)"/>
@@ -92,13 +89,11 @@
   </include>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
-    <arg name="use_sim_time" value="$(var use_sim_time)"/>
     <arg name="cloud_in" value="$(var velodyne_points_topic)"/>
     <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
   </include>
   <!-- laserscan_multi_merger -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
-    <arg name="use_sim_time" value="$(var use_sim_time)"/>
     <arg name="delete_intensity" value="true"/>
     <arg name="destination_frame" value="velodyne"/>
     <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
