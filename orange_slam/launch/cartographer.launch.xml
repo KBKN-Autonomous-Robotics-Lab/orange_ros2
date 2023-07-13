@@ -11,21 +11,20 @@
   <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/cartographer.rviz"/>
   <arg name="slam_config_file_dir" default="$(find-pkg-share orange_slam)/config"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
+  <let name="use_sim_time" value="true" if="$(var with_ros2bag)"/>
   <!-- rviz2 -->
   <include file="$(find-pkg-share orange_bringup)/launch/rviz2.launch.xml">
     <arg name="config_file_path" value="$(var rviz_config_file_path)"/>
   </include>
   <!-- cartographer_node -->
   <node pkg="cartographer_ros" exec="cartographer_node" args="-configuration_directory $(var slam_config_file_dir)    -configuration_basename $(var slam_config_file_name)">
-    <param if="$(var with_ros2bag)" name="use_sim_time" value="true"/>
-    <param unless="$(var with_ros2bag)" name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
     <remap from="/scan_1" to="$(var scan_1)"/>
     <remap from="/scan_2" to="$(var scan_2)"/>
     <remap from="/odom" to="$(var odom)"/>
   </node>
   <!-- occupancy_grid -->
   <node pkg="cartographer_ros" exec="cartographer_occupancy_grid_node" args="-resolution $(var resolution)    -publish_period_sec $(var publish_period_sec)">
-    <param if="$(var with_ros2bag)" name="use_sim_time" value="true"/>
-    <param unless="$(var with_ros2bag)" name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
   </node>
 </launch>
