@@ -50,7 +50,7 @@ The following SLAM methods can be run.
 **Gazebo simulation**
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
-$ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml
+$ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml use_sim_time:=true
 $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 ```
 **ros2 bag**
