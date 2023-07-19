@@ -44,9 +44,11 @@ ekf_filter_node:
     imu0_differential: false  #Defaults to "false"
     imu0_relative: false  #Defaults to "false"
     imu0_remove_gravitational_acceleration: true  #Defaults to "true"
-    imu0_pose_rejection_threshold: 0.8  #Defaults to "0.8"
-    imu0_twist_rejection_threshold: 0.8  #Defaults to "0.8"
+    imu0_pose_rejection_threshold: 1.5  #Defaults to "0.8"
+    imu0_twist_rejection_threshold: 0.4  #Defaults to "0.8"
     imu0_linear_acceleration_rejection_threshold: 0.8  #Defaults to "0.8"
+    inu0_remove_gravitation_acceleration: true
+    imu0_orientation_outlier_rejection: 4
 
     use_control: false  #Defaults to "false"
 
