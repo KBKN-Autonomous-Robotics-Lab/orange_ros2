@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="joy_dev" default="/dev/input/js0"/>
+  <arg name="joy_dev" default="Sony Interactive Entertainment Wireless Controller"/>
   <arg name="cmd_vel" default="/cmd_vel"/>
-  <arg name="config_file_path" default="$(find-pkg-share orange_teleop)/config/elecom.yaml"/>
+  <arg name="config_file_path" default="$(find-pkg-share orange_teleop)/config/dualsense.yaml"/>
   <!-- joy_node -->
   <node pkg="joy_linux" exec="joy_linux_node">
     <param name="dev_name" value="$(var joy_dev)"/>

@@ -1,0 +1,41 @@
+teleop_twist_joy_node:
+  ros__parameters:
+    axis_linear:
+      x: 1 # Left Stick Vertical Movement
+    scale_linear:
+      x: 1.0 # [m/s]
+    scale_linear_turbo:
+      x: 1.6 # [m/s] Maximum speed for Tsukuba Challenge
+
+    axis_angular:
+      yaw: 3 # Right Stick Horizontal Movement
+    scale_angular:
+      yaw: 0.4 # [rad/s]
+
+    enable_button: 6  # L2 Button
+    enable_turbo_button: 11  # L3 Button (Left Stick Button)
+
+# DualSense Button Mapping:
+# axes
+#  0: Left Stick Horizontal Movement
+#  1: Left Stick Vertical Movement
+#  2: L2 Button (Analog)
+#  3: Right Stick Horizontal Movement
+#  4: Right Stick Vertical Movement
+#  5: R2 Button (Analog)
+#  6: Left Button, Right Button
+#  7: Up Button, Down Button
+# buttons
+#  0: Cross Button
+#  1: Circle Button
+#  2: Triangle Button
+#  3: Square Button
+#  4: L1 Button
+#  5: R1 Button
+#  6: L2 Button
+#  7: R2 Button
+#  8: CREATE Button
+#  9: OPTION Button
+#  10: PS Button
+#  11: L3 Button (Left Stick Button)
+#  12: R3 Button (Right Stick Button)
