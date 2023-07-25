@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="use_sim_time" default="true"/>
+  <arg name="use_sim_time" default="false"/>
   <arg name="cloud_in" default="/velodyne_points"/>
   <arg name="scan_out" default="/velodyne_scan"/>
   <!-- pointcloud_to_laserscan -->

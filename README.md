@@ -50,12 +50,13 @@ The following SLAM methods can be run.
 **Gazebo simulation**
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
-$ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml
+$ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml use_sim_time:=true
 $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 ```
 **ros2 bag**
 ```
-$ ros2 bag play your_bag -r 3
+$ ros2 launch orange_bringup with_ros2bag.launch.xml
+$ ros2 bag play your_bag -r 3 --clock
 $ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml with_ros2bag:=true
 ```
 ## Navigation2
@@ -69,20 +70,21 @@ You can try Navigation2 with a map created by slam_toolbox or cartographer.
 **Turn-by-turn Navigation**
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
-$ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME}
+$ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME} use_sim_time:=true
 ```
 
 **Waypoint Navigation**
 ```
 $ ros2 launch orange_gazebo orange_world.launch.xml
-$ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME}
-$ ros2 run orange_navigation waypoint_follower_client
+$ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME} use_sim_time:=true
+$ ros2 run orange_navigation waypoint_follower_client use_sim_time:=true
 ```
 ## Sample dataset
-You can download the ros2 bag obtained from orange_world.
+You can download the ros2 bag obtained from orange_hosei.
 
-- [ros2bag_orange_hosei.zip](https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/files/11496734/ros2bag_orange_hosei.zip)
-
+```
+$ wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1T3eFLUSbdlLayyaVRCAf1Hfi8K1FMR4K' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1T3eFLUSbdlLayyaVRCAf1Hfi8K1FMR4K" -O ros2bag_orange_hosei.zip && rm -rf /tmp/cookies.txt
+```
 
 
 

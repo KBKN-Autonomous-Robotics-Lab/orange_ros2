@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="use_sim_time" default="true"/>
+  <arg name="use_sim_time" default="false"/>
   <arg name="odom_in" default="/odom"/>
   <arg name="imu_in" default="/imu"/>
   <arg name="fusion_odom_out" default="/fusion/odom"/>

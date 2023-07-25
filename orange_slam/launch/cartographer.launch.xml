@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="use_sim_time" default="true"/>
+  <arg name="use_sim_time" default="false"/>
   <arg name="with_ros2bag" default="false"/>
   <arg name="scan_1" default="/velodyne_scan"/>
   <arg name="scan_2" default="/hokuyo_scan"/>
@@ -11,15 +11,11 @@
   <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/cartographer.rviz"/>
   <arg name="slam_config_file_dir" default="$(find-pkg-share orange_slam)/config"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
+  <let name="use_sim_time" value="true" if="$(var with_ros2bag)"/>
   <!-- rviz2 -->
   <include file="$(find-pkg-share orange_bringup)/launch/rviz2.launch.xml">
     <arg name="config_file_path" value="$(var rviz_config_file_path)"/>
   </include>
-  <!-- robot_state_publisher -->
-  <node if="$(var with_ros2bag)" pkg="robot_state_publisher" exec="robot_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
-  </node>
   <!-- cartographer_node -->
   <node pkg="cartographer_ros" exec="cartographer_node" args="-configuration_directory $(var slam_config_file_dir)    -configuration_basename $(var slam_config_file_name)">
     <param name="use_sim_time" value="$(var use_sim_time)"/>

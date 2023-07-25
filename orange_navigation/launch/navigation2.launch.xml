@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="use_sim_time" default="true"/>
+  <arg name="use_sim_time" default="false"/>
   <arg name="slam_method" default="slam_toolbox"/>
   <arg name="map_file_name" default="map.yaml"/>
   <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/navigation2.rviz"/>
