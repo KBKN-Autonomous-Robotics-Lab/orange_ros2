@@ -588,10 +588,10 @@ class MotorDriverNode(Node):
             self.t.transform.translation.y = y
             self.t.transform.translation.z = 0.0
             rotation = self.quaternion_from_euler(0, 0, theta)
-            self.t.transform.rotation.x = rotation[0]
-            self.t.transform.rotation.y = rotation[1]
-            self.t.transform.rotation.z = rotation[2]
-            self.t.transform.rotation.w = rotation[3]
+            self.t.transform.rotation.x = rotation[1]
+            self.t.transform.rotation.y = rotation[2]
+            self.t.transform.rotation.z = rotation[3]
+            self.t.transform.rotation.w = rotation[0]
             self.br.sendTransform(self.t)
 
         # -----Construct Odom Message-----
@@ -603,10 +603,10 @@ class MotorDriverNode(Node):
             self.odom_msg.pose.pose.position.y = y
             self.odom_msg.pose.pose.position.z = 0.0
             orientation = self.quaternion_from_euler(0, 0, theta)
-            self.odom_msg.pose.pose.orientation.x = orientation[0]
-            self.odom_msg.pose.pose.orientation.y = orientation[1]
-            self.odom_msg.pose.pose.orientation.z = orientation[2]
-            self.odom_msg.pose.pose.orientation.w = orientation[3]
+            self.odom_msg.pose.pose.orientation.x = orientation[1]
+            self.odom_msg.pose.pose.orientation.y = orientation[2]
+            self.odom_msg.pose.pose.orientation.z = orientation[3]
+            self.odom_msg.pose.pose.orientation.w = orientation[0]
             self.odom_msg.pose.covariance[0] = 0.0001
             self.odom_msg.pose.covariance[7] = 0.0001
             self.odom_msg.pose.covariance[14] = 0.000001
