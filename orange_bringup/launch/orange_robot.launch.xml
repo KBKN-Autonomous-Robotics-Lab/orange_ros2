@@ -27,6 +27,13 @@
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
+  <!-- robot_localization -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="odom_in" value="$(var odom_topic)"/>
+    <arg name="imu_in" value="$(var imu_topic)"/>
+    <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
+  </include>
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
