@@ -3,17 +3,17 @@ teleop_twist_joy_node:
     axis_linear:
       x: 1 # Left Stick Vertical Movement
     scale_linear:
-      x: 1.0 # [m/s]
+      x: 0.5 # [m/s]
     scale_linear_turbo:
-      x: 1.6 # [m/s] Maximum speed for Tsukuba Challenge
+      x: 1.0 # [m/s] Maximum speed for Tsukuba Challenge
 
     axis_angular:
       yaw: 3 # Right Stick Horizontal Movement
     scale_angular:
-      yaw: 0.4 # [rad/s]
+      yaw: 0 # Left Stick Horizontal Movement
 
     enable_button: 6  # L2 Button
-    enable_turbo_button: 11  # L3 Button (Left Stick Button)
+    enable_turbo_button: 1  # Circle Button
 
 # DualSense Button Mapping:
 # axes
