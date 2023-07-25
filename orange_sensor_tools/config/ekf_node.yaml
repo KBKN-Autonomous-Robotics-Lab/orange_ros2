@@ -3,7 +3,6 @@ ekf_filter_node:
   ros__parameters:
     frequency: 30.0  #Defaults to "30.0"
     sensor_timeout: 0.1  #Defaults to "1 / frequency"
-    silent_tf_failure: false
     two_d_mode: true  #Defaults to "false"
     transform_time_offset: 0.0  #Defaults to "0.0"
     transform_timeout: 0.0  #Defaults to "0.0"
