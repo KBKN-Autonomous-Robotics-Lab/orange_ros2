@@ -8,9 +8,9 @@ teleop_twist_joy_node:
       x: 1.0 # [m/s] Maximum speed for Tsukuba Challenge
 
     axis_angular:
-      yaw: 3 # Right Stick Horizontal Movement
-    scale_angular:
       yaw: 0 # Left Stick Horizontal Movement
+    scale_angular:
+      yaw: 0.4 # [rad/s]
 
     enable_button: 6  # L2 Button
     enable_turbo_button: 1  # Circle Button
