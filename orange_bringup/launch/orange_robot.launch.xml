@@ -94,6 +94,14 @@
     <arg name="imu_topic" value="imu"/>
     <arg name="frame_id" value="imu_link"/>
     <arg name="debug" value="$(var debug_imu)"/>
+  <!-- estop  -->
+  <include file="$(find-pkg-share estop_ros)/launch/estop_control.launch.xml">
+    <arg name="port" value="/dev/sensors/estop"/>
+    <arg name="time_out" value="500"/>
+    <arg name="baudrate" value="115200"/>
+    <arg name="serial_interval" value="0.01"/>
+    <arg name="input_topic" value="/cmd_vel/raw"/>
+    <arg name="output_topic" value="/cmd_vel/override"/>
   </include>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">

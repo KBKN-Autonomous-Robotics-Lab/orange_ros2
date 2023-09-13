@@ -6,3 +6,7 @@
     local-name: icm_20948
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/icm_20948.git
     version: humble-devel
+- git:
+    local-name: estop_ros
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/estop_ros.git
+    version: humble-devel
