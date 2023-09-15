@@ -10,7 +10,7 @@
   <arg name="debug_imu" default="false"/>
   <arg name="publish_TF" default="false"/>
   <arg name="publish_odom" default="true"/>
-  <arg name="twist_cmd_vel_topic" default="/cmd_vel_override"/>
+  <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
   <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
   <arg name="cmd_rpm_topic" default="/vel/cmd_rpm"/>
   <arg name="cmd_deg_topic" default="/pos/cmd_deg"/>
@@ -101,8 +101,7 @@
     <arg name="time_out" value="500"/>
     <arg name="baudrate" value="115200"/>
     <arg name="serial_interval" value="0.01"/>
-    <arg name="input_topic" value="/cmd_vel"/>
-    <arg name="output_topic" value="$(var twist_cmd_vel_topic)"/>
+    <remap from="/estop/state" to="$/estop"/>
   </include>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
