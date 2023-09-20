@@ -123,7 +123,7 @@ class MotorDriverNode(Node):
             self.dist_cmd_callback,
             1,
         )
-        self.create_subscription(Bool, "/estop", self.estop_callback, 10)
+        self.create_subscription(Bool, "/estop", self.estop_callback, 1)
 
         # -----Initialize Control Mode-----
         self.control_mode = (

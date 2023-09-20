@@ -95,6 +95,14 @@
     <arg name="frame_id" value="imu_link"/>
     <arg name="debug" value="$(var debug_imu)"/>
   </include>
+  <!-- estop  -->
+  <node pkg="estop_ros" exec="cmd_vel_override_node" output="screen">
+    <param name="port" value="/dev/sensors/estop"/>
+    <param name="baudrate" value="115200"/>
+    <param name="time_out" value="500"/>
+    <param name="serial_interval" value="0.01"/>
+    <remap from="/estop/state" to="/estop"/>
+  </node>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="cloud_in" value="$(var velodyne_points_topic)"/>
