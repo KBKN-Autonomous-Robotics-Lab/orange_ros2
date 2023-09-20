@@ -96,13 +96,13 @@
     <arg name="debug" value="$(var debug_imu)"/>
   </include>
   <!-- estop  -->
-  <include file="$(find-pkg-share estop_ros)/launch/estop_control.launch.xml">
-    <arg name="port" value="/dev/sensors/estop"/>
-    <arg name="time_out" value="500"/>
-    <arg name="baudrate" value="115200"/>
-    <arg name="serial_interval" value="0.01"/>
-    <remap from="/estop/state" to="$/estop"/>
-  </include>
+  <node pkg="estop_ros" exec="cmd_vel_override_node" output="screen">
+    <param name="port" value="/dev/sensors/estop" />
+    <param name="baudrate" value="115200" />
+    <param name="time_out" value="500" />
+    <param name="serial_interval" value="0.01" />
+    <remap from="/estop/state" to="/estop"/>
+  </node>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="cloud_in" value="$(var velodyne_points_topic)"/>
