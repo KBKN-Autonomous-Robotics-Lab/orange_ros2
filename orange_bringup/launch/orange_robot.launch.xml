@@ -97,10 +97,10 @@
   </include>
   <!-- estop  -->
   <node pkg="estop_ros" exec="cmd_vel_override_node" output="screen">
-    <param name="port" value="/dev/sensors/estop" />
-    <param name="baudrate" value="115200" />
-    <param name="time_out" value="500" />
-    <param name="serial_interval" value="0.01" />
+    <param name="port" value="/dev/sensors/estop"/>
+    <param name="baudrate" value="115200"/>
+    <param name="time_out" value="500"/>
+    <param name="serial_interval" value="0.01"/>
     <remap from="/estop/state" to="/estop"/>
   </node>
   <!-- pointcloud_to_laserscan -->
