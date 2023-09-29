@@ -13,4 +13,4 @@
 - git:
     local-name: orange_navigation
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/orange_navigation.git
-    version: ros2_humble
+    version: waypoint_app-devel
