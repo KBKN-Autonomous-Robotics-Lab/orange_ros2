@@ -10,7 +10,6 @@
   <arg name="slam_config_file_name" default="cartographer_params.lua"/>
   <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/cartographer.rviz"/>
   <arg name="slam_config_file_dir" default="$(find-pkg-share orange_slam)/config"/>
-  <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
   <let name="use_sim_time" value="true" if="$(var with_ros2bag)"/>
   <!-- rviz2 -->
   <include file="$(find-pkg-share orange_bringup)/launch/rviz2.launch.xml">
