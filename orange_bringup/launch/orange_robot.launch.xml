@@ -72,7 +72,7 @@
     <param name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
     <param name="model" value="VLP16"/>
     <param name="min_range" value="0.9"/>
-    <param name="max_range" value="130.0"/>
+    <param name="max_range" value="100.0"/>
     <param name="view_direction" value="0.0"/>
     <param name="fixed_frame" value=""/>
     <param name="target_frame" value=""/>
