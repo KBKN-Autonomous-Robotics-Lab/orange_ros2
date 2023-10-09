@@ -20,7 +20,7 @@ amcl:
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
     laser_max_range: 100.0
-    laser_min_range: -1.0
+    laser_min_range: 0.3 #-1.0
     laser_model_type: "likelihood_field"
     set_initial_pose: True
     initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0}
@@ -30,19 +30,19 @@ amcl:
     odom_frame_id: "odom"
     pf_err: 0.05
     pf_z: 0.99
-    recovery_alpha_fast: 0.0
-    recovery_alpha_slow: 0.0
+    recovery_alpha_fast: 0.1 #0.0
+    recovery_alpha_slow: 0.001 #0.0
     resample_interval: 1
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
     save_pose_rate: 0.5
     sigma_hit: 0.2
-    tf_broadcast: true
+    tf_broadcast: false #true
     transform_tolerance: 1.0
-    update_min_a: 0.2
+    update_min_a: 0.05 #0.2
     update_min_d: 0.25
-    z_hit: 0.5
+    z_hit: 0.7 #0.5
     z_max: 0.05
-    z_rand: 0.5
+    z_rand: 0.2 #0.5
     z_short: 0.05
     scan_topic: /merged_scan
 
@@ -132,8 +132,8 @@ controller_server:
       primary_controller: "dwb_core::DWBLocalPlanner"
       angular_dist_threshold: 0.785
       forward_sampling_distance: 0.5
-      rotate_to_heading_angular_vel: 2.0
-      max_angular_accel: 2.0
+      rotate_to_heading_angular_vel: 0.5 #2.0
+      max_angular_accel: 1.0 #2.0
       simulate_ahead_time: 1.0
 
       # DWB parameters
@@ -155,7 +155,7 @@ controller_server:
       vx_samples: 20
       vy_samples: 0
       vtheta_samples: 20
-      sim_time: 0.5
+      sim_time: 1.0 #0.5
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
@@ -241,16 +241,16 @@ global_costmap:
           marking: True
           data_type: "LaserScan"
           raytrace_max_range: 10.0
-          raytrace_min_range: 0.0
-          obstacle_max_range: 10.0
-          obstacle_min_range: 0.0
+          raytrace_min_range: 0.1 #0.0
+          obstacle_max_range: 9.0 #10.0
+          obstacle_min_range: 0.3 #0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 1.5
-        inflation_radius: 5.0
+        inflation_radius: 1.0 #5.0
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -274,7 +274,7 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 10.0 #20.0
     use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
@@ -305,8 +305,8 @@ recoveries_server:
     use_sim_time: true
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
-    min_rotational_vel: 0.4
-    rotational_acc_lim: 3.2
+    min_rotational_vel: 0.1 #0.4
+    rotational_acc_lim: 1.6 #3.2
 
 robot_state_publisher:
   ros__parameters:
@@ -314,10 +314,10 @@ robot_state_publisher:
 
 waypoint_follower:
   ros__parameters:
-    loop_rate: 2000
+    loop_rate: 20 #2000
     stop_on_failure: false
     waypoint_task_executor_plugin: "wait_at_waypoint"   
     wait_at_waypoint:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
       enabled: True
-      waypoint_pause_duration: 200
+      waypoint_pause_duration: 5 #200
