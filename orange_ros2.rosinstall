@@ -13,7 +13,7 @@
 - git:
     local-name: orange_navigation
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/orange_navigation.git
-    version: waypoint_app-devel
+    version: humble-devel
 - git:
     local-name: kbkn_maps
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/kbkn_maps.git
