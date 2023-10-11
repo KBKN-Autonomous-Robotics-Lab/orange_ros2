@@ -49,7 +49,7 @@ The following SLAM methods can be run.
 
 **Gazebo simulation**
 ```
-$ ros2 launch orange_gazebo orange_world.launch.xml
+$ ros2 launch orange_gazebo orange_hosei.launch.xml
 $ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml use_sim_time:=true
 $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 ```
@@ -69,13 +69,13 @@ You can try Navigation2 with a map created by slam_toolbox or cartographer.
 
 **Turn-by-turn Navigation**
 ```
-$ ros2 launch orange_gazebo orange_world.launch.xml
+$ ros2 launch orange_gazebo orange_hosei.launch.xml
 $ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME} use_sim_time:=true
 ```
 
 **Waypoint Navigation**
 ```
-$ ros2 launch orange_gazebo orange_world.launch.xml
+$ ros2 launch orange_gazebo orange_hosei.launch.xml
 $ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME} use_sim_time:=true
 $ ros2 run orange_navigation waypoint_follower_client use_sim_time:=true
 ```

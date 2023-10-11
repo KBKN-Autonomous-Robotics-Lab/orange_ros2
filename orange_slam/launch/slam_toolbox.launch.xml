@@ -5,7 +5,6 @@
   <arg name="online_slam_config_file_path" default="$(find-pkg-share orange_slam)/config/online_slam_toolbox_params.yaml"/>
   <arg name="offline_slam_config_file_path" default="$(find-pkg-share orange_slam)/config/offline_slam_toolbox_params.yaml"/>
   <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/slam_toolbox.rviz"/>
-  <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
   <!-- rviz2 -->
   <include file="$(find-pkg-share orange_bringup)/launch/rviz2.launch.xml">
     <arg name="config_file_path" value="$(var rviz_config_file_path)"/>

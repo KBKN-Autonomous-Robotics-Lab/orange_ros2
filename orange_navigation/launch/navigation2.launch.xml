@@ -4,7 +4,7 @@
   <arg name="slam_method" default="slam_toolbox"/>
   <arg name="map_file_name" default="map.yaml"/>
   <arg name="rviz_config_file_path" default="$(find-pkg-share orange_description)/rviz2/navigation2.rviz"/>
-  <arg name="map_file_path" default="$(find-pkg-share orange_navigation)/maps/$(var slam_method)/$(var map_file_name)"/>
+  <arg name="map_file_path" default="$(find-pkg-share kbkn_maps)/maps/gazebo/orange_hosei/$(var slam_method)/$(var map_file_name)"/>
   <arg name="config_file_path" default="$(find-pkg-share orange_navigation)/config/navigation2_params.yaml"/>
   <arg name="waypoints_file_path" default="$(find-pkg-share orange_navigation)/config/waypoints.yaml"/>
   <!-- navigation2 -->

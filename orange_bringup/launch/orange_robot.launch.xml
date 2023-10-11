@@ -29,6 +29,10 @@
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
+  <!-- joint_state_publisher -->
+  <node pkg="joint_state_publisher" exec="joint_state_publisher">
+    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
+  </node>
   <!-- robot_localization -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="odom_in" value="$(var odom_topic)"/>
@@ -72,7 +76,7 @@
     <param name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
     <param name="model" value="VLP16"/>
     <param name="min_range" value="0.9"/>
-    <param name="max_range" value="130.0"/>
+    <param name="max_range" value="100.0"/>
     <param name="view_direction" value="0.0"/>
     <param name="fixed_frame" value=""/>
     <param name="target_frame" value=""/>
