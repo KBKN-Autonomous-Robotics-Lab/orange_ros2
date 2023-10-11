@@ -13,20 +13,20 @@
   <arg name="world_file_path" default="$(find-pkg-share orange_gazebo)/worlds/orange_hosei.world"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
   <!-- pointcloud_to_laserscan -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
+  <!-- include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
     <arg name="cloud_in" value="$(var velodyne_points_topic)"/>
     <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
-  </include>
+  </include-->
   <!-- laserscan_multi_merger -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
+  <!-- include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
     <arg name="delete_intensity" value="true"/>
     <arg name="destination_frame" value="$(var velodyne_frame)"/>
     <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
     <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
     <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
-  </include>
+  </include-->
   <!-- robot_localization -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
