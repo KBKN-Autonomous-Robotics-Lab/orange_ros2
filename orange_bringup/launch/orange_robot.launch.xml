@@ -57,31 +57,6 @@
     <param name="odom_header_frame" value="odom"/>
     <param name="odom_child_frame" value="base_footprint"/>
   </node>
-  <!-- velodyne -->
-  <node pkg="velodyne_driver" exec="velodyne_driver_node">
-    <param name="device_ip" value=""/>
-    <param name="gps_time" value="false"/>
-    <param name="time_offset" value="0.0"/>
-    <param name="enabled" value="true"/>
-    <param name="read_once" value="false"/>
-    <param name="read_fast" value="false"/>
-    <param name="repeat_delay" value="0.0"/>
-    <param name="frame_id" value="velodyne"/>
-    <param name="model" value="VLP16"/>
-    <param name="rpm" value="600.0"/>
-    <param name="port" value="2368"/>
-    <param name="timestamp_first_packet" value="false"/>
-  </node>
-  <node pkg="velodyne_pointcloud" exec="velodyne_transform_node">
-    <param name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
-    <param name="model" value="VLP16"/>
-    <param name="min_range" value="0.9"/>
-    <param name="max_range" value="100.0"/>
-    <param name="view_direction" value="0.0"/>
-    <param name="fixed_frame" value=""/>
-    <param name="target_frame" value=""/>
-    <param name="organize_cloud" value="false"/>
-  </node>
   <!-- hokuyo -->
   <node pkg="urg_node" exec="urg_node_driver">
     <param name="serial_port" value="/dev/sensors/hokuyo_urg"/>
@@ -90,15 +65,6 @@
     <param name="angle_min" value="-1.22"/>
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>
-  <!-- imu  -->
-  <include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
-    <arg name="port" value="/dev/sensors/imu"/>
-    <arg name="time_out" value="0.5"/>
-    <arg name="baudrate" value="115200"/>
-    <arg name="imu_topic" value="imu"/>
-    <arg name="frame_id" value="imu_link"/>
-    <arg name="debug" value="$(var debug_imu)"/>
-  </include>
   <!-- estop  -->
   <node pkg="estop_ros" exec="cmd_vel_override_node" output="screen">
     <param name="port" value="/dev/sensors/estop"/>
@@ -107,17 +73,4 @@
     <param name="serial_interval" value="0.01"/>
     <remap from="/estop/state" to="/estop"/>
   </node>
-  <!-- pointcloud_to_laserscan -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
-    <arg name="cloud_in" value="$(var velodyne_points_topic)"/>
-    <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
-  </include>
-  <!-- laserscan_multi_merger -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
-    <arg name="delete_intensity" value="true"/>
-    <arg name="destination_frame" value="velodyne"/>
-    <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
-    <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
-    <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
-  </include>
 </launch>

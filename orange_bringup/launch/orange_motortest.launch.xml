@@ -5,8 +5,8 @@
       # Default: Subscribe to "/zlac8015d/pos/cmd_deg" and "/zlac8015d/pos/cmd_dist"
       # 3: Speed rpm control mode
       # Default: Subscribe to "/zlac8015d/twist/cmd_vel", "/zlac8015d/vel/cmd_vel" and "/zlac8015d/vel/cmd_rpm"-->
-  <arg name="control_mode" default="3"/>
-  <arg name="debug_motor" default="false"/>
+  <arg name="control_mode" default="1"/>
+  <arg name="debug_motor" default="true"/>
   <arg name="debug_imu" default="false"/>
   <arg name="publish_TF" default="false"/>
   <arg name="publish_odom" default="true"/>
