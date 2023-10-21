@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" name="sensor_velodyne">
+  
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  
   <xacro:macro name="sensor_velodyne" params="name parent *origin min_angle max_angle samples">
     <joint name="${name}_joint" type="fixed">
       <xacro:insert_block name="origin"/>
@@ -35,15 +38,25 @@
           <scan>
             <horizontal>
               <resolution>1</resolution>
+              <!--
               <samples>1875</samples>
               <min_angle>-3.1415926535897931</min_angle>
               <max_angle>3.1415926535897931</max_angle>
+              -->
+              <samples>600</samples>
+              <min_angle>${-PI}</min_angle>
+              <max_angle>${PI}</max_angle>
             </horizontal>
             <vertical>
               <resolution>1</resolution>
+              <!--
               <samples>16</samples>
               <min_angle>-0.26179938779</min_angle>
               <max_angle>0.26179938779</max_angle>
+              -->
+              <samples>9</samples>
+              <min_angle>${-PI/12}</min_angle>
+              <max_angle>${PI/180}</max_angle>
             </vertical>
           </scan>
           <range>
