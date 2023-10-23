@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Arguments -->
+    <arg name="use_sim_time"      default="false"/>
+    <arg name="map_file_path"     default="$(find-pkg-share kbkn_maps)/maps/tsukuba/confirmation_run/m2/confirmation_run_Senior.yaml"/>
+    <arg name="config_file_path"  default="$(find-pkg-share orange_navigation)/config/navigation2_params.yaml"/>
+
+    <arg name="waypoints_file"    default="$(find-pkg-share kbkn_maps)/waypoints/tsukuba/confirmation_run/m2/confirmation_run_Senior.yaml"/>
+    <arg name="world_frame"       default="map"/>
+    <arg name="robot_frame"       default="base_footprint"/>
+    <arg name="min_dist_err"      default="0.3"/>
+    <arg name="min_yaw_err"       default="0.3"/>
+    <arg name="tandem_scan"       default="merged_scan"/>
+    <arg name="use_angle"         default="20.0"/>
+    <arg name="danger_dist"       default="2.0"/>
+    <arg name="costmaps_file"     default="$(find-pkg-share waypoint_navigation)/config/switch_costmaps.yaml"/>
+    <arg name="rviz_config_file"  default="$(find-pkg-share waypoint_navigation)/rviz_cfg/waypoint_nav.rviz"/>
+
+
+    <!-- Navigation2 -->
+    <include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
+        <arg name="use_sim_time"  value="$(var use_sim_time)"/>
+        <arg name="map"           value="$(var map_file_path)"/>
+        <arg name="params_file"   value="$(var config_file_path)"/>
+    </include>
+
+    <!-- Waypoint navigation -->
+    <include file="$(find-pkg-share waypoint_navigation)/launch/waypoint_nav.launch.xml">
+        <arg name="use_sim_time"    value="$(var use_sim_time)"/>
+        <arg name="waypoints_file"  value="$(var waypoints_file)"/>
+        <arg name="world_frame"     value="$(var world_frame)"/>
+        <arg name="robot_frame"     value="$(var robot_frame)"/>
+        <arg name="min_dist_err"    value="$(var min_dist_err)"/>
+        <arg name="min_yaw_err"     value="$(var min_yaw_err)"/>
+        <arg name="tandem_scan"     value="$(var tandem_scan)"/>
+        <arg name="use_angle"       value="$(var use_angle)"/>
+        <arg name="danger_dist"     value="$(var danger_dist)"/>
+        <arg name="costmaps_file"   value="$(var costmaps_file)"/>
+    </include>
+
+    <!-- Rviz2 -->
+    <node pkg="rviz2" exec="rviz2" args="-d $(var rviz_config_file)"/>
+</launch>
