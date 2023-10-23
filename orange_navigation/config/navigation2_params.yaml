@@ -133,11 +133,11 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 1.0 ###0.5 #1.0
+      max_vel_x: 0.5 #1.0
       max_vel_y: 0.0
-      max_vel_theta: 1.0 ###0.5 #1.0
+      max_vel_theta: 0.5 #1.0
       min_speed_xy: 0.0
-      max_speed_xy: 1.0 ###0.5 #1.0
+      max_speed_xy: 0.5 #1.0
       min_speed_theta: 0.0
       acc_lim_x: 1.0 ##3.5
       acc_lim_y: 0.0
@@ -163,12 +163,9 @@ controller_server:
       BaseObstacle.scale: 0.02
       PathAlign.scale: 50.0 ##32.0
       PathAlign.forward_point_distance: 1.0 ##0.1
-      ##PathAlign.aggregation_type: "sum"
       GoalAlign.scale: 24.0
       GoalAlign.forward_point_distance: 0.1
-      ##PathDist.aggregation_type: "sum"
       PathDist.scale: 32.0
-      ##PathDist.path_distance_bias: 0.5
       GoalDist.scale: 24.0
       ObstacleFootprint.scale: 32.0
       RotateToGoal.scale: 32.0
