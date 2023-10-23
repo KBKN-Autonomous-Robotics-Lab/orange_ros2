@@ -133,11 +133,11 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.5 #1.0
+      max_vel_x: 1.0 ###0.5 #1.0
       max_vel_y: 0.0
-      max_vel_theta: 0.5 #1.0
+      max_vel_theta: 1.0 ###0.5 #1.0
       min_speed_xy: 0.0
-      max_speed_xy: 0.5 #1.0
+      max_speed_xy: 1.0 ###0.5 #1.0
       min_speed_theta: 0.0
       acc_lim_x: 1.0 ##3.5
       acc_lim_y: 0.0
@@ -148,7 +148,7 @@ controller_server:
       vx_samples: 10 ##20
       vy_samples: 0
       vtheta_samples: 10 ##20
-      sim_time: 1.0 #0.5
+      sim_time: 2.0 ###1.0 #0.5
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
@@ -160,12 +160,15 @@ controller_server:
       Oscillation_reset_dist: 1.0
       Oscillation_reset_angle: 0.8
       Oscillation_reset_time: 7.0
-      BaseObstacle.scale: 0.02 ##0.02
+      BaseObstacle.scale: 0.02
       PathAlign.scale: 50.0 ##32.0
-      PathAlign.forward_point_distance: 0.1
+      PathAlign.forward_point_distance: 1.0 ##0.1
+      ##PathAlign.aggregation_type: "sum"
       GoalAlign.scale: 24.0
       GoalAlign.forward_point_distance: 0.1
+      ##PathDist.aggregation_type: "sum"
       PathDist.scale: 32.0
+      ##PathDist.path_distance_bias: 0.5
       GoalDist.scale: 24.0
       ObstacleFootprint.scale: 32.0
       RotateToGoal.scale: 32.0
