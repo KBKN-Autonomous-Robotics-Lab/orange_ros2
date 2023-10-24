@@ -47,10 +47,16 @@ The following SLAM methods can be run.
 | ------------- | ------------- |
 | <img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/c5d295ca-7304-4aa5-b4df-697301505d9d" width="200px"> | <img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/ba0b84e9-d291-4d64-a164-ea0d5bf2e10a" width="200px"> |
 
-**Gazebo simulation**
+**Gazebo simulation without creating waypoints**
 ```
 $ ros2 launch orange_gazebo orange_hosei.launch.xml
 $ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml use_sim_time:=true
+$ ros2 launch orange_teleop teleop_keyboard.launch.xml
+```
+**Gazebo simulation with creating waypoints**
+```
+$ ros2 launch orange_gazebo orange_hosei.launch.xml
+$ ros2 launch orange_slam waypoint_slam.launch.xml slam_method:={SLAM_METHOD_NAME} use_sim_time:=true
 $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 ```
 **ros2 bag**
@@ -67,17 +73,11 @@ You can try Navigation2 with a map created by slam_toolbox or cartographer.
 <img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/eb644f26-6122-451a-bb41-2db72f260b22" width="400">
 
 
-**Turn-by-turn Navigation**
-```
-$ ros2 launch orange_gazebo orange_hosei.launch.xml
-$ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME} use_sim_time:=true
-```
 
 **Waypoint Navigation**
 ```
 $ ros2 launch orange_gazebo orange_hosei.launch.xml
-$ ros2 launch orange_navigation navigation2.launch.xml slam_method:={SLAM_METHOD_NAME} use_sim_time:=true
-$ ros2 run orange_navigation waypoint_follower_client use_sim_time:=true
+$ ros2 launch orange_navigation waypoint_navigation.launch.xml use_sim_time:=true
 ```
 ## Sample dataset
 You can download the ros2 bag obtained from orange_hosei.
