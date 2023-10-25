@@ -157,7 +157,7 @@ controller_server:
       short_circuit_trajectory_evaluation: True
       stateful: True
       critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      Oscillation_reset_dist: -1.0
+      Oscillation_reset_dist: 1.0
       Oscillation_reset_angle: -1.0
       Oscillation_reset_time: -1.0
       BaseObstacle.scale: 0.02
