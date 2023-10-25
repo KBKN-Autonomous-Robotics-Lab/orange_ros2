@@ -30,3 +30,5 @@ motor_driver_node:
     # Width of rpm to be regarded as 0
     # If 3, then -3 to 3 is considered rpm 0
     deadband_rpm: 3
+
+    #Max speed = {max_rpm * (2pi/60)}*wheel_radius = 1.023m/s
