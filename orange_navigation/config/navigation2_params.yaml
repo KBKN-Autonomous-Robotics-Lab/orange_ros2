@@ -24,9 +24,9 @@ amcl:
     laser_model_type: "likelihood_field"
     set_initial_pose: True
     initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0}
-    max_beams: 100 ##30
+    max_beams: 100
     max_particles: 500
-    min_particles: 500 ##100
+    min_particles: 500
     odom_frame_id: "odom"
     pf_err: 0.05
     pf_z: 0.99
@@ -37,12 +37,12 @@ amcl:
     save_pose_rate: 0.5
     sigma_hit: 0.2
     tf_broadcast: true
-    transform_tolerance: 0.5 ##1.0
-    update_min_a: 0.1 ##0.05 #0.2
-    update_min_d: 0.1 ##0.25
-    z_hit: 0.7 #0.5
+    transform_tolerance: 0.5
+    update_min_a: 0.1
+    update_min_d: 0.1
+    z_hit: 0.7
     z_max: 0.05
-    z_rand: 0.2 #0.5
+    z_rand: 0.2
     z_short: 0.05
     scan_topic: /merged_scan
 
@@ -106,9 +106,9 @@ bt_navigator_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: True
-    controller_frequency: 5.0 ##10.0
+    controller_frequency: 5.0
     min_x_velocity_threshold: 0.001
-    min_y_velocity_threshold: 0.001 #It doesn't work if it's 0.
+    min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
     failure_tolerance: -1.0
     progress_checker_plugin: "progress_checker"
@@ -133,22 +133,22 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.5 #1.0
+      max_vel_x: 0.5
       max_vel_y: 0.0
-      max_vel_theta: 0.5 #1.0
+      max_vel_theta: 0.5
       min_speed_xy: 0.0
-      max_speed_xy: 0.5 #1.0
+      max_speed_xy: 0.5
       min_speed_theta: 0.0
-      acc_lim_x: 1.0 ##3.5
+      acc_lim_x: 1.0
       acc_lim_y: 0.0
       acc_lim_theta: 1.2
-      decel_lim_x: -1.0 ##-3.5
+      decel_lim_x: -1.0
       decel_lim_y: 0.0
       decel_lim_theta: -1.2
-      vx_samples: 10 ##20
+      vx_samples: 10
       vy_samples: 0
-      vtheta_samples: 10 ##20
-      sim_time: 2.0 ###1.0 #0.5
+      vtheta_samples: 10
+      sim_time: 2.0
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
@@ -161,8 +161,8 @@ controller_server:
       Oscillation_reset_angle: 0.8
       Oscillation_reset_time: 7.0
       BaseObstacle.scale: 0.02
-      PathAlign.scale: 50.0 ##32.0
-      PathAlign.forward_point_distance: 1.0 ##0.1
+      PathAlign.scale: 50.0
+      PathAlign.forward_point_distance: 1.0
       GoalAlign.scale: 24.0
       GoalAlign.forward_point_distance: 0.1
       PathDist.scale: 32.0
@@ -218,7 +218,7 @@ global_costmap:
   global_costmap:
     ros__parameters:
       update_frequency: 1.0
-      publish_frequency: 0.5 ##1.0
+      publish_frequency: 0.5
       global_frame: map
       robot_base_frame: base_footprint
       use_sim_time: True
@@ -236,17 +236,17 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 50.0 ##10.0
-          raytrace_min_range: 0.3 ##0.0
+          raytrace_max_range: 50.0
+          raytrace_min_range: 0.3
           obstacle_max_range: 10.0
-          obstacle_min_range: 0.3 #0.0
+          obstacle_min_range: 0.3
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 2.0 ##1.5
-        inflation_radius: 3.0 ##5.0
+        cost_scaling_factor: 2.0
+        inflation_radius: 3.0
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -270,7 +270,7 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 10.0 ##20.0
+    expected_planner_frequency: 10.0
     use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
@@ -300,9 +300,9 @@ recoveries_server:
     transform_timeout: 0.1
     use_sim_time: true
     simulate_ahead_time: 2.0
-    max_rotational_vel: 0.5 #1.0
-    min_rotational_vel: 0.1 #0.4
-    rotational_acc_lim: 1.6 #3.2
+    max_rotational_vel: 0.5
+    min_rotational_vel: 0.1
+    rotational_acc_lim: 1.6
 
 robot_state_publisher:
   ros__parameters:
