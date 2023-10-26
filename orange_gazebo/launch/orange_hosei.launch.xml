@@ -12,6 +12,9 @@
   <arg name="fusion_odom_topic" default="/fusion/odom"/>
   <arg name="world_file_path" default="$(find-pkg-share orange_gazebo)/worlds/orange_hosei.world"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
@@ -49,7 +52,8 @@
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
   <!-- spawn_entity -->
-  <node pkg="gazebo_ros" exec="spawn_entity.py" args="-entity orange_robot -topic /robot_description">
+  <node pkg="gazebo_ros" exec="spawn_entity.py"
+        args="-entity orange_robot -topic /robot_description -x $(var x) -y $(var y) -Y $(var yaw)">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
   </node>
 </launch>
