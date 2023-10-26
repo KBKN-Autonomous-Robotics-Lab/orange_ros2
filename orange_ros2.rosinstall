@@ -18,3 +18,7 @@
     local-name: kbkn_maps
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/kbkn_maps.git
     version: main
+- git:
+    local-name: multi_map_manager
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/multi_map_manager.git
+    version: humble-devel
