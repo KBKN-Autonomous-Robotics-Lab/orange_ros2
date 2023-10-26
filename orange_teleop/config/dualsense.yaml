@@ -3,9 +3,9 @@ teleop_twist_joy_node:
     axis_linear:
       x: 1 # Left Stick Vertical Movement
     scale_linear:
-      x: 0.5 # [m/s]
+      x: 0.375 # [m/s]
     scale_linear_turbo:
-      x: 1.0 # [m/s] Maximum speed for Tsukuba Challenge
+      x: 0.75 # [m/s] Maximum speed for Tsukuba Challenge
 
     axis_angular:
       yaw: 0 # Left Stick Horizontal Movement
