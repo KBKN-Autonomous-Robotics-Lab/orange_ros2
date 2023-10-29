@@ -44,7 +44,7 @@ amcl:
     z_max: 0.05
     z_rand: 0.2
     z_short: 0.05
-    scan_topic: /merged_scan
+    scan_topic: /hokuyo_scan
 
 amcl_map_client:
   ros__parameters:
@@ -59,7 +59,7 @@ bt_navigator:
     use_sim_time: True
     global_frame: map
     robot_base_frame: base_footprint
-    odom_topic: /fusion/odom
+    odom_topic: /odom
     default_bt_xml_filename: "navigate_w_replanning_and_recovery.xml"
     bt_loop_duration: 10
     default_server_timeout: 20
@@ -199,7 +199,7 @@ local_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /merged_scan
+          topic: /hokuyo_scan
           max_obstacle_height: 2.5
           clearing: True
           marking: True
@@ -231,7 +231,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /merged_scan
+          topic: /hokuyo_scan
           max_obstacle_height: 2.5
           clearing: True
           marking: True
