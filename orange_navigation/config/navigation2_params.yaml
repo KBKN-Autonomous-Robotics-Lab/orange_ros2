@@ -179,8 +179,8 @@ controller_server_rclcpp_node:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 10.0 #5.0
-      publish_frequency: 5.0 #2.0
+      update_frequency: 10.0
+      publish_frequency: 5.0
       global_frame: odom
       robot_base_frame: base_footprint
       use_sim_time: True
@@ -192,8 +192,8 @@ local_costmap:
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        inflation_radius: 0.3 #0.2
-        cost_scaling_factor: 25.0 #30.0
+        inflation_radius: 0.3
+        cost_scaling_factor: 25.0
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -204,8 +204,8 @@ local_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          clearing_radius: 3.0 #Worth trying to make it bigger or smaller.
-          raytrace_range: 4.0 #Worth trying to make it bigger or smaller.
+          clearing_radius: 1.0
+          raytrace_range: 5.0
       static_layer:
         map_subscribe_transient_local: True
       always_send_full_costmap: True
