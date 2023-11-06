@@ -24,8 +24,8 @@ amcl:
     laser_model_type: "likelihood_field"
     set_initial_pose: True
     initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0}
-    max_beams: 100
-    max_particles: 500
+    max_beams: 300
+    max_particles: 1500
     min_particles: 500
     odom_frame_id: "odom"
     pf_err: 0.05
@@ -125,7 +125,7 @@ controller_server:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.50
 
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -169,7 +169,7 @@ controller_server:
       GoalDist.scale: 24.0
       ObstacleFootprint.scale: 32.0
       RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: 5.0
+      RotateToGoal.slowing_factor: -1.0
       RotateToGoal.lookahead_time: -1.0
 
 controller_server_rclcpp_node:
