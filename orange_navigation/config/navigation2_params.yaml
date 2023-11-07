@@ -159,8 +159,6 @@ controller_server:
       critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
       PathAlign.scale: 50.0
       PathAlign.forward_point_distance: 1.0
-      GoalAlign.scale: 24.0
-      GoalAlign.forward_point_distance: 0.1
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
       ObstacleFootprint.scale: 32.0
@@ -176,6 +174,9 @@ controller_server:
       Oscillation.scale: 1.0
       BaseObstacle.sum_scores: false
       BaseObstacle.scale: 0.02
+      GoalAlign.forward_point_distance: 0.1
+      GoalAlign.aggregation_type: "last"
+      GoalAlign.scale: 24.0
 
 controller_server_rclcpp_node:
   ros__parameters:
