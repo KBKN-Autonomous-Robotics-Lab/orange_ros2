@@ -156,7 +156,7 @@ controller_server:
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist", "ObstacleFootprint"]
       RotateToGoal.xy_goal_tolerance: 0.25
       RotateToGoal.trans_stopped_velocity: 0.25
       RotateToGoal.slowing_factor: 5.0
@@ -179,6 +179,8 @@ controller_server:
       PathDist.scale: 32.0
       GoalDist.aggregation_type: "last"
       GoalDist.scale: 24.0
+      ObstacleFootprint.sum_scores: false
+      ObstacleFootprint.scale: 32.0
 
 controller_server_rclcpp_node:
   ros__parameters:
