@@ -24,8 +24,8 @@ amcl:
     laser_model_type: "likelihood_field"
     set_initial_pose: True
     initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0}
-    max_beams: 100
-    max_particles: 500
+    max_beams: 300
+    max_particles: 1500
     min_particles: 500
     odom_frame_id: "odom"
     pf_err: 0.05
@@ -125,7 +125,7 @@ controller_server:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.50
 
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -156,21 +156,31 @@ controller_server:
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      Oscillation_reset_dist: 1.0
-      Oscillation_reset_angle: -1.0
-      Oscillation_reset_time: -1.0
-      BaseObstacle.scale: 0.02
-      PathAlign.scale: 50.0
-      PathAlign.forward_point_distance: 1.0
-      GoalAlign.scale: 24.0
-      GoalAlign.forward_point_distance: 0.1
-      PathDist.scale: 32.0
-      GoalDist.scale: 24.0
-      ObstacleFootprint.scale: 32.0
-      RotateToGoal.scale: 32.0
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist", "ObstacleFootprint"]
+      RotateToGoal.xy_goal_tolerance: 0.25
+      RotateToGoal.trans_stopped_velocity: 0.25
       RotateToGoal.slowing_factor: 5.0
       RotateToGoal.lookahead_time: -1.0
+      RotateToGoal.scale: 1.0
+      Oscillation.oscillation_reset_dist: 0.05
+      Oscillation.oscillation_reset_angle: 0.2
+      Oscillation.oscillation_reset_time: -1.0
+      Oscillation.x_only_threshold: 0.05
+      Oscillation.scale: 1.0
+      BaseObstacle.sum_scores: false
+      BaseObstacle.scale: 0.02
+      GoalAlign.forward_point_distance: 0.1
+      GoalAlign.aggregation_type: "last"
+      GoalAlign.scale: 24.0
+      PathAlign.forward_point_distance: 1.0
+      PathAlign.aggregation_type: "last"
+      PathAlign.scale: 50.0
+      PathDist.aggregation_type: "last"
+      PathDist.scale: 32.0
+      GoalDist.aggregation_type: "last"
+      GoalDist.scale: 24.0
+      ObstacleFootprint.sum_scores: false
+      ObstacleFootprint.scale: 32.0
 
 controller_server_rclcpp_node:
   ros__parameters:
