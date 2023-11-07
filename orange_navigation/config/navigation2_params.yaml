@@ -168,9 +168,11 @@ controller_server:
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
       ObstacleFootprint.scale: 32.0
-      RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: -1.0
+      RotateToGoal.xy_goal_tolerance: 0.25
+      RotateToGoal.trans_stopped_velocity: 0.25
+      RotateToGoal.slowing_factor: 5.0
       RotateToGoal.lookahead_time: -1.0
+      RotateToGoal.scale: 1.0
 
 controller_server_rclcpp_node:
   ros__parameters:
