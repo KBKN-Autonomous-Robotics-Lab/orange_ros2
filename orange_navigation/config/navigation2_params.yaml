@@ -175,7 +175,7 @@ controller_server:
       PathAlign.forward_point_distance: 1.0
       PathAlign.aggregation_type: "last"
       PathAlign.scale: 50.0
-      PathAlign.aggregation_type: "last"
+      PathDist.aggregation_type: "last"
       PathDist.scale: 32.0
       GoalDist.aggregation_type: "last"
       GoalDist.scale: 24.0
