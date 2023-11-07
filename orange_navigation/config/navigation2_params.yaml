@@ -157,9 +157,6 @@ controller_server:
       short_circuit_trajectory_evaluation: True
       stateful: True
       critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      Oscillation_reset_dist: 1.0
-      Oscillation_reset_angle: -1.0
-      Oscillation_reset_time: -1.0
       BaseObstacle.scale: 0.02
       PathAlign.scale: 50.0
       PathAlign.forward_point_distance: 1.0
@@ -173,6 +170,11 @@ controller_server:
       RotateToGoal.slowing_factor: 5.0
       RotateToGoal.lookahead_time: -1.0
       RotateToGoal.scale: 1.0
+      Oscillation.oscillation_reset_dist: 0.05
+      Oscillation.oscillation_reset_angle: 0.2
+      Oscillation.oscillation_reset_time: -1.0
+      Oscillation.x_only_threshold: 0.05
+      Oscillation.scale: 1.0
 
 controller_server_rclcpp_node:
   ros__parameters:
