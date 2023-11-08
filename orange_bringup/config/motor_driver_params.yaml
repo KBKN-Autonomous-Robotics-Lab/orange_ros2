@@ -25,8 +25,8 @@ motor_driver_node:
     set_decel_time_right: 200 # ms
 
     # Maximum rpm
-    max_left_rpm: 150 #100
-    max_right_rpm: 150 #100
+    max_left_rpm: 150
+    max_right_rpm: 150
     # Width of rpm to be regarded as 0
     # If 3, then -3 to 3 is considered rpm 0
     deadband_rpm: 3
