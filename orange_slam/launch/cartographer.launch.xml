@@ -3,7 +3,7 @@
   <arg name="use_sim_time" default="false"/>
   <arg name="with_ros2bag" default="false"/>
   <arg name="scan" default="/hokuyo_scan"/>
-  <arg name="odom" default="/odom"/>
+  <arg name="odom" default="/fusion/odom"/>
   <arg name="resolution" default="0.05"/>
   <arg name="publish_period_sec" default="1.0"/>
   <arg name="slam_config_file_name" default="cartographer_params.lua"/>

@@ -8,7 +8,7 @@
   <arg name="control_mode" default="3"/>
   <arg name="debug_motor" default="false"/>
   <arg name="debug_imu" default="false"/>
-  <arg name="publish_TF" default="true"/>
+  <arg name="publish_TF" default="false"/>
   <arg name="publish_odom" default="true"/>
   <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
   <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
@@ -34,11 +34,11 @@
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
   <!-- robot_localization -->
-  <!--include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="odom_in" value="$(var odom_topic)"/>
     <arg name="imu_in" value="$(var imu_topic)"/>
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
-  </include-->
+  </include>
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
@@ -91,14 +91,14 @@
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>
   <!-- imu  -->
-  <!--include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
+  <include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
     <arg name="port" value="/dev/sensors/imu"/>
     <arg name="time_out" value="0.5"/>
     <arg name="baudrate" value="115200"/>
     <arg name="imu_topic" value="imu"/>
     <arg name="frame_id" value="imu_link"/>
     <arg name="debug" value="$(var debug_imu)"/>
-  </include-->
+  </include>
   <!-- estop  -->
   <node pkg="estop_ros" exec="cmd_vel_override_node" output="screen">
     <param name="port" value="/dev/sensors/estop"/>
