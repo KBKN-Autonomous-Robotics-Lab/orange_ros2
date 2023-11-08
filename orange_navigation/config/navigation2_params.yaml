@@ -133,11 +133,11 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 1.0
+      max_vel_x: 1.6
       max_vel_y: 0.0
       max_vel_theta: 0.5
       min_speed_xy: 0.0
-      max_speed_xy: 1.0
+      max_speed_xy: 1.6
       min_speed_theta: 0.0
       acc_lim_x: 0.5
       acc_lim_y: 0.0
@@ -168,19 +168,19 @@ controller_server:
       Oscillation.x_only_threshold: 0.05
       Oscillation.scale: 1.0
       BaseObstacle.sum_scores: false
-      BaseObstacle.scale: 0.02
-      GoalAlign.forward_point_distance: 0.1
+      BaseObstacle.scale: 1.0
+      GoalAlign.forward_point_distance: 0.325
       GoalAlign.aggregation_type: "last"
-      GoalAlign.scale: 24.0
-      PathAlign.forward_point_distance: 1.0
+      GoalAlign.scale: 1.0
+      PathAlign.forward_point_distance: 0.325
       PathAlign.aggregation_type: "last"
-      PathAlign.scale: 50.0
+      PathAlign.scale: 1.0
       PathDist.aggregation_type: "last"
-      PathDist.scale: 32.0
+      PathDist.scale: 1.0
       GoalDist.aggregation_type: "last"
-      GoalDist.scale: 24.0
+      GoalDist.scale: 1.0
       ObstacleFootprint.sum_scores: false
-      ObstacleFootprint.scale: 32.0
+      ObstacleFootprint.scale: 1.0
 
 controller_server_rclcpp_node:
   ros__parameters:
@@ -335,7 +335,7 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [1.0, 0.0, 1.0]
+    max_velocity: [1.6, 0.0, 0.5]
     min_velocity: [-1.0, 0.0, -1.0]
     max_accel: [0.5, 0.0, 0.5]
     max_decel: [-0.5, 0.0, -0.5]
