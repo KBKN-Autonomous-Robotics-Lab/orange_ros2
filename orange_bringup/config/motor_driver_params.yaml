@@ -25,10 +25,10 @@ motor_driver_node:
     set_decel_time_right: 200 # ms
 
     # Maximum rpm
-    max_left_rpm: 100
-    max_right_rpm: 100
+    max_left_rpm: 162
+    max_right_rpm: 162
     # Width of rpm to be regarded as 0
     # If 3, then -3 to 3 is considered rpm 0
     deadband_rpm: 3
 
-    #Max speed = {max_rpm * (2pi/60)}*wheel_radius = 1.023m/s
+    #Max speed = {max_rpm * (2pi/60)}*wheel_radius = 1.656m/s = 5.962km/h

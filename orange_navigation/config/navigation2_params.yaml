@@ -133,11 +133,11 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 1.0
+      max_vel_x: 1.6
       max_vel_y: 0.0
       max_vel_theta: 0.5
       min_speed_xy: 0.0
-      max_speed_xy: 1.0
+      max_speed_xy: 1.6
       min_speed_theta: 0.0
       acc_lim_x: 0.5
       acc_lim_y: 0.0
@@ -156,31 +156,31 @@ controller_server:
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist", "ObstacleFootprint"]
       RotateToGoal.xy_goal_tolerance: 0.25
       RotateToGoal.trans_stopped_velocity: 0.25
       RotateToGoal.slowing_factor: 5.0
       RotateToGoal.lookahead_time: -1.0
       RotateToGoal.scale: 1.0
-      Oscillation.Oscillation_reset_dist: 0.05
-      Oscillation.Oscillation_reset_angle: 0.2
-      Oscillation.Oscillation_reset_time: -1.0
+      Oscillation.oscillation_reset_dist: 0.05
+      Oscillation.oscillation_reset_angle: 0.2
+      Oscillation.oscillation_reset_time: -1.0
       Oscillation.x_only_threshold: 0.05
       Oscillation.scale: 1.0
       BaseObstacle.sum_scores: false
-      BaseObstacle.scale: 0.02
-      GoalAlign.forward_point_distance: 0.1
+      BaseObstacle.scale: 1.0
+      GoalAlign.forward_point_distance: 0.325
       GoalAlign.aggregation_type: "last"
-      GoalAlign.scale: 24.0
-      PathAlign.forward_point_distance: 1.0
+      GoalAlign.scale: 1.0
+      PathAlign.forward_point_distance: 0.325
       PathAlign.aggregation_type: "last"
-      PathAlign.scale: 50.0
+      PathAlign.scale: 1.0
       PathDist.aggregation_type: "last"
-      PathDist.scale: 32.0
+      PathDist.scale: 1.0
       GoalDist.aggregation_type: "last"
-      GoalDist.scale: 24.0
+      GoalDist.scale: 1.0
       ObstacleFootprint.sum_scores: false
-      ObstacleFootprint.scale: 32.0
+      ObstacleFootprint.scale: 1.0
 
 controller_server_rclcpp_node:
   ros__parameters:
@@ -198,7 +198,7 @@ local_costmap:
       width: 8
       height: 8
       resolution: 0.05
-      footprint: "[ [0.2, 0.33], [0.2, -0.33], [-0.6, -0.33], [-0.6, 0.33] ]"
+      footprint: "[ [0.40, 0.45], [0.40, -0.45], [-0.70, -0.45], [-0.70, 0.45] ]"
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -331,15 +331,15 @@ waypoint_follower:
       waypoint_pause_duration: 200
 
 velocity_smoother:
-    ros__parameters:
-        smoothing_frequency: 20.0
-        scale_velocities: False
-        feedback: "OPEN_LOOP"
-        max_velocity: [1.0, 0.0, 1.0]
-        min_velocity: [-1.0, 0.0, -1.0]
-        max_accel: [0.5, 0.0, 0.5]
-        max_decel: [-0.5, 0.0, -0.5]
-        odom_topic: "odom"
-        odom_duration: 0.1
-        deadband_velocity: [0.0, 0.0, 0.0]
-        velocity_timeout: 1.0
+  ros__parameters:
+    smoothing_frequency: 20.0
+    scale_velocities: False
+    feedback: "OPEN_LOOP"
+    max_velocity: [1.6, 0.0, 0.5]
+    min_velocity: [-1.0, 0.0, -1.0]
+    max_accel: [0.5, 0.0, 0.5]
+    max_decel: [-0.5, 0.0, -0.5]
+    odom_topic: "/fusion/odom"
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
