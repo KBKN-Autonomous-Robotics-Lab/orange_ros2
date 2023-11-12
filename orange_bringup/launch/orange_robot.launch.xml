@@ -107,9 +107,15 @@
     <param name="serial_interval" value="0.01"/>
     <remap from="/estop/state" to="/estop"/>
   </node>
+  <!-- ground_segmentation -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
+    <arg name="input_topic" value="$(var velodyne_points_topic)"/>
+    <arg name="ground_output_topic" value="$(var velodyne_points_topic)/ground"/>
+    <arg name="obstacle_output_topic" value="$(var velodyne_points_topic)/obstacle"/>
+  </include>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
-    <arg name="cloud_in" value="$(var velodyne_points_topic)"/>
+    <arg name="cloud_in" value="$(var velodyne_points_topic)/obstacle"/>
     <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
   </include>
   <!-- laserscan_multi_merger -->
