@@ -22,3 +22,7 @@
     local-name: multi_map_manager
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/multi_map_manager.git
     version: humble-devel
+- git:
+    local-name: linefit_ground_segmentation_ros2
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/linefit_ground_segmentation_ros2.git
+    version: main
