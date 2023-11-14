@@ -109,6 +109,7 @@
   </node>
   <!-- ground_segmentation -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
+    <arg name="config_file_path" value="$(find-pkg-share orange_sensor_tools)/config/ground_segmentation.yaml"/>
     <arg name="input_topic" value="$(var velodyne_points_topic)"/>
     <arg name="ground_output_topic" value="$(var velodyne_points_topic)/ground"/>
     <arg name="obstacle_output_topic" value="$(var velodyne_points_topic)/obstacle"/>
