@@ -11,10 +11,18 @@
   <arg name="imu_topic" default="/imu"/>
   <arg name="fusion_odom_topic" default="/fusion/odom"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
+  <!-- ground_segmentation -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
+    <arg name="config_file_path" value="$(find-pkg-share orange_sensor_tools)/config/ground_segmentation.yaml"/>
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="input_topic" value="$(var velodyne_points_topic)"/>
+    <arg name="ground_output_topic" value="$(var velodyne_points_topic)/ground"/>
+    <arg name="obstacle_output_topic" value="$(var velodyne_points_topic)/obstacle"/>
+  </include>
   <!-- pointcloud_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
-    <arg name="cloud_in" value="$(var velodyne_points_topic)"/>
+    <arg name="cloud_in" value="$(var velodyne_points_topic)/obstacle"/>
     <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
   </include>
   <!-- laserscan_multi_merger -->
