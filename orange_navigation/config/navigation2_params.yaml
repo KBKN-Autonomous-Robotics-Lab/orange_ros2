@@ -191,7 +191,7 @@ local_costmap:
     ros__parameters:
       update_frequency: 10.0
       publish_frequency: 5.0
-      global_frame: /fusion/odom
+      global_frame: odom
       robot_base_frame: base_footprint
       use_sim_time: True
       rolling_window: true
@@ -258,7 +258,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 2.0
-        inflation_radius: 3.0
+        inflation_radius: 1.5
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
