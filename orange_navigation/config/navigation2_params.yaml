@@ -191,7 +191,7 @@ local_costmap:
     ros__parameters:
       update_frequency: 10.0
       publish_frequency: 5.0
-      global_frame: odom
+      global_frame: /fusion/odom
       robot_base_frame: base_footprint
       use_sim_time: True
       rolling_window: true
