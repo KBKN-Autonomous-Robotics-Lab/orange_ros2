@@ -3,10 +3,10 @@
   <!-- Arguments -->
   <arg name="use_sim_time" default="false"/>
   <arg name="start_position" default="right"/>
-  <arg name="multi_map_dir" default="$(find-pkg-share kbkn_maps)/multi_map/tsukuba/m2/From_$(var start_position)_start_to_goal"/>
+  <arg name="multi_map_dir" default="$(find-pkg-share kbkn_maps)/multi_map/tsukuba/m2/From_start_to_goal"/>
   <arg name="start_map_num" default="0"/>
   <arg name="map_file_path" default="$(var multi_map_dir)/map$(var start_map_num).yaml"/>
-  <arg name="waypoints_file" default="$(var multi_map_dir)/waypoints.yaml"/>
+  <arg name="waypoints_file" default="$(var multi_map_dir)/waypoints_$(var start_position).yaml"/>
   <arg name="config_file_path" default="$(find-pkg-share orange_navigation)/config/navigation2_params_from_$(var start_position).yaml"/>
   <arg name="world_frame" default="map"/>
   <arg name="robot_frame" default="base_footprint"/>
