@@ -10,7 +10,7 @@
   <arg name="world_frame" default="map"/>
   <arg name="robot_frame" default="base_footprint"/>
   <arg name="min_dist_err" default="0.3"/>
-  <arg name="min_yaw_err" default="0.3"/>
+  <arg name="min_yaw_err" default="0.5"/>
   <arg name="from_middle" default="false"/>
   <arg name="tandem_scan" default="merged_scan"/>
   <arg name="use_angle" default="20.0"/>
