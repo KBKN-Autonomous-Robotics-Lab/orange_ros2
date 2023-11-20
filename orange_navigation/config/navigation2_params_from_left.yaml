@@ -23,7 +23,7 @@ amcl:
     laser_min_range: -1.0
     laser_model_type: "likelihood_field"
     set_initial_pose: True
-    initial_pose: {x: 0.0, y: 2.0, z: 0.0, yaw: 0.0}
+    initial_pose: {x: 0.0, y: 4.2, z: 0.0, yaw: 0.0}
     max_beams: 300
     max_particles: 1500
     min_particles: 500
@@ -124,8 +124,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.50
+      xy_goal_tolerance: 0.10 #0.25
+      yaw_goal_tolerance: 0.10 #0.50
 
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -198,7 +198,7 @@ local_costmap:
       width: 8
       height: 8
       resolution: 0.05
-      footprint: "[ [0.40, 0.45], [0.40, -0.45], [-0.70, -0.45], [-0.70, 0.45] ]"
+      footprint: "[ [0.20, 0.33], [0.20, -0.33], [-0.65, -0.33], [-0.65, 0.33] ]"
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
