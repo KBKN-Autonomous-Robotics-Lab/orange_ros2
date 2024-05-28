@@ -127,7 +127,7 @@
     <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
   </include>-->
   <!-- pointcloud2_to_laserscan -->
-  <include file="$(find-pkg-share livox_to_pointcloud2)/launch/livox_to_pointcloud2_laserscan.launch.py">
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/livox_to_pointcloud2_laserscan.launch.py">
   </include>
   <!-- laserscan_multi_merger -->
   <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
