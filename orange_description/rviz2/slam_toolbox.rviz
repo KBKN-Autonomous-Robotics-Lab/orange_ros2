@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: velodyne_scan
+    SyncSource: livox_scan
 Visualization Manager:
   Class: ""
   Displays:
@@ -104,7 +104,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        velodyne:
+        livox_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -142,7 +142,7 @@ Visualization Manager:
           Value: true
         right_wheel:
           Value: true
-        velodyne:
+        livox_frame:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -166,7 +166,7 @@ Visualization Manager:
                   {}
                 right_wheel:
                   {}
-                velodyne:
+                livox_frame:
                   {}
       Update Interval: 0
       Value: true
@@ -188,7 +188,7 @@ Visualization Manager:
       Max Intensity: 0
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: velodyne_points
+      Name: livox_points
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 2
@@ -200,7 +200,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /velodyne_points
+        Value: /livox_points
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
@@ -222,7 +222,7 @@ Visualization Manager:
       Max Intensity: 4096
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: merged_scan
+      Name: livox_scan
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 2
@@ -234,7 +234,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /merged_scan
+        Value: /livox_scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -256,7 +256,7 @@ Visualization Manager:
       Max Intensity: 4096
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: velodyne_scan
+      Name: livox_scan
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 2
@@ -268,7 +268,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /velodyne_scan
+        Value: /livox_scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
