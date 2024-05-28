@@ -2,9 +2,8 @@
 <launch>
   <arg name="use_sim_time" default="false"/>
   <arg name="with_ros2bag" default="false"/>
-  <arg name="scan_1" default="/velodyne_scan"/>
-  <arg name="scan_2" default="/hokuyo_scan"/>
-  <arg name="odom" default="/fusion/odom"/>
+  <arg name="scan" default="/livox_scan"/>
+  <arg name="odom" default="/odom"/>
   <arg name="resolution" default="0.05"/>
   <arg name="publish_period_sec" default="1.0"/>
   <arg name="slam_config_file_name" default="cartographer_params.lua"/>
@@ -18,8 +17,7 @@
   <!-- cartographer_node -->
   <node pkg="cartographer_ros" exec="cartographer_node" args="-configuration_directory $(var slam_config_file_dir)    -configuration_basename $(var slam_config_file_name)">
     <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <remap from="/scan_1" to="$(var scan_1)"/>
-    <remap from="/scan_2" to="$(var scan_2)"/>
+    <remap from="/scan" to="$(var scan)"/>
     <remap from="/odom" to="$(var odom)"/>
   </node>
   <!-- occupancy_grid -->
