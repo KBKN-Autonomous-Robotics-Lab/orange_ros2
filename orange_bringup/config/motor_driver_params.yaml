@@ -14,7 +14,7 @@ motor_driver_node:
     ###############################
 
     # Distance between Wheels
-    wheels_base_width: 0.6048 # meter
+    wheels_base_width: 0.57 #0.6048 # meter
     # Motor automatically stops if no topics are received for a certain period of time
     callback_timeout: 0.5 # seconds
 

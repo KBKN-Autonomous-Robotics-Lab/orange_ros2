@@ -2,7 +2,7 @@
 <launch>
   <arg name="use_sim_time" default="false"/>
   <arg name="odom_in" default="/odom"/>
-  <arg name="imu_in" default="/imu"/>
+  <arg name="imu_in" default="/livox/imu"/>
   <arg name="fusion_odom_out" default="/fusion/odom"/>
   <arg name="config_file_path" default="$(find-pkg-share orange_sensor_tools)/config/ekf_node.yaml"/>
   <!-- robot_localization -->

@@ -4,7 +4,7 @@
   <arg name="use_sim_time" default="false"/>
   <arg name="slam_method" default="slam_toolbox"/>
   <arg name="rviz_config_file" default="$(find-pkg-share waypoint_navigation)/rviz_cfg/waypoint_saver.rviz"/>
-  <arg name="waypoints_file" default="$(find-pkg-share kbkn_maps)/waypoints/tsukuba/m2/confirmation_run_Senior.yaml"/>
+  <arg name="waypoints_file" default="$(find-pkg-share kbkn_maps)/waypoints/hosei/b3/map.yaml"/>
   <arg name="joy_topic" default="joy"/>
   <arg name="click_topic" default="clicked_point"/>
   <arg name="save_joy_button" default="5"/>
