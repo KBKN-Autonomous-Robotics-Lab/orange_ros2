@@ -2,10 +2,10 @@
 <launch>
   <arg name="use_sim_time" default="false"/>
   <arg name="delete_intensity" default="false"/>
-  <arg name="destination_frame" default="velodyne"/>
+  <arg name="destination_frame" default="livox_frame"/>
   <arg name="cloud_destination_topic" default="/merged_cloud"/>
   <arg name="scan_destination_topic" default="/merged_scan"/>
-  <arg name="laserscan_topics" default="/hokuyo_scan /velodyne_scan"/>
+  <arg name="laserscan_topics" default="/hokuyo_scan /livox_scan"/>
   <!-- laserscan_multi_merger -->
   <node pkg="orange_sensor_tools" exec="laserscan_multi_merger">
     <param name="use_sim_time" value="$(var use_sim_time)"/>

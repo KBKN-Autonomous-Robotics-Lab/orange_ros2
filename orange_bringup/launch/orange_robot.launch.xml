@@ -36,11 +36,11 @@
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
   <!-- robot_localization -->
-  <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="odom_in" value="$(var odom_topic)"/>
     <arg name="imu_in" value="$(var imu_topic)"/>
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
-  </include>-->
+  </include>
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
@@ -91,13 +91,13 @@
     <remap from="/livox_pointcloud" to="/livox/lidar"/>
   </node>
   <!-- hokuyo -->
-  <!--<node pkg="urg_node" exec="urg_node_driver">
+  <node pkg="urg_node" exec="urg_node_driver">
     <param name="serial_port" value="/dev/sensors/hokuyo_urg"/>
     <param name="laser_frame_id" value="hokuyo_link"/>
     <param name="angle_max" value="1.22"/>
     <param name="angle_min" value="-1.22"/>
     <remap from="/scan" to="/hokuyo_scan"/>
-  </node>-->
+  </node>
   <!-- imu  -->
   <!--<include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
     <arg name="port" value="/dev/sensors/imu"/>
@@ -133,11 +133,11 @@
     <arg name="scan_out" value="$(var livox_scan_topic)"/>
   </include>
   <!-- laserscan_multi_merger -->
-  <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
     <arg name="delete_intensity" value="true"/>
-    <arg name="destination_frame" value="velodyne"/>
+    <arg name="destination_frame" value="livox_frame"/>
     <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
     <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
-    <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
-  </include>-->
+    <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var livox_scan_topic)"/>
+  </include>
 </launch>

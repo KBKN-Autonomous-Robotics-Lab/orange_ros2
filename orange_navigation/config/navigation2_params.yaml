@@ -44,7 +44,7 @@ amcl:
     z_max: 0.05
     z_rand: 0.2
     z_short: 0.05
-    scan_topic: /livox_scan
+    scan_topic: /merged_scan
 
 amcl_map_client:
   ros__parameters:
@@ -59,7 +59,7 @@ bt_navigator:
     use_sim_time: True
     global_frame: map
     robot_base_frame: base_footprint
-    odom_topic: /odom
+    odom_topic: /fusion/odom
     default_bt_xml_filename: "navigate_w_replanning_and_recovery.xml"
     bt_loop_duration: 10
     default_server_timeout: 20
@@ -209,7 +209,7 @@ local_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /livox_scan
+          topic: /merged_scan
           max_obstacle_height: 2.5
           clearing: True
           marking: True
@@ -339,7 +339,7 @@ velocity_smoother:
     min_velocity: [-1.0, 0.0, -1.0]
     max_accel: [0.5, 0.0, 0.5]
     max_decel: [-0.5, 0.0, -0.5]
-    odom_topic: "/odom"
+    odom_topic: "/fusion/odom"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
