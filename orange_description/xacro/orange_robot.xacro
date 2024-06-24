@@ -8,10 +8,16 @@
     <origin xyz="0.1075 0.0 0.1085" rpy="0.0 0.0 0.0"/>
   </xacro:sensor_hokuyo>
   <!--import 3D LiDAR model-->
+  <!--bringup-->
   <xacro:include filename="$(find orange_description)/xacro/sensors/livox.xacro"/>
   <xacro:sensor_livox name="livox_frame" parent="base_link" min_angle="-2.35619" max_angle="2.35619" samples="720">
     <origin xyz="-0.0185 0.0 0.8985" rpy="${pi} 0.0 0.0"/>
   </xacro:sensor_livox>
+  <!--simulation-->
+  <!--<xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro"/>
+  <xacro:mid360 name="livox" parent="base_link" topic="mid360">
+    <origin xyz="-0.0185 0.0 0.8985" rpy="${pi} 0.0 0.0"/>
+  </xacro:mid360>-->
   <!--import imu model-->
   <xacro:include filename="$(find orange_description)/xacro/sensors/imu.xacro"/>
   <xacro:sensor_imu name="imu" parent="base_link" size="0.05 0.05 0.05">
