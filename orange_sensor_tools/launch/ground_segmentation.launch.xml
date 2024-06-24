@@ -2,7 +2,10 @@
 <launch>
   <arg name="use_sim_time" default="false"/>
   <arg name="config_file_path" default="$(find-pkg-share orange_sensor_tools)/config/ground_segmentation.yaml"/>
+  <!--bringup-->
   <arg name="input_topic" default="/converted_pointcloud2"/>
+  <!--simulation-->
+  <!--<arg name="input_topic" default="/mid360_PointCloud2"/>-->
   <arg name="ground_output_topic" default="/livox_points/ground"/>
   <arg name="obstacle_output_topic" default="/livox_points/obstacle"/>
   <!-- ground_segmentation -->
