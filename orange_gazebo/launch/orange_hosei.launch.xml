@@ -20,7 +20,7 @@
   <!-- ground_segmentation -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
-    <arg name="input_topic" value="$(var livox_points_topic)"/>
+    <arg name="input_topic" value="/mid360_PointCloud2"/>
     <arg name="ground_output_topic" value="$(var livox_points_topic)/ground"/>
     <arg name="obstacle_output_topic" value="$(var livox_points_topic)/obstacle"/>
   </include>
