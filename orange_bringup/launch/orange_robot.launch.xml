@@ -16,9 +16,6 @@
   <arg name="cmd_deg_topic" default="/pos/cmd_deg"/>
   <arg name="cmd_dist_topic" default="/pos/cmd_dist"/>
   <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
-  <arg name="odom_topic" default="/odom"/>
-  <arg name="imu_topic" default="/imu"/>
-  <arg name="fusion_odom_topic" default="/fusion/odom"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
   <arg name="velodyne_points_topic" default="/velodyne_points"/>
   <arg name="merged_cloud_topic" default="/merged_cloud"/>
@@ -33,12 +30,28 @@
   <node pkg="joint_state_publisher" exec="joint_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
-  <!-- robot_localization -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
-    <arg name="odom_in" value="$(var odom_topic)"/>
-    <arg name="imu_in" value="$(var imu_topic)"/>
-    <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
-  </include>
+
+  <node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
+    <param name="port" value="/dev/sensors/GNSSbase"/>
+    <param name="baud" value="9600"/>
+    <param name="country_id" value="0"/>
+    <param name="heading" value="180"/>
+  </node>
+
+  <node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
+    <param name="port" value="/dev/sensors/GNSSbase"/>
+    <param name="baud" value="9600"/>
+    <param name="country_id" value="0"/>
+    <param name="heading" value="180"/>
+  </node>
+  
+  <node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
+    <param name="port" value="/dev/sensors/GNSSbase"/>
+    <param name="baud" value="9600"/>
+    <param name="country_id" value="0"/>
+    <param name="heading" value="180"/>
+  </node>
+
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
