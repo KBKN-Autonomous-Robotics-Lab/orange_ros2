@@ -203,11 +203,12 @@ class GPSDataToOdom(Node):
             if lonlat[1] != 0 and lonlat[2] != 0:
                 if self.initial_coordinate is None:
                     self.initial_coordinate = [lonlat[1], lonlat[2]]
-                GPSxy = self.conversion(lonlat, self.initial_coordinate, self.theta)
+                GPSxy = self.conversion(
+                    lonlat, self.initial_coordinate, self.theta)
                 self.get_logger().info(f"GPSxy: {GPSxy}")
                 self.get_logger().info(f"lonlat[4]: {lonlat[4]}")
                 satellites = lonlat[4]
-                
+
                 self.odom_msg.header.stamp = self.get_clock().now().to_msg()
                 self.odom_msg.header.frame_id = "odom"
                 self.odom_msg.child_frame_id = "base_footprint"
@@ -219,7 +220,7 @@ class GPSDataToOdom(Node):
                 self.odom_msg.pose.pose.orientation.z = 0.0
                 # Number of satellites
                 self.odom_msg.pose.covariance[0] = satellites
-                
+
                 self.odom_pub.publish(self.odom_msg)
             else:
                 self.get_logger().info("No GPS data")
