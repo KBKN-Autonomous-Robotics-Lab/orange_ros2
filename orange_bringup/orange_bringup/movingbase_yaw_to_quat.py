@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
+import serial
+import math
 from rclpy.node import Node
 from sensor_msgs.msg import Imu
 from tf_transformations import euler_from_quaternion, quaternion_from_euler
@@ -108,6 +110,16 @@ class MovingBaseNode(Node):
 
         return nowPoint
 
+    def quaternion_from_euler(self, roll, pitch, yaw):
+        qx = math.sin(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) - math.cos(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
+        qy = math.cos(roll/2) * math.sin(pitch/2) * math.cos(yaw/2) + math.sin(roll/2) * math.cos(pitch/2) * math.sin(yaw/2)
+        qz = math.cos(roll/2) * math.cos(pitch/2) * math.sin(yaw/2) - math.sin(roll/2) * math.sin(pitch/2) * math.cos(yaw/2)
+        qw = math.cos(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) + math.sin(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
+        
+        q = [qx, qy, qz, qw]
+        
+        return q 
+
     def movingbase_publish_msg(self):
 
         nowpoint = self.readrelposned()
@@ -135,7 +147,7 @@ class MovingBaseNode(Node):
             roll, pitch = 0.0, 0.0
             yaw = movingbaseyaw
 
-            q = quaternion_from_euler(roll, pitch, yaw)
+            q = self.quaternion_from_euler(roll, pitch, yaw)
             self.get_logger().info(f"Quaternion: {q}")
 
             self.movingbase_msg.header.stamp = self.get_clock().now().to_msg()
