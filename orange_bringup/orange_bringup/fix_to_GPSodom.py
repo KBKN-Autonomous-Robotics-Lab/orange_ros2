@@ -199,30 +199,33 @@ class GPSDataToOdom(Node):
     def publish_GPSodom(self):
         lonlat = self.get_gps(self.dev_name, self.country_id)
         if lonlat is not None:
-            if self.initial_coordinate is None:
-                self.initial_coordinate = [lonlat[1], lonlat[2]]
-            GPSxy = self.conversion(
-                lonlat, self.initial_coordinate, self.theta)
-            self.get_logger().info(f"GPSxy: {GPSxy}")
+            if lonlat[1] != 0 and lonlat[2] != 0:
+                if self.initial_coordinate is None:
+                    self.initial_coordinate = [lonlat[1], lonlat[2]]
+                GPSxy = self.conversion(
+                    lonlat, self.initial_coordinate, self.theta)
+                self.get_logger().info(f"GPSxy: {GPSxy}")
 
-            self.odom_msg.header.stamp = self.get_clock().now().to_msg()
-            self.odom_msg.header.frame_id = "odom"
-            self.odom_msg.child_frame_id = "base_footprint"
-            self.odom_msg.pose.pose.position.x = GPSxy[0]
-            self.odom_msg.pose.pose.position.y = GPSxy[1]
-            self.odom_msg.pose.pose.position.z = 0
-            self.odom_msg.pose.pose.orientation.x = 0
-            self.odom_msg.pose.pose.orientation.y = 0
-            self.odom_msg.pose.pose.orientation.z = 0
-            # Number of satellites
-            self.odom_msg.pose.pose.orientation.w = lonlat[4]
-            self.odom_msg.pose.covariance = [0.0001, 0, 0, 0, 0, 0,
-                                             0, 0.0001, 0, 0, 0, 0,
-                                             0, 0, 0.000001, 0, 0, 0,
-                                             0, 0, 0, 0.000001, 0, 0,
-                                             0, 0, 0, 0, 0.000001, 0,
-                                             0, 0, 0, 0, 0, 0.0001]
-            self.odom_pub.publish(self.odom_msg)
+                self.odom_msg.header.stamp = self.get_clock().now().to_msg()
+                self.odom_msg.header.frame_id = "odom"
+                self.odom_msg.child_frame_id = "base_footprint"
+                self.odom_msg.pose.pose.position.x = GPSxy[0]
+                self.odom_msg.pose.pose.position.y = GPSxy[1]
+                self.odom_msg.pose.pose.position.z = 0
+                self.odom_msg.pose.pose.orientation.x = 0
+                self.odom_msg.pose.pose.orientation.y = 0
+                self.odom_msg.pose.pose.orientation.z = 0
+                # Number of satellites
+                self.odom_msg.pose.pose.orientation.w = lonlat[4]
+                self.odom_msg.pose.covariance = [0.0001, 0, 0, 0, 0, 0,
+                                                 0, 0.0001, 0, 0, 0, 0,
+                                                 0, 0, 0.000001, 0, 0, 0,
+                                                 0, 0, 0, 0.000001, 0, 0,
+                                                 0, 0, 0, 0, 0.000001, 0,
+                                                 0, 0, 0, 0, 0, 0.0001]
+                self.odom_pub.publish(self.odom_msg)
+            else:
+                self.get_logger().info("No GPS data")
         else:
             self.get_logger().info("No GPS data")
 
