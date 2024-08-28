@@ -12,7 +12,7 @@ class GPSDataToOdom(Node):
     def __init__(self):
         super().__init__('gps_data_acquisition')
 
-        self.declare_parameter('port', '/dev/ttyACM1')
+        self.declare_parameter('port', '/dev/sensors/GNSSbase')
         self.declare_parameter('baud', 9600)
         self.declare_parameter('country_id', 0)
 
@@ -25,6 +25,7 @@ class GPSDataToOdom(Node):
 
 #        self.fix_sub = self.create_subscription(NavSatFix, "fix", self.fix_callback, 10)
         self.odom_pub = self.create_publisher(Odometry, "/odom/gps", 10)
+        self.odom_msg = Odometry()
 
         self.theta = self.declare_parameter("heading", 180).value  # デフォルトは180度
 
@@ -60,7 +61,7 @@ class GPSDataToOdom(Node):
         Fixtype_data = int(gps_data[6])
         self.get_logger().info(f"Fix Type: {Fixtype_data}")
         if Fixtype_data != 0:
-            satelitecount_data = int(gps_data[7])
+            satelitecount_data = float(gps_data[7])
             self.get_logger().info(f"Satellite Count: {satelitecount_data}")
             # ddmm.mmmmm to dd.ddddd
             latitude_data = float(gps_data[2]) / 100.0
@@ -202,27 +203,23 @@ class GPSDataToOdom(Node):
             if lonlat[1] != 0 and lonlat[2] != 0:
                 if self.initial_coordinate is None:
                     self.initial_coordinate = [lonlat[1], lonlat[2]]
-                GPSxy = self.conversion(
-                    lonlat, self.initial_coordinate, self.theta)
+                GPSxy = self.conversion(lonlat, self.initial_coordinate, self.theta)
                 self.get_logger().info(f"GPSxy: {GPSxy}")
-
+                self.get_logger().info(f"lonlat[4]: {lonlat[4]}")
+                satellites = lonlat[4]
+                
                 self.odom_msg.header.stamp = self.get_clock().now().to_msg()
                 self.odom_msg.header.frame_id = "odom"
                 self.odom_msg.child_frame_id = "base_footprint"
                 self.odom_msg.pose.pose.position.x = GPSxy[0]
                 self.odom_msg.pose.pose.position.y = GPSxy[1]
-                self.odom_msg.pose.pose.position.z = 0
-                self.odom_msg.pose.pose.orientation.x = 0
-                self.odom_msg.pose.pose.orientation.y = 0
-                self.odom_msg.pose.pose.orientation.z = 0
+                self.odom_msg.pose.pose.position.z = 0.0
+                self.odom_msg.pose.pose.orientation.x = 0.0
+                self.odom_msg.pose.pose.orientation.y = 0.0
+                self.odom_msg.pose.pose.orientation.z = 0.0
                 # Number of satellites
-                self.odom_msg.pose.pose.orientation.w = lonlat[4]
-                self.odom_msg.pose.covariance = [0.0001, 0, 0, 0, 0, 0,
-                                                 0, 0.0001, 0, 0, 0, 0,
-                                                 0, 0, 0.000001, 0, 0, 0,
-                                                 0, 0, 0, 0.000001, 0, 0,
-                                                 0, 0, 0, 0, 0.000001, 0,
-                                                 0, 0, 0, 0, 0, 0.0001]
+                self.odom_msg.pose.covariance[0] = satellites
+                
                 self.odom_pub.publish(self.odom_msg)
             else:
                 self.get_logger().info("No GPS data")

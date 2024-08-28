@@ -14,7 +14,7 @@ class MovingBaseNode(Node):
         self.count = 0
         self.first_heading = 0
 
-        self.declare_parameter('port', '/dev/ttyACM2')
+        self.declare_parameter('port', '/dev/sensors/GNSSrover')
         self.declare_parameter('baud', 9600)
         self.declare_parameter('time_out', 1.0)
 
@@ -152,7 +152,7 @@ class MovingBaseNode(Node):
             yaw = movingbaseyaw
 
             q = self.quaternion_from_euler(roll, pitch, yaw)
-            self.get_logger().info(f"Quaternion: {q}")
+            #self.get_logger().info(f"Quaternion: {q}")
 
             self.movingbase_msg.header.stamp = self.get_clock().now().to_msg()
             self.movingbase_msg.header.frame_id = "imu_link"
@@ -160,7 +160,8 @@ class MovingBaseNode(Node):
             self.movingbase_msg.orientation.y = q[1]
             self.movingbase_msg.orientation.z = -q[2]  # -z
             self.movingbase_msg.orientation.w = q[3]
-
+            self.movingbase_msg.orientation_covariance[0] = heading
+            
             self.heading_pub.publish(self.movingbase_msg)
             self.movingbase_data = None
         else:
