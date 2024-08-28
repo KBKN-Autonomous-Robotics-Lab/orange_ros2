@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import math
-import serial
+
 import rclpy
+import serial
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from sensor_msgs.msg import NavSatFix

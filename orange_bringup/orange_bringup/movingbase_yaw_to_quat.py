@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+import math
+
 import rclpy
 import serial
-import math
 from rclpy.node import Node
 from sensor_msgs.msg import Imu
 from tf_transformations import euler_from_quaternion, quaternion_from_euler
@@ -111,14 +112,18 @@ class MovingBaseNode(Node):
         return nowPoint
 
     def quaternion_from_euler(self, roll, pitch, yaw):
-        qx = math.sin(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) - math.cos(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
-        qy = math.cos(roll/2) * math.sin(pitch/2) * math.cos(yaw/2) + math.sin(roll/2) * math.cos(pitch/2) * math.sin(yaw/2)
-        qz = math.cos(roll/2) * math.cos(pitch/2) * math.sin(yaw/2) - math.sin(roll/2) * math.sin(pitch/2) * math.cos(yaw/2)
-        qw = math.cos(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) + math.sin(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
-        
+        qx = math.sin(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) - \
+            math.cos(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
+        qy = math.cos(roll/2) * math.sin(pitch/2) * math.cos(yaw/2) + \
+            math.sin(roll/2) * math.cos(pitch/2) * math.sin(yaw/2)
+        qz = math.cos(roll/2) * math.cos(pitch/2) * math.sin(yaw/2) - \
+            math.sin(roll/2) * math.sin(pitch/2) * math.cos(yaw/2)
+        qw = math.cos(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) + \
+            math.sin(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
+
         q = [qx, qy, qz, qw]
-        
-        return q 
+
+        return q
 
     def movingbase_publish_msg(self):
 
