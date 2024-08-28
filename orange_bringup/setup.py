@@ -27,6 +27,7 @@ setup(
     description="This project is to use orange robot with ROS2",
     license="Apache License, Version 2.0",
     tests_require=["pytest"],
+    entry_points={
         "console_scripts": [
             "motor_driver_node = orange_bringup.motor_driver_node:main",
             "fix_to_GPSodom = orange_bringup.fix_to_GPSodom:main",
