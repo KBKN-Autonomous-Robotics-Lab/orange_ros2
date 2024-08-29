@@ -9,26 +9,28 @@ class CLASMovingBaseCombiner(Node):
     def __init__(self):
         super().__init__('clas_moving_base_combiner')
 
-        self.create_subscription(Odometry, "/odom/gps", self.odomgps_callback,1)
-        self.create_subscription(Imu, "movingbase/quat", self.movingbase_callback,1)
-        
+        self.create_subscription(
+            Odometry, "/odom/gps", self.odomgps_callback, 1)
+        self.create_subscription(
+            Imu, "movingbase/quat", self.movingbase_callback, 1)
+
         self.odom_pub = self.create_publisher(Odometry, "/CLAS_movingbase", 10)
         self.odom_msg = Odometry()
-        
+
         self.x = 0
         self.y = 0
         self.satelite = 0
-        
+
         self.orientationz = 0
         self.orientationw = 0
-        
-        self.timer = self.create_timer(1.0, self.publish_combined_odom)        
-        
+
+        self.timer = self.create_timer(1.0, self.publish_combined_odom)
+
     def odomgps_callback(self, msg):
         self.x = msg.pose.pose.position.x
         self.y = msg.pose.pose.position.y
         self.satelite = msg.pose.covariance[0]
-        
+
     def movingbase_callback(self, msg):
         self.orientationz = msg.orientation.z
         self.orientationw = msg.orientation.w
@@ -50,12 +52,14 @@ class CLASMovingBaseCombiner(Node):
         else:
             self.get_logger().info("Data missing: CLAS_position or movingbase_yaw is None")
 
+
 def main(args=None):
     rclpy.init(args=args)
     combiner = CLASMovingBaseCombiner()
-    rclpy.spin(combiner) 
+    rclpy.spin(combiner)
     combiner.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
