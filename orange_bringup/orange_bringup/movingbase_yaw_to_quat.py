@@ -111,17 +111,18 @@ class MovingBaseNode(Node):
         return nowPoint
 
     def quaternion_from_euler(self, roll, pitch, yaw):
-        qx = math.sin(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) - \
-            math.cos(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
-        qy = math.cos(roll/2) * math.sin(pitch/2) * math.cos(yaw/2) + \
-            math.sin(roll/2) * math.cos(pitch/2) * math.sin(yaw/2)
-        qz = math.cos(roll/2) * math.cos(pitch/2) * math.sin(yaw/2) - \
-            math.sin(roll/2) * math.sin(pitch/2) * math.cos(yaw/2)
-        qw = math.cos(roll/2) * math.cos(pitch/2) * math.cos(yaw/2) + \
-            math.sin(roll/2) * math.sin(pitch/2) * math.sin(yaw/2)
+        cy = math.cos(yaw * 0.5)
+        sy = math.sin(yaw * 0.5)
+        cp = math.cos(pitch * 0.5)
+        sp = math.sin(pitch * 0.5)
+        cr = math.cos(roll * 0.5)
+        sr = math.sin(roll * 0.5)
 
-        q = [qx, qy, qz, qw]
-
+        q = [0] * 4
+        q[0] = cy * cp * cr + sy * sp * sr
+        q[1] = cy * cp * sr - sy * sp * cr
+        q[2] = sy * cp * sr + cy * sp * cr
+        q[3] = sy * cp * cr - cy * sp * sr
         return q
 
     def movingbase_publish_msg(self):
@@ -156,10 +157,10 @@ class MovingBaseNode(Node):
 
             self.movingbase_msg.header.stamp = self.get_clock().now().to_msg()
             self.movingbase_msg.header.frame_id = "imu_link"
-            self.movingbase_msg.orientation.x = q[0]
-            self.movingbase_msg.orientation.y = q[1]
-            self.movingbase_msg.orientation.z = -q[2]  # -z
-            self.movingbase_msg.orientation.w = q[3]
+            self.movingbase_msg.orientation.x = q[1]
+            self.movingbase_msg.orientation.y = q[2]
+            self.movingbase_msg.orientation.z = -q[3]  # -z
+            self.movingbase_msg.orientation.w = q[0]
             self.movingbase_msg.orientation_covariance[0] = heading
 
             self.heading_pub.publish(self.movingbase_msg)

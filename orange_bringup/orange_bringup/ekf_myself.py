@@ -3,7 +3,7 @@ import math
 
 import numpy as np
 import rclpy
-from geometry_msgs.msg import PoseWithCovarianceStamped
+import tf2_ros
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 
@@ -41,26 +41,16 @@ class ExtendedKalmanFilter(Node):
         self.robot_orientationw = 0
         self.Number_of_satellites = 0
 
-        self.sub_a = self.create_subscription(
-            PoseWithCovarianceStamped,
-            '/combine_dr_measurements/odom_combined',
-            self.sensor_a_callback,
-            10
-        )
+        self.sub_a = self.create_subscription(Odometry,'/odom',self.sensor_a_callback,10)
 
-        self.sub_b = self.create_subscription(
-            Odometry,
-            '/CLAS_movingbase',
-            self.sensor_b_callback,
-            10
-        )
+        self.sub_b = self.create_subscription(Odometry,'/CLAS_movingbase',self.sensor_b_callback,10)
 
-        self.fused_pub = self.create_publisher(
-            PoseWithCovarianceStamped,
-            '/kf_myself',
-            10
-        )
+        self.t = TransformStamped()
+        self.br = tf2_ros.TransformBroadcaster(self)
 
+        self.fused_pub = self.create_publisher(Odometry,'/kf_myself',10)
+        self.fused_msg = Odometry()
+        
     def orientation_to_yaw(self, z, w):
         yaw = np.arctan2(2.0 * (w * z), 1.0 - 2.0 * (z ** 2))
         return yaw
@@ -71,7 +61,7 @@ class ExtendedKalmanFilter(Node):
         return orientation_z, orientation_w
 
     def sensor_a_callback(self, data):
-        # サンプリングタイムの計算
+    
         current_time = self.get_clock().now().to_sec()
         if self.prev_time is not None:
             self.SmpTime = current_time - self.prev_time
@@ -90,15 +80,12 @@ class ExtendedKalmanFilter(Node):
             self.Speed = 0
         self.prev_pos = current_pos
 
-        self.GTheta = self.orientation_to_yaw(
-            data.pose.pose.orientation.z, data.pose.pose.orientation.w)
+        self.GTheta = self.orientation_to_yaw(data.pose.pose.orientation.z, data.pose.pose.orientation.w)
 
     def sensor_b_callback(self, data):
-        self.GpsXY = np.array(
-            [data.pose.pose.position.x, data.pose.pose.position.y])
+        self.GpsXY = np.array([data.pose.pose.position.x, data.pose.pose.position.y])
 
-        self.GPStheta = self.orientation_to_yaw(
-            data.pose.pose.orientation.z, data.pose.pose.orientation.w)
+        self.GPStheta = self.orientation_to_yaw(data.pose.pose.orientation.z, data.pose.pose.orientation.w)
 
         self.DGPStheta = self.GPStheta - self.GPSthetayaw0
 
@@ -133,19 +120,16 @@ class ExtendedKalmanFilter(Node):
         self.XX = np.array([0, 0, np.cos(GTheta), np.sin(GTheta)])
         self.w = np.array([(1.379e-3)**2, (0.03 * np.pi / 180 * SmpTime)**2])
         self.H = np.array([[1, 0, 0, 0], [0, 1, 0, 0]])
-        self.Q = np.array(
-            [[(1.379e-3)**2, 0], [0, (0.03 * np.pi / 180 * SmpTime)**2]])
+        self.Q = np.array([[(1.379e-3)**2, 0], [0, (0.03 * np.pi / 180 * SmpTime)**2]])
         G0 = np.array([[1, 0], [0, 0], [0, 0], [0, 1]])
         self.P = G0 @ self.Q @ G0.T
 
     def initializeGPS(self, GpsXY, GTheta, SmpTime):
         self.GTheta0 = GTheta
-        self.XX = np.array(
-            [GpsXY[0], GpsXY[1], np.cos(GTheta), np.sin(GTheta)])
+        self.XX = np.array([GpsXY[0], GpsXY[1], np.cos(GTheta), np.sin(GTheta)])
         self.w = np.array([(1.379e-3)**2, (0.03 * np.pi / 180 * SmpTime)**2])
         self.H = np.array([[1, 0, 0, 0], [0, 1, 0, 0]])
-        self.Q = np.array(
-            [[(1.379e-3)**2, 0], [0, (0.03 * np.pi / 180 * SmpTime)**2]])
+        self.Q = np.array([[(1.379e-3)**2, 0], [0, (0.03 * np.pi / 180 * SmpTime)**2]])
         G0 = np.array([[1, 0], [0, 0], [0, 0], [0, 1]])
         self.P = G0 @ self.Q @ G0.T
 
@@ -159,10 +143,8 @@ class ExtendedKalmanFilter(Node):
         self.GTheta0 = GTheta
         # equation of state F G
         F = np.array([
-            [1, 0, Speed * SmpTime *
-                np.cos(DTheta), -Speed * SmpTime * np.sin(DTheta)],
-            [0, 1, Speed * SmpTime *
-                np.sin(DTheta), Speed * SmpTime * np.cos(DTheta)],
+            [1, 0, Speed * SmpTime *np.cos(DTheta), -Speed * SmpTime * np.sin(DTheta)],
+            [0, 1, Speed * SmpTime *np.sin(DTheta), Speed * SmpTime * np.cos(DTheta)],
             [0, 0, np.cos(DTheta), -np.sin(DTheta)],
             [0, 0, np.sin(DTheta), np.cos(DTheta)]
         ])
@@ -189,10 +171,8 @@ class ExtendedKalmanFilter(Node):
 
         # equation of state F G
         F = np.array([
-            [1, 0, Speed * SmpTime *
-                np.cos(DTheta), -Speed * SmpTime * np.sin(DTheta)],
-            [0, 1, Speed * SmpTime *
-                np.sin(DTheta), Speed * SmpTime * np.cos(DTheta)],
+            [1, 0, Speed * SmpTime *np.cos(DTheta), -Speed * SmpTime * np.sin(DTheta)],
+            [0, 1, Speed * SmpTime *np.sin(DTheta), Speed * SmpTime * np.cos(DTheta)],
             [0, 0, np.cos(DTheta), -np.sin(DTheta)],
             [0, 0, np.sin(DTheta), np.cos(DTheta)]
         ])
@@ -273,9 +253,6 @@ class ExtendedKalmanFilter(Node):
 
     def publish_fused_value(self):
         if self.Speed is not None and self.SmpTime is not None and self.GTheta is not None:
-            self.get_logger().info("Data OK")
-            self.get_logger().info(f"Offset Yaw: {self.offsetyaw}")
-
             R = self.determination_of_R()
             self.R1 = R[0]
             self.R2 = R[1]
@@ -283,14 +260,11 @@ class ExtendedKalmanFilter(Node):
             self.R4 = R[3]
 
             if self.GpsXY is not None:
-                fused_value = self.KalfGPSXY(
-                    self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
+                fused_value = self.KalfGPSXY(self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
                 self.GPS_conut += 1
                 if self.GPS_conut % 10 == 0:
-                    self.combyaw = self.combine_yaw(
-                        self.DGPStheta, self.GTheta, self.GPStheta, self.R3, self.R4)
-                    self.offsetyaw = self.calculate_offset(
-                        self.combyaw, self.GTheta, self.GPStheta)
+                    self.combyaw = self.combine_yaw(self.DGPStheta, self.GTheta, self.GPStheta, self.R3, self.R4)
+                    self.offsetyaw = self.calculate_offset(self.combyaw, self.GTheta, self.GPStheta)
 
                 self.robot_yaw = self.GTheta + self.offsetyaw
                 if self.robot_yaw < -np.pi:
@@ -302,15 +276,12 @@ class ExtendedKalmanFilter(Node):
                 self.robot_orientationz = robot_orientation[0]
                 self.robot_orientationw = robot_orientation[1]
 
-                self.fused_data.header.stamp = self.get_clock().now().to_msg()
-                self.fused_data.header.frame_id = "odom"
-                self.fused_data.pose.pose.position.x = fused_value[0]
-                self.fused_data.pose.pose.position.y = fused_value[1]
-                self.fused_data.pose.pose.orientation.z = self.robot_orientationz
-                self.fused_data.pose.pose.orientation.w = self.robot_orientationw
+                self.fused_msg.pose.pose.position.x = fused_value[0]
+                self.fused_msg.pose.pose.position.y = fused_value[1]
+                self.fused_msg.pose.pose.orientation.z = self.robot_orientationz
+                self.fused_msg.pose.pose.orientation.w = self.robot_orientationw
             else:
-                fused_value = self.KalfXY(
-                    self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
+                fused_value = self.KalfXY(self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
                 self.robot_yaw = self.GTheta + self.offsetyaw
                 if self.robot_yaw < -np.pi:
                     self.robot_yaw += 2 * np.pi
@@ -320,16 +291,29 @@ class ExtendedKalmanFilter(Node):
                 self.robot_orientationz = robot_orientation[0]
                 self.robot_orientationw = robot_orientation[1]
 
-                self.fused_data.header.stamp = self.get_clock().now().to_msg()
-                self.fused_data.header.frame_id = "odom"
-                self.fused_data.pose.pose.position.x = fused_value[0]
-                self.fused_data.pose.pose.position.y = fused_value[1]
-                self.fused_data.pose.pose.orientation.z = self.robot_orientationz
-                self.fused_data.pose.pose.orientation.w = self.robot_orientationw
+                self.fused_msg.pose.pose.position.x = fused_value[0]
+                self.fused_msg.pose.pose.position.y = fused_value[1]
+                self.fused_msg.pose.pose.orientation.z = self.robot_orientationz
+                self.fused_msg.pose.pose.orientation.w = self.robot_orientationw
 
-            self.fused_pub.publish(self.fused_data)
+            self.fused_msg.header.stamp = self.get_clock().now().to_msg()
+            self.fused_msg.header.frame_id = "odom"
+            self.fused_pub.publish(self.fused_msg)
+            
+            self.t.header.stamp = self.get_clock().now().to_msg()
+            self.t.header.frame_id = "odom"
+            self.t.child_frame_id = "base_footprint"
+            self.t.transform.translation.x = fused_value[0]
+            self.t.transform.translation.y = fused_value[1]
+            self.t.transform.translation.z = 0.0
+            self.t.transform.rotation.x = 0
+            self.t.transform.rotation.y = 0
+            self.t.transform.rotation.z = self.robot_orientationz
+            self.t.transform.rotation.w = self.robot_orientationw
+            self.br.sendTransform(self.t)            
+            
         else:
-            self.get_logger().info("Data missing")
+            self.get_logger().info("Data non")
 
 
 def main(args=None):
