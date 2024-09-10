@@ -45,8 +45,10 @@
   </node>
   
   <node pkg="orange_bringup" exec="combination" output="screen">
+  </node>
 
   <node pkg="orange_bringup" exec="ekf_myself" output="screen">
+  </node>
   
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
