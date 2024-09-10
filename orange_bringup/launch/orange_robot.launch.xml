@@ -30,26 +30,21 @@
   <node pkg="joint_state_publisher" exec="joint_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
-  
   <node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
     <param name="port" value="/dev/sensors/GNSSbase"/>
     <param name="baud" value="9600"/>
     <param name="country_id" value="0"/>
     <param name="heading" value="180"/>
   </node>
-
   <node pkg="orange_bringup" exec="movingbase_yaw_to_quat" output="screen">
     <param name="port" value="/dev/sensors/GNSSrover"/>
     <param name="baud" value="9600"/>
     <param name="time_out" value="1.0"/>
   </node>
-  
   <node pkg="orange_bringup" exec="combination" output="screen">
   </node>
-
   <node pkg="orange_bringup" exec="ekf_myself" output="screen">
   </node>
-  
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
