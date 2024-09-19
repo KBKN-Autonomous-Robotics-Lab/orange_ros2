@@ -27,8 +27,7 @@ class GPSDataToOdom(Node):
         self.odom_pub = self.create_publisher(Odometry, "/odom/gps", 10)
         self.odom_msg = Odometry()
 
-        self.theta = self.declare_parameter("heading", 180).value  # デフォルトは180度
-
+        self.theta = self.declare_parameter("heading", 180).value 
         self.initial_coordinate = None
         self.fix_data = None
         self.count = 0
@@ -88,114 +87,61 @@ class GPSDataToOdom(Node):
         return gnggadata
 
     def conversion(self, coordinate, origin, theta):
-        a = 6378137
-        f = 35 / 10439
-        e1 = 734 / 8971
-        e2 = 127 / 1547
-        n = 35 / 20843
-        a0 = 1
-        a2 = 102 / 40495
-        a4 = 1 / 378280
-        a6 = 1 / 289634371
-        a8 = 1 / 204422462123
-        degree_to_radian = math.pi / 180
+        ido = coordinate[1]
+        keido = coordinate[2]
+        ido0 = origin[0]
+        keido0 = origin[1]
 
-        delta_latitude = coordinate[1] - origin[0]
-        delta_longitude = coordinate[2] - origin[1]
+        a =6378137
+        f =35/10439
+        e1 =734/8971
+        e2 =127/1547
+        n =35/20843
+        a0 =1
+        a2 =102/40495
+        a4 =1/378280
+        a6 =1/289634371
+        a8 =1/204422462123
+        pi180=71/4068
+        %math.pi/180
 
-        r_latitude = coordinate[1] * degree_to_radian
-        r_latitude_origin = origin[0] * degree_to_radian
-        r_delta_longitude = delta_longitude * degree_to_radian
+       d_ido = ido - ido0
+       d_keido = keido - keido0
+       rd_ido = d_ido * pi180
+       rd_keido = d_keido * pi180
+       r_ido = ido * pi180
+       r_keido = keido * pi180
+       r_ido0 = ido0 * pi180
+       W = math.sqrt(1-(e1^2)*(math.sin(r_ido)^2))
+       N = a / W
+       t = math.tan(r_ido)
+       ai = e2*math.cos(r_ido)
+       #%===Y===%
+       S =  a*(a0*r_ido -a2*math.sin(2*r_ido )+a4*math.sin(4*r_ido )-a6*math.sin(6*r_ido )+a8*math.sin(8*r_ido ))/(1+n)
+       S0 = a*(a0*r_ido0-a2*math.sin(2*r_ido0)+a4*math.sin(4*r_ido0)-a6*math.sin(6*r_ido0)+a8*math.sin(8*r_ido0))/(1+n)
+       m0 = S/S0
+       B = S-S0
+       y1 = (rd_keido^2)*N*math.sin(r_ido)*math.cos(r_ido)/2
+       y2 = (rd_keido^4)*N*math.sin(r_ido)*(math.cos(r_ido)^3)*(5-(t^2)+9*(ai^2)+4*(ai^4))/24
+       y3 = (rd_keido^6)*N*math.sin(r_ido)*(math.cos(r_ido)^5)*(61-58*(t^2)+(t^4)+270*(ai^2)-330*(ai^2)*(t^2))/720
+       gps_y = m0 * (B + y1 + y2 + y3)
+       
+       #%===X===%
+       x1 = rd_keido*N*math.cos(r_ido)
+       x2 = (rd_keido^3)*N*(math.cos(r_ido)^3)*(1-(t^2)+(ai^2))/6
+       x3 = (rd_keido^5)*N*(math.cos(r_ido)^5)*(5-18*(t^2)+(t^4)+14*(ai^2)-58*(ai^2)*(t^2))/120
+       gps_x = m0 * (x1 + x2 + x3)
+       
+       #degree_to_radian= math.pi / 180
+       #r_theta = theta * degree_to_radian
+       #h_x = math.cos(r_theta) * gps_x  -  math.sin(r_theta) * gps_y
+       #h_y = math.sin(r_theta) * gps_x + math.cos(r_theta) * gps_y
+       #point = (h_y, -h_x)
+       
+       point = (gps_y, gps_x)
 
-        W = math.sqrt(1 - (e1 ** 2) * (math.sin(r_latitude) ** 2))
-        N = a / W
-        t = math.tan(r_latitude)
-        ai = e2 * math.cos(r_latitude)
+       return point
 
-        S = (
-            a
-            * (
-                a0 * r_latitude
-                - a2 * math.sin(2 * r_latitude)
-                + a4 * math.sin(4 * r_latitude)
-                - a6 * math.sin(6 * r_latitude)
-                + a8 * math.sin(8 * r_latitude)
-            )
-            / (1 + n)
-        )
-        S0 = (
-            a
-            * (
-                a0 * r_latitude_origin
-                - a2 * math.sin(2 * r_latitude_origin)
-                + a4 * math.sin(4 * r_latitude_origin)
-                - a6 * math.sin(6 * r_latitude_origin)
-                + a8 * math.sin(8 * r_latitude_origin)
-            )
-            / (1 + n)
-        )
-
-        m0 = S / S0
-        B = S - S0
-        y1 = (
-            (r_delta_longitude ** 2)
-            * N
-            * math.sin(r_latitude)
-            * math.cos(r_latitude)
-            / 2
-        )
-        y2 = (
-            (r_delta_longitude ** 4)
-            * N
-            * math.sin(r_latitude)
-            * (math.cos(r_latitude) ** 3)
-            * (5 - (t ** 2) + 9 * (ai ** 2) + 4 * (ai ** 4))
-            / 24
-        )
-        y3 = (
-            (r_delta_longitude ** 6)
-            * N
-            * math.sin(r_latitude)
-            * (math.cos(r_latitude) ** 5)
-            * (
-                61
-                - 58 * (t ** 2)
-                + (t ** 4)
-                + 270 * (ai ** 2)
-                - 330 * (ai ** 2) * (t ** 2)
-            )
-            / 720
-        )
-        y = m0 * (B + y1 + y2 + y3)
-
-        x1 = r_delta_longitude * N * math.cos(r_latitude)
-        x2 = (
-            (r_delta_longitude ** 3)
-            * N
-            * (math.cos(r_latitude) ** 3)
-            * (1 - (t ** 2) + (ai ** 2))
-            / 6
-        )
-        x3 = (
-            (r_delta_longitude ** 5)
-            * N
-            * (math.cos(r_latitude) ** 5)
-            * (
-                5
-                - 18 * (t ** 2)
-                + (t ** 4)
-                + 14 * (ai ** 2)
-                - 58 * (ai ** 2) * (t ** 2)
-            )
-            / 120
-        )
-        x = m0 * (x1 + x2 + x3)
-
-        r_theta = theta * degree_to_radian
-        h_x = math.cos(r_theta) * x - math.sin(r_theta) * y
-        h_y = math.sin(r_theta) * x + math.cos(r_theta) * y
-        point = (h_y, -h_x)
-        return point
 
     def publish_GPSodom(self):
         lonlat = self.get_gps(self.dev_name, self.country_id)
