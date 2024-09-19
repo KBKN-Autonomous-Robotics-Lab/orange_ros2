@@ -27,7 +27,7 @@ class GPSDataToOdom(Node):
         self.odom_pub = self.create_publisher(Odometry, "/odom/gps", 10)
         self.odom_msg = Odometry()
 
-        self.theta = self.declare_parameter("heading", 180).value 
+        self.theta = self.declare_parameter("heading", 180).value
         self.initial_coordinate = None
         self.fix_data = None
         self.count = 0
@@ -92,17 +92,17 @@ class GPSDataToOdom(Node):
         ido0 = origin[0]
         keido0 = origin[1]
 
-        a =6378137
-        f =35/10439
-        e1 =734/8971
-        e2 =127/1547
-        n =35/20843
-        a0 =1
-        a2 =102/40495
-        a4 =1/378280
-        a6 =1/289634371
-        a8 =1/204422462123
-        pi180=71/4068
+        a = 6378137
+        f = 35/10439
+        e1 = 734/8971
+        e2 = 127/1547
+        n = 35/20843
+        a0 = 1
+        a2 = 102/40495
+        a4 = 1/378280
+        a6 = 1/289634371
+        a8 = 1/204422462123
+        pi180 = 71/4068
         %math.pi/180
 
        d_ido = ido - ido0
