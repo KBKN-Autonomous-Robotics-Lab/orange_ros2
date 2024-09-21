@@ -103,44 +103,44 @@ class GPSDataToOdom(Node):
         a6 = 1/289634371
         a8 = 1/204422462123
         pi180 = 71/4068
-        %math.pi/180
-
-       d_ido = ido - ido0
-       d_keido = keido - keido0
-       rd_ido = d_ido * pi180
-       rd_keido = d_keido * pi180
-       r_ido = ido * pi180
-       r_keido = keido * pi180
-       r_ido0 = ido0 * pi180
-       W = math.sqrt(1-(e1^2)*(math.sin(r_ido)^2))
-       N = a / W
-       t = math.tan(r_ido)
-       ai = e2*math.cos(r_ido)
+        #%math.pi/180
+        d_ido = ido - ido0
+        d_keido = keido - keido0
+        rd_ido = d_ido * pi180
+        rd_keido = d_keido * pi180
+        r_ido = ido * pi180
+        r_keido = keido * pi180
+        r_ido0 = ido0 * pi180
+        W = math.sqrt(1-(e1**2)*(math.sin(r_ido)**2))
+        N = a / W
+        t = math.tan(r_ido)
+        ai = e2*math.cos(r_ido)
+        
        #%===Y===%
-       S =  a*(a0*r_ido -a2*math.sin(2*r_ido )+a4*math.sin(4*r_ido )-a6*math.sin(6*r_ido )+a8*math.sin(8*r_ido ))/(1+n)
-       S0 = a*(a0*r_ido0-a2*math.sin(2*r_ido0)+a4*math.sin(4*r_ido0)-a6*math.sin(6*r_ido0)+a8*math.sin(8*r_ido0))/(1+n)
-       m0 = S/S0
-       B = S-S0
-       y1 = (rd_keido^2)*N*math.sin(r_ido)*math.cos(r_ido)/2
-       y2 = (rd_keido^4)*N*math.sin(r_ido)*(math.cos(r_ido)^3)*(5-(t^2)+9*(ai^2)+4*(ai^4))/24
-       y3 = (rd_keido^6)*N*math.sin(r_ido)*(math.cos(r_ido)^5)*(61-58*(t^2)+(t^4)+270*(ai^2)-330*(ai^2)*(t^2))/720
-       gps_y = m0 * (B + y1 + y2 + y3)
+        S =  a*(a0*r_ido -a2*math.sin(2*r_ido )+a4*math.sin(4*r_ido )-a6*math.sin(6*r_ido )+a8*math.sin(8*r_ido ))/(1+n)
+        S0 = a*(a0*r_ido0-a2*math.sin(2*r_ido0)+a4*math.sin(4*r_ido0)-a6*math.sin(6*r_ido0)+a8*math.sin(8*r_ido0))/(1+n)
+        m0 = S/S0
+        B = S-S0
+        y1 = (rd_keido**2)*N*math.sin(r_ido)*math.cos(r_ido)/2
+        y2 = (rd_keido**4)*N*math.sin(r_ido)*(math.cos(r_ido)**3)*(5-(t**2)+9*(ai**2)+4*(ai**4))/24
+        y3 = (rd_keido**6)*N*math.sin(r_ido)*(math.cos(r_ido)**5)*(61-58*(t**2)+(t**4)+270*(ai**2)-330*(ai**2)*(t**2))/720
+        gps_y = m0 * (B + y1 + y2 + y3)
        
        #%===X===%
-       x1 = rd_keido*N*math.cos(r_ido)
-       x2 = (rd_keido^3)*N*(math.cos(r_ido)^3)*(1-(t^2)+(ai^2))/6
-       x3 = (rd_keido^5)*N*(math.cos(r_ido)^5)*(5-18*(t^2)+(t^4)+14*(ai^2)-58*(ai^2)*(t^2))/120
-       gps_x = m0 * (x1 + x2 + x3)
-       
-       #degree_to_radian= math.pi / 180
-       #r_theta = theta * degree_to_radian
-       #h_x = math.cos(r_theta) * gps_x  -  math.sin(r_theta) * gps_y
-       #h_y = math.sin(r_theta) * gps_x + math.cos(r_theta) * gps_y
-       #point = (h_y, -h_x)
-       
-       point = (gps_y, gps_x)
+        x1 = rd_keido*N*math.cos(r_ido)
+        x2 = (rd_keido**3)*N*(math.cos(r_ido)**3)*(1-(t**2)+(ai**2))/6
+        x3 = (rd_keido**5)*N*(math.cos(r_ido)**5)*(5-18*(t**2)+(t**4)+14*(ai**2)-58*(ai**2)*(t**2))/120
+        gps_x = m0 * (x1 + x2 + x3)
 
-       return point
+        #point = (gps_x, gps_y)Not match  
+       
+        degree_to_radian= math.pi / 180
+        r_theta = theta * degree_to_radian
+        h_x = math.cos(r_theta) * gps_x  -  math.sin(r_theta) * gps_y
+        h_y = math.sin(r_theta) * gps_x + math.cos(r_theta) * gps_y
+        point = (h_y, -h_x)
+      
+        return point
 
 
     def publish_GPSodom(self):
