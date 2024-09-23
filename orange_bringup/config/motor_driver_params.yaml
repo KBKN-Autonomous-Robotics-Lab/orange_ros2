@@ -7,14 +7,14 @@ motor_driver_node:
     left_wheel_radius: 0.09767 # meter
     right_wheel_radius: 0.09767 # meter
     # For odometry computation
-    computation_left_wheel_radius: 0.0978 # meter
-    computation_right_wheel_radius: 0.0978 # meter
+    computation_left_wheel_radius: 0.0960 # meter 1, 978 9.92 / 2, 950 10.0 / 
+    computation_right_wheel_radius: 0.0960 # meter
     # Encoder CPR(counts per revolution)
     cpr: 16385
     ###############################
 
     # Distance between Wheels
-    wheels_base_width: 0.57 #0.6048 # meter
+    wheels_base_width: 0.568 #0.6048 # meter 1, 0.57 2, 
     # Motor automatically stops if no topics are received for a certain period of time
     callback_timeout: 0.5 # seconds
 
@@ -25,8 +25,8 @@ motor_driver_node:
     set_decel_time_right: 200 # ms
 
     # Maximum rpm
-    max_left_rpm: 162
-    max_right_rpm: 162
+    max_left_rpm: 60
+    max_right_rpm: 60
     # Width of rpm to be regarded as 0
     # If 3, then -3 to 3 is considered rpm 0
     deadband_rpm: 3

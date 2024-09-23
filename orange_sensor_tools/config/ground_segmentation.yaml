@@ -2,12 +2,12 @@ ground_segmentation:
   ros__parameters:
     n_threads: 1 # number of threads to use.
 
-    r_min: 0.9 # minimum point distance.
+    r_min: 0.90 # minimum point distance.
     r_max: 100.0 # maximum point distance.
     n_bins: 200 # number of radial bins.
     n_segments: 720 # number of radial segments.
 
-    max_dist_to_line: 0.15 # maximum vertical distance of point to line to be considered ground.
+    max_dist_to_line: 0.15 # 0.15 maximum vertical distance of point to line to be considered ground.
 
     sensor_height: 1.45 # sensor height above ground.
     min_slope: 0.0 # minimum slope of a ground line.

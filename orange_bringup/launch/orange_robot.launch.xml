@@ -35,12 +35,12 @@
   <node pkg="joint_state_publisher" exec="joint_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
-  <!-- robot_localization -->
+  <!-- robot_localization
   <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="odom_in" value="$(var odom_topic)"/>
     <arg name="imu_in" value="$(var imu_topic)"/>
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
-  </include>
+  </include> -->
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
@@ -115,13 +115,13 @@
     <param name="serial_interval" value="0.01"/>
     <remap from="/estop/state" to="/estop"/>
   </node>
-  <!-- ground_segmentation -->
+  <!-- ground_segmentation >
   <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
     <arg name="config_file_path" value="$(find-pkg-share orange_sensor_tools)/config/ground_segmentation.yaml"/>
     <arg name="input_topic" value="/converted_pointcloud2"/>
     <arg name="ground_output_topic" value="$(var livox_points_topic)/ground"/>
     <arg name="obstacle_output_topic" value="$(var livox_points_topic)/obstacle"/>
-  </include>
+  </include> -->
   <!-- pointcloud_to_laserscan -->
   <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="cloud_in" value="$(var velodyne_points_topic)/obstacle"/>
@@ -129,7 +129,7 @@
   </include>-->
   <!-- pointcloud2_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/livox_to_pointcloud2_laserscan.launch.py">
-    <arg name="cloud_in" value="$(var livox_points_topic)/obstacle"/>
+    <arg name="cloud_in" value="/converted_pointcloud2"/>
     <arg name="scan_out" value="$(var livox_scan_topic)"/>
   </include>
   <!-- laserscan_multi_merger -->
