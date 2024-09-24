@@ -15,13 +15,12 @@ class GPSDataToOdom(Node):
         self.declare_parameter('port', '/dev/sensors/GNSSbase')
         self.declare_parameter('baud', 9600)
         self.declare_parameter('country_id', 0)
+        self.declare_parameter('Position_magnification', 1.675)
 
-        self.dev_name = self.get_parameter(
-            'port').get_parameter_value().string_value
-        self.serial_baud = self.get_parameter(
-            'baud').get_parameter_value().integer_value
-        self.country_id = self.get_parameter(
-            'country_id').get_parameter_value().integer_value
+        self.dev_name = self.get_parameter('port').get_parameter_value().string_value
+        self.serial_baud = self.get_parameter('baud').get_parameter_value().integer_value
+        self.country_id = self.get_parameter('country_id').get_parameter_value().integer_value
+        self.Position_magnification = self.get_parameter('Position_magnification').get_parameter_value().integer_value
 
 #        self.fix_sub = self.create_subscription(NavSatFix, "fix", self.fix_callback, 10)
         self.odom_pub = self.create_publisher(Odometry, "/odom/gps", 10)
@@ -128,14 +127,14 @@ class GPSDataToOdom(Node):
             (math.cos(r_ido)**3)*(5-(t**2)+9*(ai**2)+4*(ai**4))/24
         y3 = (rd_keido**6)*N*math.sin(r_ido)*(math.cos(r_ido)**5) * \
             (61-58*(t**2)+(t**4)+270*(ai**2)-330*(ai**2)*(t**2))/720
-        gps_y = m0 * (B + y1 + y2 + y3)
+        gps_y = self.Position_magnification * m0 * (B + y1 + y2 + y3)
 
        # %===X===%
         x1 = rd_keido*N*math.cos(r_ido)
         x2 = (rd_keido**3)*N*(math.cos(r_ido)**3)*(1-(t**2)+(ai**2))/6
         x3 = (rd_keido**5)*N*(math.cos(r_ido)**5) * \
             (5-18*(t**2)+(t**4)+14*(ai**2)-58*(ai**2)*(t**2))/120
-        gps_x = m0 * (x1 + x2 + x3)
+        gps_x = self.Position_magnification * m0 * (x1 + x2 + x3)
 
         # point = (gps_x, gps_y)Not match
 
