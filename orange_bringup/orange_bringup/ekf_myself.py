@@ -44,16 +44,17 @@ class ExtendedKalmanFilter(Node):
         self.robot_orientationw = 0
         self.Number_of_satellites = 0
 
-        self.sub_a = self.create_subscription(
-            Odometry, '/odom', self.sensor_a_callback, 10)
+        self.sub_a = self.create_subscription(Odometry, '/odom_fast', self.sensor_a_callback, 10)
 
-        self.sub_b = self.create_subscription(
-            Odometry, '/CLAS_movingbase', self.sensor_b_callback, 10)
+        self.sub_b = self.create_subscription(Odometry, '/odom_CLAS_movingbase', self.sensor_b_callback, 10)
+
+        self.declare_parameter("publish_TF", False)
+        self.publish_TF = (self.get_parameter("publish_TF").get_parameter_value().bool_value)
 
         self.t = TransformStamped()
         self.br = tf2_ros.TransformBroadcaster(self)
 
-        self.fused_pub = self.create_publisher(Odometry, '/ekf_myself', 10)
+        self.fused_pub = self.create_publisher(Odometry, '/fusion/odom', 10)
         self.fused_msg = Odometry()
 
         self.timer = self.create_timer(0.1, self.publish_fused_value)
@@ -104,7 +105,7 @@ class ExtendedKalmanFilter(Node):
 
         self.GPSthetayaw0 = self.GPStheta
 
-        self.Number_of_satellites = data.pose.pose.position.z  #
+        self.Number_of_satellites = data.pose.covariance[0]  #
 
     def determination_of_R(self):
         if 0 <= self.Number_of_satellites < 4:  # Bad
@@ -302,10 +303,8 @@ class ExtendedKalmanFilter(Node):
 
                 self.fused_msg.pose.pose.position.x = float(fused_value[0])
                 self.fused_msg.pose.pose.position.y = float(fused_value[1])
-                self.fused_msg.pose.pose.orientation.z = float(
-                    self.robot_orientationz)
-                self.fused_msg.pose.pose.orientation.w = float(
-                    self.robot_orientationw)
+                self.fused_msg.pose.pose.orientation.z = float(self.robot_orientationz)
+                self.fused_msg.pose.pose.orientation.w = float(self.robot_orientationw)
             else:
                 fused_value = self.KalfXY(
                     self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
@@ -320,28 +319,26 @@ class ExtendedKalmanFilter(Node):
 
                 self.fused_msg.pose.pose.position.x = float(fused_value[0])
                 self.fused_msg.pose.pose.position.y = float(fused_value[1])
-                self.fused_msg.pose.pose.orientation.z = float(
-                    self.robot_orientationz)
-                self.fused_msg.pose.pose.orientation.w = float(
-                    self.robot_orientationw)
+                self.fused_msg.pose.pose.orientation.z = float(self.robot_orientationz)
+                self.fused_msg.pose.pose.orientation.w = float(self.robot_orientationw)
 
             self.fused_msg.header.stamp = self.get_clock().now().to_msg()
             self.fused_msg.header.frame_id = "odom"
-            self.get_logger().info(
-                f"ekf position and orientation: {fused_value}")
+            self.get_logger().info(f"ekf position and orientation: {fused_value}")
             self.fused_pub.publish(self.fused_msg)
 
-            self.t.header.stamp = self.get_clock().now().to_msg()
-            self.t.header.frame_id = "odom"
-            self.t.child_frame_id = "base_footprint"
-            self.t.transform.translation.x = float(fused_value[0])
-            self.t.transform.translation.y = float(fused_value[1])
-            self.t.transform.translation.z = 0.0
-            self.t.transform.rotation.x = 0.0
-            self.t.transform.rotation.y = 0.0
-            self.t.transform.rotation.z = float(self.robot_orientationz)
-            self.t.transform.rotation.w = float(self.robot_orientationw)
-            self.br.sendTransform(self.t)
+            if self.publish_TF:
+                self.t.header.stamp = self.get_clock().now().to_msg()
+                self.t.header.frame_id = "odom"
+                self.t.child_frame_id = "base_footprint"
+                self.t.transform.translation.x = float(fused_value[0])
+                self.t.transform.translation.y = float(fused_value[1])
+                self.t.transform.translation.z = 0.0
+                self.t.transform.rotation.x = 0.0
+                self.t.transform.rotation.y = 0.0
+                self.t.transform.rotation.z = float(self.robot_orientationz)
+                self.t.transform.rotation.w = float(self.robot_orientationw)
+                self.br.sendTransform(self.t)
 
         else:
             self.get_logger().info("Data non")
