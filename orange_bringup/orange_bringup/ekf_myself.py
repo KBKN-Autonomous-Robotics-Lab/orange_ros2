@@ -44,15 +44,11 @@ class ExtendedKalmanFilter(Node):
         self.robot_orientationw = 0
         self.Number_of_satellites = 0
 
-        self.sub_a = self.create_subscription(
-            Odometry, '/odom_fast', self.sensor_a_callback, 10)
-
-        self.sub_b = self.create_subscription(
-            Odometry, '/odom_CLAS_movingbase', self.sensor_b_callback, 10)
+        self.sub_a = self.create_subscription(Odometry, '/odom_fast', self.sensor_a_callback, 10)
+        self.sub_b = self.create_subscription(Odometry, '/odom_CLAS_movingbase', self.sensor_b_callback, 10)
 
         self.declare_parameter("publish_TF", False)
-        self.publish_TF = (self.get_parameter(
-            "publish_TF").get_parameter_value().bool_value)
+        self.publish_TF = (self.get_parameter("publish_TF").get_parameter_value().bool_value)
 
         self.t = TransformStamped()
         self.br = tf2_ros.TransformBroadcaster(self)
@@ -94,15 +90,12 @@ class ExtendedKalmanFilter(Node):
             self.Speed = 0
         self.prev_pos = current_pos
 
-        self.GTheta = self.orientation_to_yaw(
-            data.pose.pose.orientation.z, data.pose.pose.orientation.w)
+        self.GTheta = self.orientation_to_yaw(data.pose.pose.orientation.z, data.pose.pose.orientation.w)
 
     def sensor_b_callback(self, data):
-        self.GpsXY = np.array(
-            [data.pose.pose.position.x, data.pose.pose.position.y])
+        self.GpsXY = np.array([data.pose.pose.position.x, data.pose.pose.position.y])
 
-        self.GPStheta = self.orientation_to_yaw(
-            data.pose.pose.orientation.z, data.pose.pose.orientation.w)
+        self.GPStheta = self.orientation_to_yaw(data.pose.pose.orientation.z, data.pose.pose.orientation.w)
 
         self.DGPStheta = self.GPStheta - self.GPSthetayaw0
 
@@ -306,10 +299,8 @@ class ExtendedKalmanFilter(Node):
 
                 self.fused_msg.pose.pose.position.x = float(fused_value[0])
                 self.fused_msg.pose.pose.position.y = float(fused_value[1])
-                self.fused_msg.pose.pose.orientation.z = float(
-                    self.robot_orientationz)
-                self.fused_msg.pose.pose.orientation.w = float(
-                    self.robot_orientationw)
+                self.fused_msg.pose.pose.orientation.z = float(self.robot_orientationz)
+                self.fused_msg.pose.pose.orientation.w = float(self.robot_orientationw)
             else:
                 fused_value = self.KalfXY(
                     self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
@@ -324,16 +315,18 @@ class ExtendedKalmanFilter(Node):
 
                 self.fused_msg.pose.pose.position.x = float(fused_value[0])
                 self.fused_msg.pose.pose.position.y = float(fused_value[1])
-                self.fused_msg.pose.pose.orientation.z = float(
-                    self.robot_orientationz)
-                self.fused_msg.pose.pose.orientation.w = float(
-                    self.robot_orientationw)
+                self.fused_msg.pose.pose.orientation.z = float(self.robot_orientationz)
+                self.fused_msg.pose.pose.orientation.w = float(self.robot_orientationw)
 
             self.fused_msg.header.stamp = self.get_clock().now().to_msg()
             self.fused_msg.header.frame_id = "odom"
-            self.get_logger().info(
-                f"ekf position and orientation: {fused_value}")
+            self.get_logger().info(f"ekf position: {fused_value}")
+            self.get_logger().info(f"orientation:{self.robot_orientationz},{self.robot_orientationw}")
             self.fused_pub.publish(self.fused_msg)
+                        
+            self.Speed = None  
+            self.SmpTime = None  
+            self.GTheta = None
 
             if self.publish_TF:
                 self.t.header.stamp = self.get_clock().now().to_msg()
@@ -358,7 +351,6 @@ def main(args=None):
     rclpy.spin(ekf)
     ekf.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
