@@ -9,14 +9,14 @@
   <arg name="debug_motor" default="false"/>
   <arg name="debug_imu" default="false"/>
   <arg name="publish_TF" default="true"/>
-  <arg name="publish_odom" default="true"/>
+  <arg name="publish_odom" default="false"/>
   <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
   <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
   <arg name="cmd_rpm_topic" default="/vel/cmd_rpm"/>
   <arg name="cmd_deg_topic" default="/pos/cmd_deg"/>
   <arg name="cmd_dist_topic" default="/pos/cmd_dist"/>
   <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
-  <arg name="odom_topic" default="/odom"/>
+  <arg name="odom_topic" default="/odom_fast"/>
   <arg name="imu_topic" default="/livox/imu"/>
   <arg name="fusion_odom_topic" default="/fusion/odom"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
