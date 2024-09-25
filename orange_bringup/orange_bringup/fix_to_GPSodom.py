@@ -17,17 +17,21 @@ class GPSDataToOdom(Node):
         self.declare_parameter('country_id', 0)
         self.declare_parameter('Position_magnification', 1.675)
 
-        self.dev_name = self.get_parameter('port').get_parameter_value().string_value
-        self.serial_baud = self.get_parameter('baud').get_parameter_value().integer_value
-        self.country_id = self.get_parameter('country_id').get_parameter_value().integer_value
-        self.Position_magnification = self.get_parameter('Position_magnification').get_parameter_value().integer_value
+        self.dev_name = self.get_parameter(
+            'port').get_parameter_value().string_value
+        self.serial_baud = self.get_parameter(
+            'baud').get_parameter_value().integer_value
+        self.country_id = self.get_parameter(
+            'country_id').get_parameter_value().integer_value
+        self.Position_magnification = self.get_parameter(
+            'Position_magnification').get_parameter_value().integer_value
 
 #        self.create_subscription(Imu, "movingbase/quat", self.movingbase_callback, 1)
 #        self.fix_sub = self.create_subscription(NavSatFix, "fix", self.fix_callback, 10)
         self.odom_pub = self.create_publisher(Odometry, "/odom/gps", 10)
         self.odom_msg = Odometry()
 
-        self.theta = self.declare_parameter("heading", 180).value##
+        self.theta = self.declare_parameter("heading", 180).value
         self.initial_coordinate = None
         self.fix_data = None
 #        self.count = 0
@@ -86,7 +90,8 @@ class GPSDataToOdom(Node):
 
         gnggadata = (Fixtype_data, latitude_data, longitude_data,
                      altitude_data, satelitecount_data)
-        self.get_logger().info(f"Current Latitude and Longitude (Fixtype, latitude, longitude, altitude): {gnggadata}")
+        self.get_logger().info(
+            f"Current Latitude and Longitude (Fixtype, latitude, longitude, altitude): {gnggadata}")
 
         return gnggadata
 
@@ -181,6 +186,7 @@ class GPSDataToOdom(Node):
         else:
             self.get_logger().info("No GPS data")
 
+
 def main(args=None):
     rclpy.init(args=args)
     gtodom = GPSDataToOdom()
@@ -188,6 +194,6 @@ def main(args=None):
     gtodom.destroy_node()
     rclpy.shutdown()
 
+
 if __name__ == '__main__':
     main()
-
