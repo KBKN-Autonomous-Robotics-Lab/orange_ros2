@@ -18,9 +18,12 @@ class MovingBaseNode(Node):
         self.declare_parameter('baud', 9600)
         self.declare_parameter('time_out', 1.0)
 
-        self.port = self.get_parameter('port').get_parameter_value().string_value
-        self.baudrate = self.get_parameter('baud').get_parameter_value().integer_value
-        self.time_out = self.get_parameter('time_out').get_parameter_value().double_value
+        self.port = self.get_parameter(
+            'port').get_parameter_value().string_value
+        self.baudrate = self.get_parameter(
+            'baud').get_parameter_value().integer_value
+        self.time_out = self.get_parameter(
+            'time_out').get_parameter_value().double_value
 
         # self.sub_movingbase = self.create_subscription(Imu,'movingbase_yaw',self.movingbase_callback,10)
 
@@ -56,7 +59,7 @@ class MovingBaseNode(Node):
                     i += 1
 
         if self.checksum(ackPacket, payloadlength):
-            #self.get_logger().info("Checksum OK")
+            # self.get_logger().info("Checksum OK")
             nowpoint_info = self.parse_heading(ackPacket)
             return nowpoint_info
 
@@ -162,6 +165,7 @@ class MovingBaseNode(Node):
 
             self.heading_pub.publish(self.movingbase_msg)
             self.movingbase_data = None
+
 
 def main(args=None):
     rclpy.init(args=args)

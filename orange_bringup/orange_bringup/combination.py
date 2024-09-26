@@ -9,10 +9,13 @@ class CLASMovingBaseCombiner(Node):
     def __init__(self):
         super().__init__('clas_moving_base_combiner')
 
-        self.create_subscription(Odometry, "/odom/gps", self.odomgps_callback, 1)
-        self.create_subscription(Imu, "movingbase/quat", self.movingbase_callback, 1)
+        self.create_subscription(
+            Odometry, "/odom/gps", self.odomgps_callback, 1)
+        self.create_subscription(
+            Imu, "movingbase/quat", self.movingbase_callback, 1)
 
-        self.odom_pub = self.create_publisher(Odometry, "/odom_CLAS_movingbase", 10)
+        self.odom_pub = self.create_publisher(
+            Odometry, "/odom_CLAS_movingbase", 10)
         self.odom_msg = Odometry()
 
         self.x = 0
@@ -54,6 +57,7 @@ class CLASMovingBaseCombiner(Node):
                 self.x = None
                 self.y = None
                 self.satelite = None
+
 
 def main(args=None):
     rclpy.init(args=args)
