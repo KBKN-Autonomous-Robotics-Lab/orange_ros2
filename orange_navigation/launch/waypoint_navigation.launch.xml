@@ -2,7 +2,7 @@
 <launch>
   <!-- Arguments -->
   <arg name="use_sim_time" default="false"/>
-  <arg name="kbkn_maps_path" default="hosei/m2/courtyard_Senior.yaml"/>
+  <arg name="kbkn_maps_path" default="hosei/b3/map.yaml"/>
   <arg name="map_file_path" default="$(find-pkg-share kbkn_maps)/maps/$(var kbkn_maps_path)"/>
   <arg name="waypoints_file" default="$(find-pkg-share kbkn_maps)/waypoints/$(var kbkn_maps_path)"/>
   <arg name="config_file_path" default="$(find-pkg-share orange_navigation)/config/navigation2_params.yaml"/>
@@ -12,7 +12,7 @@
   <arg name="min_yaw_err" default="0.5"/>
   <arg name="timeout_restart_nav" default="5.0"/>
   <arg name="from_middle" default="false"/>
-  <arg name="tandem_scan" default="merged_scan"/>
+  <arg name="tandem_scan" default="livox_scan"/>
   <arg name="use_angle" default="20.0"/>
   <arg name="danger_dist" default="2.0"/>
   <arg name="costmaps_file" default="$(find-pkg-share waypoint_navigation)/config/switch_costmaps.yaml"/>
@@ -38,6 +38,16 @@
     <arg name="danger_dist" value="$(var danger_dist)"/>
     <arg name="costmaps_file" value="$(var costmaps_file)"/>
   </include>
+  <!-- Fast lio odom -->
+  <include file="$(find-pkg-share fast_lio)/launch/mapping.launch.py">
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="params_file" value="$(var config_file_path)"/>
+  </include>
+  <!-- Fast lio odom convert -->
+  <node pkg="fast_odom_convert" exec="fast_odom_convert">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="params_file" value="$(var config_file_path)"/>
+  </node>
   <!-- Rviz2 -->
   <node pkg="rviz2" exec="rviz2" args="-d $(var rviz_config_file)"/>
 </launch>

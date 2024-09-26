@@ -8,7 +8,7 @@
   <arg name="control_mode" default="3"/>
   <arg name="debug_motor" default="false"/>
   <arg name="debug_imu" default="false"/>
-  <arg name="publish_TF" default="false"/>
+  <arg name="publish_TF" default="true"/>
   <arg name="publish_odom" default="true"/>
   <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
   <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
@@ -17,9 +17,11 @@
   <arg name="cmd_dist_topic" default="/pos/cmd_dist"/>
   <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
   <arg name="odom_topic" default="/odom"/>
-  <arg name="imu_topic" default="/imu"/>
+  <arg name="imu_topic" default="/livox/imu"/>
   <arg name="fusion_odom_topic" default="/fusion/odom"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
+  <arg name="livox_scan_topic" default="/livox_scan"/>
+  <arg name="livox_points_topic" default="/livox_points"/>
   <arg name="velodyne_points_topic" default="/velodyne_points"/>
   <arg name="merged_cloud_topic" default="/merged_cloud"/>
   <arg name="merged_scan_topic" default="/merged_scan"/>
@@ -33,12 +35,12 @@
   <node pkg="joint_state_publisher" exec="joint_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
-  <!-- robot_localization -->
+  <!-- robot_localization
   <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="odom_in" value="$(var odom_topic)"/>
     <arg name="imu_in" value="$(var imu_topic)"/>
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
-  </include>
+  </include> -->
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
@@ -58,7 +60,7 @@
     <param name="odom_child_frame" value="base_footprint"/>
   </node>
   <!-- velodyne -->
-  <node pkg="velodyne_driver" exec="velodyne_driver_node">
+  <!--<node pkg="velodyne_driver" exec="velodyne_driver_node">
     <param name="device_ip" value=""/>
     <param name="gps_time" value="false"/>
     <param name="time_offset" value="0.0"/>
@@ -81,24 +83,30 @@
     <param name="fixed_frame" value=""/>
     <param name="target_frame" value=""/>
     <param name="organize_cloud" value="false"/>
+  </node>-->
+  <!-- mid360 -->
+  <include file="$(find-pkg-share livox_ros_driver2)/launch_ROS2/msg_MID360_launch.py">
+  </include>
+  <node pkg="livox_to_pointcloud2" exec="livox_to_pointcloud2_node">
+    <remap from="/livox_pointcloud" to="/livox/lidar"/>
   </node>
   <!-- hokuyo -->
-  <node pkg="urg_node" exec="urg_node_driver">
+  <!--<node pkg="urg_node" exec="urg_node_driver">
     <param name="serial_port" value="/dev/sensors/hokuyo_urg"/>
     <param name="laser_frame_id" value="hokuyo_link"/>
     <param name="angle_max" value="1.22"/>
     <param name="angle_min" value="-1.22"/>
     <remap from="/scan" to="/hokuyo_scan"/>
-  </node>
+  </node>-->
   <!-- imu  -->
-  <include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
+  <!--<include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
     <arg name="port" value="/dev/sensors/imu"/>
     <arg name="time_out" value="0.5"/>
     <arg name="baudrate" value="115200"/>
     <arg name="imu_topic" value="imu"/>
     <arg name="frame_id" value="imu_link"/>
     <arg name="debug" value="$(var debug_imu)"/>
-  </include>
+  </include>-->
   <!-- estop  -->
   <node pkg="estop_ros" exec="cmd_vel_override_node" output="screen">
     <param name="port" value="/dev/sensors/estop"/>
@@ -107,24 +115,29 @@
     <param name="serial_interval" value="0.01"/>
     <remap from="/estop/state" to="/estop"/>
   </node>
-  <!-- ground_segmentation -->
+  <!-- ground_segmentation >
   <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
     <arg name="config_file_path" value="$(find-pkg-share orange_sensor_tools)/config/ground_segmentation.yaml"/>
-    <arg name="input_topic" value="$(var velodyne_points_topic)"/>
-    <arg name="ground_output_topic" value="$(var velodyne_points_topic)/ground"/>
-    <arg name="obstacle_output_topic" value="$(var velodyne_points_topic)/obstacle"/>
-  </include>
+    <arg name="input_topic" value="/converted_pointcloud2"/>
+    <arg name="ground_output_topic" value="$(var livox_points_topic)/ground"/>
+    <arg name="obstacle_output_topic" value="$(var livox_points_topic)/obstacle"/>
+  </include> -->
   <!-- pointcloud_to_laserscan -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
+  <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="cloud_in" value="$(var velodyne_points_topic)/obstacle"/>
     <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
+  </include>-->
+  <!-- pointcloud2_to_laserscan -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/livox_to_pointcloud2_laserscan.launch.py">
+    <arg name="cloud_in" value="/converted_pointcloud2"/>
+    <arg name="scan_out" value="$(var livox_scan_topic)"/>
   </include>
   <!-- laserscan_multi_merger -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
+  <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
     <arg name="delete_intensity" value="true"/>
-    <arg name="destination_frame" value="velodyne"/>
+    <arg name="destination_frame" value="livox_frame"/>
     <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
     <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
-    <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
-  </include>
+    <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var livox_scan_topic)"/>
+  </include>-->
 </launch>

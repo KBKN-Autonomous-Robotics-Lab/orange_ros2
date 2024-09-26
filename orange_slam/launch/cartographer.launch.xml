@@ -2,7 +2,7 @@
 <launch>
   <arg name="use_sim_time" default="false"/>
   <arg name="with_ros2bag" default="false"/>
-  <arg name="scan_1" default="/velodyne_scan"/>
+  <arg name="scan_1" default="/livox_scan"/>
   <arg name="scan_2" default="/hokuyo_scan"/>
   <arg name="odom" default="/fusion/odom"/>
   <arg name="resolution" default="0.05"/>
