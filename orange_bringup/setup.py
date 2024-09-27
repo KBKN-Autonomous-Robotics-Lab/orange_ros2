@@ -33,7 +33,8 @@ setup(
             "fix_to_GPSodom = orange_bringup.fix_to_GPSodom:main",
             "movingbase_yaw_to_quat = orange_bringup.movingbase_yaw_to_quat:main",
             "combination = orange_bringup.combination:main",
-            "ekf_myself = orange_bringup.ekf_myself:main"
+            "ekf_myself = orange_bringup.ekf_myself:main",
+            "get_lonlat = orange_bringup.get_lonlat:main"
         ],
     },
 )
