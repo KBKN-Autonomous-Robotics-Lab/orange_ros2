@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+
 import rclpy
 import serial
 from nav_msgs.msg import Odometry
@@ -14,13 +15,16 @@ class GPSData(Node):
         self.declare_parameter('port', '/dev/sensors/GNSSbase')
         self.declare_parameter('baud', 9600)
         self.declare_parameter('country_id', 0)
-        self.declare_parameter('type', 1)#1=ttyACM 2=ttyUSB
+        self.declare_parameter('type', 1)  # 1=ttyACM 2=ttyUSB
 
-        self.dev_name = self.get_parameter('port').get_parameter_value().string_value
-        self.serial_baud = self.get_parameter('baud').get_parameter_value().integer_value
-        self.country_id = self.get_parameter('country_id').get_parameter_value().integer_value
-        self.type = self.get_parameter('type').get_parameter_value().integer_value
-
+        self.dev_name = self.get_parameter(
+            'port').get_parameter_value().string_value
+        self.serial_baud = self.get_parameter(
+            'baud').get_parameter_value().integer_value
+        self.country_id = self.get_parameter(
+            'country_id').get_parameter_value().integer_value
+        self.type = self.get_parameter(
+            'type').get_parameter_value().integer_value
 
         self.lonlat_pub = self.create_publisher(NavSatFix, "/fix", 1)
         self.lonlat_msg = NavSatFix()
@@ -40,14 +44,14 @@ class GPSData(Node):
             initial_letters = "$GNGGA"
         elif country_id == 1:  # USA
             initial_letters = "$GPGGA"
-            
+
         if type == 1:
             while True:
                 line = serial_port.readline().decode('latin-1')
                 gps_data = line.split(',')
                 if gps_data[0] == initial_letters:
                     break
-        
+
             Fixtype_data = int(gps_data[6])
             if Fixtype_data != 0:
                 satelitecount_data = float(gps_data[7])
@@ -65,7 +69,7 @@ class GPSData(Node):
                 longitude_data = 0
                 altitude_data = 0
                 satelitecount_data = 0
-            
+
             serial_port.close()
 
         elif type == 2:
@@ -78,47 +82,51 @@ class GPSData(Node):
                 Fixtype_data = int(gps_data[6])
                 rospy.loginfo(Fixtype_data)
                 if Fixtype_data != 0:
-                    satelitecount_data = int(gps_data[7])###
+                    satelitecount_data = int(gps_data[7])
                     rospy.loginfo(satelitecount_data)
                     if Fixtype_data != 0:
-                        latitude_data = float(gps_data[2]) / 100.0  # ddmm.mmmmm to dd.ddddd
-                        if gps_data[3] == b"S":#south
+                        # ddmm.mmmmm to dd.ddddd
+                        latitude_data = float(gps_data[2]) / 100.0
+                        if gps_data[3] == b"S":  # south
                             latitude_data *= -1
-                        longitude_data = float(gps_data[4]) / 100.0  # ddmm.mmmmm to dd.ddddd
-                        if gps_data[5] == b"W":#west
+                        # ddmm.mmmmm to dd.ddddd
+                        longitude_data = float(gps_data[4]) / 100.0
+                        if gps_data[5] == b"W":  # west
                             longitude_data *= -1
                         altitude_data = float(gps_data[9])
-                    else :
-                        #not fix data
+                    else:
+                        # not fix data
                         latitude_data = 0
                         longitude_data = 0
                         altitude_data = 0
                         satelitecount_data = 0
-                else :
-                #no GPS data
+                else:
+                    # no GPS data
                     latitude_data = 0
                     longitude_data = 0
                     altitude_data = 0
                     satelitecount_data = 0
             else:
-                rospy.loginfo("current latitude and longitude (Fixtype,latitude, longitude,altitude):None")
+                rospy.loginfo(
+                    "current latitude and longitude (Fixtype,latitude, longitude,altitude):None")
                 return None
             serial_port.close()
 
-        gnggadata = (Fixtype_data, latitude_data, longitude_data,altitude_data, satelitecount_data)
+        gnggadata = (Fixtype_data, latitude_data, longitude_data,
+                     altitude_data, satelitecount_data)
 
         return gnggadata
 
     def publish_GPS_lonlat(self):
         lonlat = self.get_gps(self.dev_name, self.country_id)
         if lonlat is not None:
-                self.lonlat_msg.header = "gps"
-                self.lonlat_msg.status = lonlat[0]
-                self.lonlat_msg.latitude = lonlat[1]
-                self.lonlat_msg.longitude = lonlat[2]
-                self.lonlat_msg.altitude = lonlat[3]
+            self.lonlat_msg.header = "gps"
+            self.lonlat_msg.status = lonlat[0]
+            self.lonlat_msg.latitude = lonlat[1]
+            self.lonlat_msg.longitude = lonlat[2]
+            self.lonlat_msg.altitude = lonlat[3]
 
-                self.lonlat_pub.publish(self.lonlat_msg)
+            self.lonlat_pub.publish(self.lonlat_msg)
 
 
 def main(args=None):
