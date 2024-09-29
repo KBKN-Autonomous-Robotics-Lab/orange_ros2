@@ -18,9 +18,12 @@ class MovingBaseNode(Node):
         self.declare_parameter('baud', 9600)
         self.declare_parameter('time_out', 1.0)
 
-        self.port = self.get_parameter('port').get_parameter_value().string_value
-        self.baudrate = self.get_parameter('baud').get_parameter_value().integer_value
-        self.time_out = self.get_parameter('time_out').get_parameter_value().double_value
+        self.port = self.get_parameter(
+            'port').get_parameter_value().string_value
+        self.baudrate = self.get_parameter(
+            'baud').get_parameter_value().integer_value
+        self.time_out = self.get_parameter(
+            'time_out').get_parameter_value().double_value
 
         # self.sub_movingbase = self.create_subscription(Imu,'movingbase_yaw',self.movingbase_callback,10)
 

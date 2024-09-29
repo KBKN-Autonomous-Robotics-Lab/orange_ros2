@@ -8,6 +8,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import NavSatFix, NavSatStatus
 from std_msgs.msg import Header
 
+
 class GPSData(Node):
     def __init__(self):
         super().__init__('gps_data_acquisition')
@@ -17,10 +18,14 @@ class GPSData(Node):
         self.declare_parameter('country_id', 0)
         self.declare_parameter('type', 1)  # 1=ttyACM 2=ttyUSB
 
-        self.dev_name = self.get_parameter('port').get_parameter_value().string_value
-        self.serial_baud = self.get_parameter('baud').get_parameter_value().integer_value
-        self.country_id = self.get_parameter('country_id').get_parameter_value().integer_value
-        self.type = self.get_parameter('type').get_parameter_value().integer_value
+        self.dev_name = self.get_parameter(
+            'port').get_parameter_value().string_value
+        self.serial_baud = self.get_parameter(
+            'baud').get_parameter_value().integer_value
+        self.country_id = self.get_parameter(
+            'country_id').get_parameter_value().integer_value
+        self.type = self.get_parameter(
+            'type').get_parameter_value().integer_value
 
         self.lonlat_pub = self.create_publisher(NavSatFix, "/fix", 1)
         self.lonlat_msg = NavSatFix()
@@ -103,11 +108,13 @@ class GPSData(Node):
                     altitude_data = 0
                     satelitecount_data = 0
             else:
-                rospy.loginfo("current latitude and longitude (Fixtype,latitude, longitude,altitude):None")
+                rospy.loginfo(
+                    "current latitude and longitude (Fixtype,latitude, longitude,altitude):None")
                 return None
-        
+
         serial_port.close()
-        gnggadata = (Fixtype_data, latitude_data, longitude_data,altitude_data, satelitecount_data)
+        gnggadata = (Fixtype_data, latitude_data, longitude_data,
+                     altitude_data, satelitecount_data)
 
         return gnggadata
 
@@ -118,13 +125,15 @@ class GPSData(Node):
             self.lonlat_msg.header.frame_id = "gps"
             self.lonlat_msg.header.stamp = self.get_clock().now().to_msg()
 
-            self.lonlat_msg.status.status = NavSatStatus.STATUS_FIX if lonlat[0] != 0 else NavSatStatus.STATUS_NO_FIX
+            self.lonlat_msg.status.status = NavSatStatus.STATUS_FIX if lonlat[
+                0] != 0 else NavSatStatus.STATUS_NO_FIX
             self.lonlat_msg.latitude = lonlat[1]
             self.lonlat_msg.longitude = lonlat[2]
             self.lonlat_msg.altitude = lonlat[3]
 
             self.lonlat_pub.publish(self.lonlat_msg)
             self.get_logger().info(f"Published GPS data: {lonlat}")
+
 
 def main(args=None):
     rclpy.init(args=args)
