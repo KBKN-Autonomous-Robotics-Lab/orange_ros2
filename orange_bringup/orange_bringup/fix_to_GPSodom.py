@@ -18,16 +18,11 @@ class GPSDataToOdom(Node):
         self.declare_parameter('Position_magnification', 1.675)
         self.declare_parameter('heading', 180)
 
-        self.dev_name = self.get_parameter(
-            'port').get_parameter_value().string_value
-        self.serial_baud = self.get_parameter(
-            'baud').get_parameter_value().integer_value
-        self.country_id = self.get_parameter(
-            'country_id').get_parameter_value().integer_value
-        self.Position_magnification = self.get_parameter(
-            'Position_magnification').get_parameter_value().integer_value
-        self.theta = self.get_parameter(
-            'heading').get_parameter_value().integer_value
+        self.dev_name = self.get_parameter('port').get_parameter_value().string_value
+        self.serial_baud = self.get_parameter('baud').get_parameter_value().integer_value
+        self.country_id = self.get_parameter('country_id').get_parameter_value().integer_value
+        self.Position_magnification = self.get_parameter('Position_magnification').get_parameter_value().double_value
+        self.theta = self.get_parameter('heading').get_parameter_value().double_value
 
 #        self.create_subscription(Imu, "movingbase/quat", self.movingbase_callback, 1)
 #        self.fix_sub = self.create_subscription(NavSatFix, "fix", self.fix_callback, 10)

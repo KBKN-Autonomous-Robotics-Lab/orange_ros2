@@ -5,8 +5,8 @@ import rclpy
 import serial
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
-from sensor_msgs.msg import NavSatFix
-
+from sensor_msgs.msg import NavSatFix, NavSatStatus
+from std_msgs.msg import Header
 
 class GPSData(Node):
     def __init__(self):
@@ -17,20 +17,18 @@ class GPSData(Node):
         self.declare_parameter('country_id', 0)
         self.declare_parameter('type', 1)  # 1=ttyACM 2=ttyUSB
 
-        self.dev_name = self.get_parameter(
-            'port').get_parameter_value().string_value
-        self.serial_baud = self.get_parameter(
-            'baud').get_parameter_value().integer_value
-        self.country_id = self.get_parameter(
-            'country_id').get_parameter_value().integer_value
-        self.type = self.get_parameter(
-            'type').get_parameter_value().integer_value
+        self.dev_name = self.get_parameter('port').get_parameter_value().string_value
+        self.serial_baud = self.get_parameter('baud').get_parameter_value().integer_value
+        self.country_id = self.get_parameter('country_id').get_parameter_value().integer_value
+        self.type = self.get_parameter('type').get_parameter_value().integer_value
 
         self.lonlat_pub = self.create_publisher(NavSatFix, "/fix", 1)
         self.lonlat_msg = NavSatFix()
 
         self.initial_coordinate = None
         self.fix_data = None
+
+        self.timer = self.create_timer(1.0, self.publish_GPS_lonlat)
 
     def get_gps(self, dev_name, country_id):
         try:
@@ -45,7 +43,7 @@ class GPSData(Node):
         elif country_id == 1:  # USA
             initial_letters = "$GPGGA"
 
-        if type == 1:
+        if self.type == 1:
             while True:
                 line = serial_port.readline().decode('latin-1')
                 gps_data = line.split(',')
@@ -70,9 +68,7 @@ class GPSData(Node):
                 altitude_data = 0
                 satelitecount_data = 0
 
-            serial_port.close()
-
-        elif type == 2:
+        elif self.type == 2:
             line = serial_port.readline()
             talker_ID = line.find(initial_letters)
             if talker_ID != -1:
@@ -107,27 +103,28 @@ class GPSData(Node):
                     altitude_data = 0
                     satelitecount_data = 0
             else:
-                rospy.loginfo(
-                    "current latitude and longitude (Fixtype,latitude, longitude,altitude):None")
+                rospy.loginfo("current latitude and longitude (Fixtype,latitude, longitude,altitude):None")
                 return None
-            serial_port.close()
-
-        gnggadata = (Fixtype_data, latitude_data, longitude_data,
-                     altitude_data, satelitecount_data)
+        
+        serial_port.close()
+        gnggadata = (Fixtype_data, latitude_data, longitude_data,altitude_data, satelitecount_data)
 
         return gnggadata
 
     def publish_GPS_lonlat(self):
         lonlat = self.get_gps(self.dev_name, self.country_id)
-        if lonlat is not None:
-            self.lonlat_msg.header = "gps"
-            self.lonlat_msg.status = lonlat[0]
+        if lonlat:
+            self.lonlat_msg.header = Header()
+            self.lonlat_msg.header.frame_id = "gps"
+            self.lonlat_msg.header.stamp = self.get_clock().now().to_msg()
+
+            self.lonlat_msg.status.status = NavSatStatus.STATUS_FIX if lonlat[0] != 0 else NavSatStatus.STATUS_NO_FIX
             self.lonlat_msg.latitude = lonlat[1]
             self.lonlat_msg.longitude = lonlat[2]
             self.lonlat_msg.altitude = lonlat[3]
 
             self.lonlat_pub.publish(self.lonlat_msg)
-
+            self.get_logger().info(f"Published GPS data: {lonlat}")
 
 def main(args=None):
     rclpy.init(args=args)

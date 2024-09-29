@@ -44,14 +44,11 @@ class ExtendedKalmanFilter(Node):
         self.robot_orientationw = 0
         self.Number_of_satellites = 0
 
-        self.sub_a = self.create_subscription(
-            Odometry, '/odom_fast', self.sensor_a_callback, 10)
-        self.sub_b = self.create_subscription(
-            Odometry, '/odom_CLAS_movingbase', self.sensor_b_callback, 10)
+        self.sub_a = self.create_subscription(Odometry, '/odom_fast', self.sensor_a_callback, 10)
+        self.sub_b = self.create_subscription(Odometry, '/odom_CLAS_movingbase', self.sensor_b_callback, 10)
 
         self.declare_parameter("publish_TF", False)
-        self.publish_TF = (self.get_parameter(
-            "publish_TF").get_parameter_value().bool_value)
+        self.ekf_publish_TF = self.get_parameter("publish_TF").get_parameter_value().bool_value
 
         self.t = TransformStamped()
         self.br = tf2_ros.TransformBroadcaster(self)
@@ -338,7 +335,7 @@ class ExtendedKalmanFilter(Node):
             self.SmpTime = None
             self.GTheta = None
 
-            if self.publish_TF:
+            if self.ekf_publish_TF:
                 self.t.header.stamp = self.get_clock().now().to_msg()
                 self.t.header.frame_id = "odom"
                 self.t.child_frame_id = "base_footprint"

@@ -48,6 +48,7 @@
     <param name="baud" value="9600"/>
     <param name="country_id" value="0"/>
     <param name="heading" value="180"/>
+    <param name="Position_magnification" value="1.675"/>
   </node>
   <!-- GPSheading_publisher -->
   <node pkg="orange_bringup" exec="movingbase_yaw_to_quat" output="screen">
@@ -60,7 +61,7 @@
   </node>
   <!-- ekf_myself -->
   <node pkg="orange_bringup" exec="ekf_myself" output="screen">
-    <param name="publish_TF" value="True"/>
+    <param name="ekf_publish_TF" value="True"/>
   </node>
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
