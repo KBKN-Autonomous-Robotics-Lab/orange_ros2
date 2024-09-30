@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import math
 import time
-import rclpy
+
 import numpy as np
+import rclpy
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from sensor_msgs.msg import Imu
@@ -27,13 +28,13 @@ class GPSodom_correction(Node):
         self.prev_y = 0
         self.satelites = 0
 
-        self.velocity = np.array([0.0, 0.0, 0.0])  
-        self.prev_time = None 
-        self.is_static = False  
-        
-        self.imu_processing_rate = 1  
+        self.velocity = np.array([0.0, 0.0, 0.0])
+        self.prev_time = None
+        self.is_static = False
+
+        self.imu_processing_rate = 1
         self.last_imu_process_time = None
-        
+
         self.timer = self.create_timer(1.0 / 3.0, self.publish_correct_GPSodom)
 
     def odomgps_callback(self, msg):
@@ -48,7 +49,7 @@ class GPSodom_correction(Node):
             return
 
         if self.last_imu_process_time is not None and (current_time - self.last_imu_process_time).nanoseconds * 1e-9 < self.imu_processing_rate:
-            return            
+            return
 
         dt = (current_time - self.prev_time).nanoseconds * 1e-9
 
@@ -58,24 +59,25 @@ class GPSodom_correction(Node):
 
         self.velocity[0] += acc_x * dt
         self.velocity[1] += acc_y * dt
-        self.velocity[2] += (acc_z + 9.81) * dt  
+        self.velocity[2] += (acc_z + 9.81) * dt
 
-        speed = math.sqrt(self.velocity[0]**2 + self.velocity[1]**2 + self.velocity[2]**2)
-        
-        #self.get_logger().info(f"speed: {speed}")
-        
-        if abs(speed) <=  0.41: ####0.1389
+        speed = math.sqrt(
+            self.velocity[0]**2 + self.velocity[1]**2 + self.velocity[2]**2)
+
+        # self.get_logger().info(f"speed: {speed}")
+
+        if abs(speed) <= 0.41:  # 0.1389
             self.is_static = True
         else:
             self.is_static = False
-        
-        self.velocity = np.array([0.0, 0.0, 0.0])  
+
+        self.velocity = np.array([0.0, 0.0, 0.0])
         self.prev_time = current_time
         self.last_imu_process_time = current_time
 
     def publish_correct_GPSodom(self):
         if self.x is not None and self.y is not None and self.satelites is not None:
-            if self.is_static:#stationary state
+            if self.is_static:  # stationary state
                 self.odom_msg.header.stamp = self.get_clock().now().to_msg()
                 self.odom_msg.header.frame_id = "odom"
                 self.odom_msg.child_frame_id = "base_footprint"
@@ -86,9 +88,9 @@ class GPSodom_correction(Node):
                 self.odom_msg.pose.pose.orientation.y = 0.0
                 self.odom_msg.pose.pose.orientation.z = 0.0
                 # Number of satellites
-                self.odom_msg.pose.covariance[0] = self.satelites      
+                self.odom_msg.pose.covariance[0] = self.satelites
                 self.get_logger().info("stationary state")
-            else :
+            else:
                 self.odom_msg.header.stamp = self.get_clock().now().to_msg()
                 self.odom_msg.header.frame_id = "odom"
                 self.odom_msg.child_frame_id = "base_footprint"
@@ -102,12 +104,13 @@ class GPSodom_correction(Node):
                 self.odom_msg.pose.covariance[0] = self.satelites
                 self.prev_x = self.x
                 self.prev_y = self.y
-            
+
             self.odom_pub.publish(self.odom_msg)
             self.x = None
             self.y = None
             self.satelites = None
-        
+
+
 def main(args=None):
     rclpy.init(args=args)
     correct = GPSodom_correction()
