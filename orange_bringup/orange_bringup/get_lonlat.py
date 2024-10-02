@@ -127,9 +127,9 @@ class GPSData(Node):
 
             self.lonlat_msg.status.status = NavSatStatus.STATUS_FIX if lonlat[
                 0] != 0 else NavSatStatus.STATUS_NO_FIX
-            self.lonlat_msg.latitude = lonlat[1]
-            self.lonlat_msg.longitude = lonlat[2]
-            self.lonlat_msg.altitude = lonlat[3]
+            self.lonlat_msg.latitude = float(lonlat[1])
+            self.lonlat_msg.longitude = float(lonlat[2])
+            self.lonlat_msg.altitude = float(lonlat[3])
 
             self.lonlat_pub.publish(self.lonlat_msg)
             self.get_logger().info(f"Published GPS data: {lonlat}")
