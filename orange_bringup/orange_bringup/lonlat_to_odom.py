@@ -5,54 +5,58 @@ import rclpy
 import serial
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
-from sensor_msgs.msg import NavSatFix,Imu
+from sensor_msgs.msg import Imu, NavSatFix
+
 
 class lonlat_To_Odom(Node):
     def __init__(self):
         super().__init__('gps_data_acquisition')
 
         self.declare_parameter('Position_magnification', 1.675)
-        #self.declare_parameter('heading', 180)
+        # self.declare_parameter('heading', 180)
 
-        self.Position_magnification = self.get_parameter('Position_magnification').get_parameter_value().double_value
-        #self.theta = self.get_parameter('heading').get_parameter_value().double_value
+        self.Position_magnification = self.get_parameter(
+            'Position_magnification').get_parameter_value().double_value
+        # self.theta = self.get_parameter('heading').get_parameter_value().double_value
 
-        self.movingase_sub = self.create_subscription(Imu, "movingbase/quat", self.movingbase_callback, 1)
-        self.fix_sub = self.create_subscription(NavSatFix, "fix", self.fix_callback, 10)
+        self.movingase_sub = self.create_subscription(
+            Imu, "movingbase/quat", self.movingbase_callback, 1)
+        self.fix_sub = self.create_subscription(
+            NavSatFix, "fix", self.fix_callback, 10)
 
         self.odom_pub = self.create_publisher(Odometry, "/odom/gps", 10)
         self.odom_msg = Odometry()
-        
+
         self.initial_coordinate = None
         self.fix_data = None
 
         self.count = 0
-        
+
         self.latitude = None
         self.longitude = None
         self.satelites = None
         self.theta = None
-        
+
         self.timer = self.create_timer(1.0 / 3.0, self.publish_lonlat_to_odom)
-        
-    def fix_callback(self, data): 
+
+    def fix_callback(self, data):
         self.latitude = data.latitude
         self.longitude = data.longitude
-        self.satelites = data.position_covariance[0]      
+        self.satelites = data.position_covariance[0]
 
     def movingbase_callback(self, msg):
-         if self.count == 0:
-             self.theta = msg.orientation_covariance[0]
-             self.count = 1 
-       
+        if self.count == 0:
+            self.theta = msg.orientation_covariance[0]
+            self.count = 1
+
     def conversion(self, coordinate, origin, theta):
         ido = coordinate[0]
         keido = coordinate[1]
         ido0 = origin[0]
         keido0 = origin[1]
-        
-        #self.get_logger().info(f"theta: {theta}")
-        
+
+        # self.get_logger().info(f"theta: {theta}")
+
         a = 6378137
         f = 35/10439
         e1 = 734/8971
@@ -109,13 +113,14 @@ class lonlat_To_Odom(Node):
         return point
 
     def publish_lonlat_to_odom(self):
-        lonlat = [self.latitude,self.longitude]
+        lonlat = [self.latitude, self.longitude]
         if lonlat[0] is not None and lonlat[1] is not None and self.theta is not None:
             if lonlat[0] != 0 and lonlat[1] != 0:
                 if self.initial_coordinate is None:
                     self.initial_coordinate = [lonlat[0], lonlat[1]]
-                GPSxy = self.conversion(lonlat, self.initial_coordinate, self.theta)
-                #self.get_logger().info(f"GPSxy: {GPSxy}")
+                GPSxy = self.conversion(
+                    lonlat, self.initial_coordinate, self.theta)
+                # self.get_logger().info(f"GPSxy: {GPSxy}")
                 # self.get_logger().info(f"lonlat[4]: {lonlat[4]}")
 
                 self.odom_msg.header.stamp = self.get_clock().now().to_msg()
@@ -142,4 +147,4 @@ def main(args=None):
 
 
 if __name__ == '__main__':
-    main()       
+    main()
