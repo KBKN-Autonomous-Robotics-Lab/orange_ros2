@@ -38,7 +38,7 @@ class CLASMovingBaseCombiner(Node):
 
     def publish_combined_odom(self):
         if self.x is not None and self.y is not None and self.satelite is not None:
-            if self.x != 0 and self.y != 0 and self.satelite != 0 and self.orientationz != 0 and self.orientationw != 0:
+            if self.x != 0 and self.y != 0 and self.orientationz != 0 and self.orientationw != 0:
                 self.odom_msg.header.stamp = self.get_clock().now().to_msg()
                 self.odom_msg.header.frame_id = "odom"
                 self.odom_msg.child_frame_id = "base_footprint"

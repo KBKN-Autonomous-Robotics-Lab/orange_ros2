@@ -35,7 +35,8 @@ setup(
             "combination = orange_bringup.combination:main",
             "ekf_myself = orange_bringup.ekf_myself:main",
             "get_lonlat = orange_bringup.get_lonlat:main",
-            "GPSodom_correction = orange_bringup.GPSodom_correction:main"
+            "GPSodom_correction = orange_bringup.GPSodom_correction:main",
+            "lonlat_to_odom = orange_bringup.lonlat_to_odom:main"
         ],
     },
 )
