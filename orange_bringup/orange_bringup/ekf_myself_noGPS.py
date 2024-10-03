@@ -43,11 +43,11 @@ class ExtendedKalmanFilter(Node):
         self.combyaw = 0
         self.robot_orientationz = 0
         self.robot_orientationw = 0
-        
+
         self.sub_a = self.create_subscription(
             Odometry, '/odom', self.sensor_a_callback, 10)
         self.sub_b = self.create_subscription(
-            Odometry, '/odom_fast', self.sensor_b_callback, 10)#
+            Odometry, '/odom_fast', self.sensor_b_callback, 10)
 
         self.declare_parameter("publish_TF", False)
         self.ekf_publish_TF = self.get_parameter(
@@ -253,7 +253,8 @@ class ExtendedKalmanFilter(Node):
     def publish_fused_value(self):
         if self.Speed is not None and self.SmpTime is not None and self.GTheta is not None:
             if self.odom2XY is not None:
-                fused_value = self.Kalfodom2XY(self.Speed, self.SmpTime, self.GTheta, self.odom2XY, self.R1, self.R2)
+                fused_value = self.Kalfodom2XY(
+                    self.Speed, self.SmpTime, self.GTheta, self.odom2XY, self.R1, self.R2)
                 self.conut += 1
                 if self.conut % 10 == 0:
                     self.combyaw = self.combine_yaw(
@@ -278,7 +279,8 @@ class ExtendedKalmanFilter(Node):
                 self.fused_msg.pose.pose.orientation.w = float(
                     self.robot_orientationw)
             else:
-                fused_value = self.KalfXY(self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
+                fused_value = self.KalfXY(
+                    self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
                 self.robot_yaw = self.GTheta + self.offsetyaw
                 if self.robot_yaw < -np.pi:
                     self.robot_yaw += 2 * np.pi
