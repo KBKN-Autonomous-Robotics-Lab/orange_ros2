@@ -8,7 +8,7 @@
   <arg name="control_mode" default="3"/>
   <arg name="debug_motor" default="false"/>
   <arg name="debug_imu" default="false"/>
-  <arg name="publish_TF" default="true"/>
+  <arg name="publish_TF" default="false"/>
   <arg name="publish_odom" default="true"/>
   <arg name="twist_cmd_vel_topic" default="/cmd_vel"/>
   <arg name="cmd_vel_topic" default="/vel/cmd_vel"/>
@@ -41,6 +41,30 @@
     <arg name="imu_in" value="$(var imu_topic)"/>
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
   </include> -->
+  <!-- GPSposition_publisher -->
+  <!-- initial heading:housei nakaniwa=179.169287 tsukuba= 291.09504 -->
+  <node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
+    <param name="port" value="/dev/sensors/GNSSbase"/>
+    <param name="baud" value="9600"/>
+    <param name="country_id" value="0"/>
+    <param name="heading" value="180"/>
+    <param name="Position_magnification" value="1.675"/>
+  </node>
+  <!-- GPSheading_publisher -->
+  <node pkg="orange_bringup" exec="movingbase_yaw_to_quat" output="screen">
+    <param name="port" value="/dev/sensors/GNSSrover"/>
+    <param name="baud" value="9600"/>
+    <param name="time_out" value="1.0"/>
+  </node>
+  <node pkg="orange_bringup" exec="GPSodom_correction" output="screen">
+  </node>
+  <!-- combination_GPSposition_GPSheading -->
+  <node pkg="orange_bringup" exec="combination" output="screen">
+  </node>
+  <!-- ekf_myself -->
+  <node pkg="orange_bringup" exec="ekf_myself" output="screen">
+    <param name="ekf_publish_TF" value="True"/>
+  </node>
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
     <param from="$(var motor_driver_config_file_path)"/>
