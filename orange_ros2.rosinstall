@@ -26,3 +26,12 @@
     local-name: linefit_ground_segmentation_ros2
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/linefit_ground_segmentation_ros2.git
     version: main
+- git:
+    local-name: FAST_LIO
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/FAST_LIO.git
+    version: main
+- git:
+    local-name: fast_odom_convert
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/fast_odom_convert.git
+    version: main
+
