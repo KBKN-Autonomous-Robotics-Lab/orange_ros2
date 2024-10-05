@@ -19,14 +19,14 @@ motor_driver_node:
     callback_timeout: 0.5 # seconds
 
     # Time to reach target position
-    set_accel_time_left: 200 # ms
-    set_accel_time_right: 200 # ms
-    set_decel_time_left: 200 # ms
-    set_decel_time_right: 200 # ms
+    set_accel_time_left: 500 # ms
+    set_accel_time_right: 500 # ms
+    set_decel_time_left: 500 # ms
+    set_decel_time_right: 500 # ms
 
     # Maximum rpm
-    max_left_rpm: 60
-    max_right_rpm: 60
+    max_left_rpm: 100
+    max_right_rpm: 100
     # Width of rpm to be regarded as 0
     # If 3, then -3 to 3 is considered rpm 0
     deadband_rpm: 3
