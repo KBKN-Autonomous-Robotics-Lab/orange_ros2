@@ -45,9 +45,9 @@ class ExtendedKalmanFilter(Node):
         self.Number_of_satellites = 0
 
         self.sub_a = self.create_subscription(
-            Odometry, '/odom_fast', self.sensor_a_callback, 10)
+            Odometry, '/odom_fast', self.sensor_a_callback, 10) # /odom_fast
         self.sub_b = self.create_subscription(
-            Odometry, '/odom_CLAS_movingbase', self.sensor_b_callback, 10)
+            Odometry, '/odom_CLAS_movingbase', self.sensor_b_callback, 10) # /odom_CLAS_movingbase
 
         self.declare_parameter("publish_TF", False)
         self.ekf_publish_TF = self.get_parameter(
