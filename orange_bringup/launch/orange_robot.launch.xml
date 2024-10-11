@@ -42,7 +42,7 @@
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
   </include> -->
   <!-- GPSposition_publisher -->
-  <!-- initial heading:housei nakaniwa=179.169287 tsukuba= 291.09504 -->
+  <!-- initial heading:housei nakaniwa=179.169287 tsukuba= 276.5 -->
   <node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
     <param name="port" value="/dev/sensors/GNSSbase"/>
     <param name="baud" value="9600"/>
@@ -56,8 +56,12 @@
     <param name="baud" value="9600"/>
     <param name="time_out" value="1.0"/>
   </node>
+
+  <!-- 
   <node pkg="orange_bringup" exec="GPSodom_correction" output="screen">
   </node>
+   -->
+   
   <!-- combination_GPSposition_GPSheading -->
   <node pkg="orange_bringup" exec="combination" output="screen">
   </node>
