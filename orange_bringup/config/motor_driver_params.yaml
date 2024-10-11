@@ -7,8 +7,8 @@ motor_driver_node:
     left_wheel_radius: 0.09767 # meter
     right_wheel_radius: 0.09767 # meter
     # For odometry computation
-    computation_left_wheel_radius: 0.0960 # meter 1, 978 9.92 / 2, 950 10.0 / 
-    computation_right_wheel_radius: 0.0960 # meter
+    computation_left_wheel_radius: 0.0960 # meter
+    computation_right_wheel_radius: 0.0964 # meter
     # Encoder CPR(counts per revolution)
     cpr: 16385
     ###############################
@@ -19,16 +19,19 @@ motor_driver_node:
     callback_timeout: 0.5 # seconds
 
     # Time to reach target position
-    set_accel_time_left: 200 # ms
-    set_accel_time_right: 200 # ms
-    set_decel_time_left: 200 # ms
-    set_decel_time_right: 200 # ms
+    set_accel_time_left: 500 # ms
+    set_accel_time_right: 500 # ms
+    set_decel_time_left: 500 # ms
+    set_decel_time_right: 500 # ms
 
     # Maximum rpm
-    max_left_rpm: 60
-    max_right_rpm: 60
+    max_left_rpm: 160
+    max_right_rpm: 160
     # Width of rpm to be regarded as 0
     # If 3, then -3 to 3 is considered rpm 0
     deadband_rpm: 3
 
-    #Max speed = {max_rpm * (2pi/60)}*wheel_radius = 1.656m/s = 5.962km/h
+    # Max speed = {max_rpm * (2pi/60)} * wheel_radius = m/s
+    # Max speed = {162 * (2pi/60)} * 0.09767 = 1.656 m/s = 5.962 km/h
+    # Tsukuba: Less than 6 km/h
+
