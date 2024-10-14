@@ -224,36 +224,37 @@ class ExtendedKalmanFilter(Node):
 
         deference = abs_GTheta + abs_GPStheta
 
-        match (GTheta > 0, GPStheta > 0, combyaw > 0, GTheta > GPStheta, deference > pi):
-            case (True, False, True, _, _):
-                self.GOffset = -(GTheta - combyaw)
-            case (True, False, False, _, _):
-                self.GOffset = -(GTheta + abs_combyaw)
-            case (True, True, True, True, _):
-                self.GOffset = -(abs_combyaw - abs_GTheta)
-            case (False, False, False, True, _):
-                self.GOffset = -(GTheta + abs_combyaw)
-            case (False, True, True, _, _):
-                self.GOffset = abs_GTheta + combyaw
-            case (False, True, False, _, _):
-                self.GOffset = abs_GTheta - abs_combyaw
-            case (True, True, True, False, _):
-                self.GOffset = combyaw - GTheta
-            case (False, False, False, False, _):
-                self.GOffset = abs_GTheta - abs_combyaw
-            case (True, False, True, _, True):
-                self.GOffset = combyaw - GTheta
-            case (True, False, False, _, True):
-                self.GOffset = pi - GTheta + pi - abs_combyaw
-            case (False, True, True, _, True):
-                self.GOffset = -((pi - combyaw) + (pi - abs_GTheta))
-            case (False, True, False, _, True):
-                self.GOffset = -(abs_combyaw - abs_GTheta)
+        if GTheta > 0 and GPStheta < 0 and combyaw > 0:
+            self.GOffset = -(GTheta - combyaw)
+        elif GTheta > 0 and GPStheta < 0 and combyaw < 0:
+            self.GOffset = -(GTheta + abs_combyaw)
+        elif GTheta > 0 and GPStheta > 0 and combyaw > 0 and GTheta > GPStheta:
+            self.GOffset = -(abs_combyaw - abs_GTheta)
+        elif GTheta < 0 and GPStheta < 0 and combyaw < 0 and GTheta > GPStheta:
+            self.GOffset = -(GTheta + abs_combyaw)
+        elif GTheta < 0 and GPStheta > 0 and combyaw > 0:
+            self.GOffset = abs_GTheta + combyaw
+        elif GTheta < 0 and GPStheta > 0 and combyaw < 0:
+            self.GOffset = abs_GTheta - abs_combyaw
+        elif GTheta > 0 and GPStheta > 0 and combyaw > 0 and GTheta < GPStheta:
+            self.GOffset = combyaw - GTheta
+        elif GTheta < 0 and GPStheta < 0 and combyaw < 0 and GTheta < GPStheta:
+            self.GOffset = abs_GTheta - abs_combyaw
+        elif GTheta > 0 and GPStheta < 0 and combyaw > 0 and deference > pi:
+            self.GOffset = combyaw - GTheta
+        elif GTheta > 0 and GPStheta < 0 and combyaw < 0 and deference > pi:
+            self.GOffset = pi - GTheta + pi - abs_combyaw
+        elif GTheta < 0 and GPStheta > 0 and combyaw > 0 and deference > pi:
+            self.GOffset = -((pi - combyaw) + (pi - abs_GTheta))
+        elif GTheta < 0 and GPStheta > 0 and combyaw < 0 and deference > pi:
+            self.GOffset = -(abs_combyaw - abs_GTheta)
 
         if abs(self.GOffset) > 5 * pi / 180:  # not -0.0872 ~ 0.0872
             self.GOffset = 0
             self.get_logger().warn("GOffset warning")
-
+        
+        #self.get_logger().info(f"GOffset: {self.GOffset}") ok
+        
         return self.GOffset
 
     def publish_fused_value(self):
