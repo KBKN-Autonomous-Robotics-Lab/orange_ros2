@@ -144,13 +144,7 @@ class ExtendedKalmanFilter(Node):
         #self.get_logger().info(f"self.Number_of_satellites: {self.Number_of_satellites}")
 
     def determination_of_R(self):
-        if 0 <= self.Number_of_satellites < 4:  # Bad
-            self.R1 = 1e-2  # 0.01 FAST-LIO
-            self.R2 = 9e-2  # 0.09 CLAS-movingbase
-            self.R3 = 9     # GTheta
-            self.R4 = 1     # GPStheta
-
-        elif 4 <= self.Number_of_satellites < 8:  # So-so
+        if 4 <= self.Number_of_satellites < 8:  # So-so...
             self.R1 = 6e-2  # 0.06 FAST-LIO
             self.R2 = 4e-2  # 0.04 CLAS-movingbase
             self.R3 = 4     # GTheta
@@ -161,7 +155,7 @@ class ExtendedKalmanFilter(Node):
             self.R2 = 1e-2  # 0.01 CLAS-movingbase
             self.R3 = 2     # GTheta
             self.R4 = 8     # GPStheta
-
+                    
         R = np.array([self.R1, self.R2, self.R3, self.R4])
         return R
 
@@ -318,21 +312,17 @@ class ExtendedKalmanFilter(Node):
 
     def publish_fused_value(self):
         if self.Speed is not None and self.SmpTime is not None and self.GTheta is not None:
-            R = self.determination_of_R()
-            self.R1 = R[0]
-            self.R2 = R[1]
-            self.R3 = R[2]
-            self.R4 = R[3]
-
-            if self.GpsXY is not None:
-                fused_value = self.KalfGPSXY(
-                    self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
+            if self.GpsXY is not None and self.Number_of_satellites >= 4:
+                R = self.determination_of_R()
+                self.R1 = R[0]
+                self.R2 = R[1]
+                self.R3 = R[2]
+                self.R4 = R[3]
+                fused_value = self.KalfGPSXY(self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
                 self.GPS_conut += 1
                 if self.GPS_conut % 20 == 0:
-                    self.combyaw = self.combine_yaw(
-                        self.DGPStheta, self.GTheta, self.GPStheta, self.R3, self.R4)
-                    self.offsetyaw = self.calculate_offset(
-                        self.combyaw, self.GTheta, self.GPStheta)
+                    self.combyaw = self.combine_yaw(self.DGPStheta, self.GTheta, self.GPStheta, self.R3, self.R4)
+                    self.offsetyaw = self.calculate_offset(self.combyaw, self.GTheta, self.GPStheta)
 
                 self.robot_yaw = self.GTheta + self.offsetyaw
                 if self.robot_yaw < -np.pi:
@@ -346,13 +336,13 @@ class ExtendedKalmanFilter(Node):
 
                 self.fused_msg.pose.pose.position.x = float(fused_value[0])
                 self.fused_msg.pose.pose.position.y = float(fused_value[1])
-                self.fused_msg.pose.pose.orientation.z = float(
-                    self.robot_orientationz)
-                self.fused_msg.pose.pose.orientation.w = float(
-                    self.robot_orientationw)
+                self.fused_msg.pose.pose.orientation.z = float(self.robot_orientationz)
+                self.fused_msg.pose.pose.orientation.w = float(self.robot_orientationw)
             else:
-                fused_value = self.KalfXY(
-                    self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
+                self.R1 = 0.13**2#?
+                self.R2 = 0.13**2#?
+                
+                fused_value = self.KalfXY(self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
                 self.robot_yaw = self.GTheta + self.offsetyaw
                 if self.robot_yaw < -np.pi:
                     self.robot_yaw += 2 * np.pi
@@ -364,10 +354,8 @@ class ExtendedKalmanFilter(Node):
 
                 self.fused_msg.pose.pose.position.x = float(fused_value[0])
                 self.fused_msg.pose.pose.position.y = float(fused_value[1])
-                self.fused_msg.pose.pose.orientation.z = float(
-                    self.robot_orientationz)
-                self.fused_msg.pose.pose.orientation.w = float(
-                    self.robot_orientationw)
+                self.fused_msg.pose.pose.orientation.z = float(self.robot_orientationz)
+                self.fused_msg.pose.pose.orientation.w = float(self.robot_orientationw)
 
             self.fused_msg.header.stamp = self.get_clock().now().to_msg()
             self.fused_msg.header.frame_id = "odom"
