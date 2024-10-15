@@ -18,7 +18,7 @@
   <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
   <arg name="odom_topic" default="/odom"/>
   <arg name="imu_topic" default="/livox/imu"/>
-  <arg name="fusion_odom_topic" default="/fusion/odom"/>
+  <arg name="fusion_odom_topic" default="/localization/odom"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
   <arg name="livox_scan_topic" default="/livox_scan"/>
   <arg name="livox_points_topic" default="/livox_points"/>
