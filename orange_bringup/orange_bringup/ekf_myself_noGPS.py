@@ -216,37 +216,44 @@ class ExtendedKalmanFilter(Node):
 
         return theta_sum
 
-    def calculate_offset(self, combyaw, GTheta, odom2theta):
-        deference = abs(GTheta) + abs(odom2theta)
+    def calculate_offset(self, combyaw, GTheta, GPStheta):
+        abs_GTheta = abs(GTheta)
+        abs_GPStheta = abs(GPStheta)
+        abs_combyaw = abs(combyaw)
+        pi = math.pi
 
-        if GTheta > 0 and odom2theta < 0 and combyaw > 0:
+        deference = abs_GTheta + abs_GPStheta
+
+        if GTheta > 0 and GPStheta < 0 and combyaw > 0:
             self.GOffset = -(GTheta - combyaw)
-        elif GTheta > 0 and odom2theta < 0 and combyaw < 0:
-            self.GOffset = -(GTheta + abs(combyaw))
-        elif GTheta > 0 and odom2theta > 0 and combyaw > 0 and GTheta > odom2theta:
-            self.GOffset = -(abs(combyaw) - abs(GTheta))
-        elif GTheta < 0 and odom2theta < 0 and combyaw < 0 and GTheta > odom2theta:
-            self.GOffset = -(GTheta + abs(combyaw))
-        elif GTheta < 0 and odom2theta > 0 and combyaw > 0:
-            self.GOffset = abs(GTheta) + combyaw
-        elif GTheta < 0 and odom2theta > 0 and combyaw < 0:
-            self.GOffset = abs(GTheta) - abs(combyaw)
-        elif GTheta > 0 and odom2theta > 0 and combyaw > 0 and GTheta < odom2theta:
+        elif GTheta > 0 and GPStheta < 0 and combyaw < 0:
+            self.GOffset = -(GTheta + abs_combyaw)
+        elif GTheta > 0 and GPStheta > 0 and combyaw > 0 and GTheta > GPStheta:
+            self.GOffset = -(abs_combyaw - abs_GTheta)
+        elif GTheta < 0 and GPStheta < 0 and combyaw < 0 and GTheta > GPStheta:
+            self.GOffset = -(GTheta + abs_combyaw)
+        elif GTheta < 0 and GPStheta > 0 and combyaw > 0:
+            self.GOffset = abs_GTheta + combyaw
+        elif GTheta < 0 and GPStheta > 0 and combyaw < 0:
+            self.GOffset = abs_GTheta - abs_combyaw
+        elif GTheta > 0 and GPStheta > 0 and combyaw > 0 and GTheta < GPStheta:
             self.GOffset = combyaw - GTheta
-        elif GTheta < 0 and odom2theta < 0 and combyaw < 0 and GTheta < odom2theta:
-            self.GOffset = abs(GTheta) - abs(combyaw)
-        elif GTheta > 0 and odom2theta < 0 and combyaw > 0 and deference > math.pi:
+        elif GTheta < 0 and GPStheta < 0 and combyaw < 0 and GTheta < GPStheta:
+            self.GOffset = abs_GTheta - abs_combyaw
+        elif GTheta > 0 and GPStheta < 0 and combyaw > 0 and deference > pi:
             self.GOffset = combyaw - GTheta
-        elif GTheta > 0 and odom2theta < 0 and combyaw < 0 and deference > math.pi:
-            self.GOffset = math.pi - GTheta + math.pi - abs(combyaw)
-        elif GTheta < 0 and odom2theta > 0 and combyaw > 0 and deference > math.pi:
-            self.GOffset = -((math.pi - combyaw) + (math.pi - abs(GTheta)))
-        elif GTheta < 0 and odom2theta > 0 and combyaw < 0 and deference > math.pi:
-            self.GOffset = -(abs(combyaw) - abs(GTheta))
+        elif GTheta > 0 and GPStheta < 0 and combyaw < 0 and deference > pi:
+            self.GOffset = pi - GTheta + pi - abs_combyaw
+        elif GTheta < 0 and GPStheta > 0 and combyaw > 0 and deference > pi:
+            self.GOffset = -((pi - combyaw) + (pi - abs_GTheta))
+        elif GTheta < 0 and GPStheta > 0 and combyaw < 0 and deference > pi:
+            self.GOffset = -(abs_combyaw - abs_GTheta)
 
-        if abs(self.GOffset) > 5 * math.pi / 180:  # not -0.0872 ~ 0.0872
+        if abs(self.GOffset) > 5 * pi / 180:  # not -0.0872 ~ 0.0872
             self.GOffset = 0
             self.get_logger().warn("GOffset warning")
+
+        # self.get_logger().info(f"GOffset: {self.GOffset}") ok
 
         return self.GOffset
 
@@ -256,7 +263,7 @@ class ExtendedKalmanFilter(Node):
                 fused_value = self.Kalfodom2XY(
                     self.Speed, self.SmpTime, self.GTheta, self.odom2XY, self.R1, self.R2)
                 self.conut += 1
-                if self.conut % 10 == 0:
+                if self.conut % 20 == 0:
                     self.combyaw = self.combine_yaw(
                         self.DTheta, self.GTheta, self.odom2theta, self.R3, self.R4)
                     self.offsetyaw = self.calculate_offset(
