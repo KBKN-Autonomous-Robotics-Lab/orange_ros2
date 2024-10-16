@@ -1,16 +1,50 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="use_sim_time" default="true"/>
-  <arg name="velodyne_frame" default="velodyne"/>
-  <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
-  <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
-  <arg name="velodyne_points_topic" default="/velodyne_points"/>
-  <arg name="merged_cloud_topic" default="/merged_cloud"/>
-  <arg name="merged_scan_topic" default="/merged_scan"/>
+  <arg name="lidar_frame" default="velodyne"/>
   <arg name="odom_topic" default="/odom"/>
   <arg name="imu_topic" default="/imu"/>
   <arg name="fusion_odom_topic" default="/fusion/odom"/>
+  <arg name="ekf_publish_TF" default="false"/>
+  <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
+  <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
+  <arg name="velodyne_points_topic" default="/velodyne_points"/>
+  <arg name="livox_scan_topic" default="/livox_scan"/>
+  <arg name="livox_points_topic" default="/livox_points"/>
+  <arg name="merged_cloud_topic" default="/merged_cloud"/>
+  <arg name="merged_scan_topic" default="/merged_scan"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
+  <!-- robot_state_publisher -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
+  </node>
+  <!-- joint_state_publisher -->
+  <node pkg="joint_state_publisher" exec="joint_state_publisher">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
+  </node>
+  <!-- robot_localization -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="odom_in" value="$(var odom_topic)"/>
+    <arg name="imu_in" value="$(var imu_topic)"/>
+    <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
+  </include>
+  <!-- Fast lio odom -->
+  <include file="$(find-pkg-share fast_lio)/launch/mapping.launch.py">
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+  </include>
+  <!-- Fast lio odom convert -->
+  <node pkg="fast_odom_convert" exec="fast_odom_convert">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+  </node>
+  <!-- combination_GPSposition_GPSheading -->
+  <node pkg="orange_bringup" exec="combination" output="screen"/>
+  <!-- ekf_myself -->
+  <node pkg="orange_bringup" exec="ekf_myself" output="screen">
+    <param name="ekf_publish_TF" value="$(var ekf_publish_TF)"/>
+  </node>
   <!-- ground_segmentation -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
     <arg name="config_file_path" value="$(find-pkg-share orange_sensor_tools)/config/ground_segmentation.yaml"/>
@@ -25,30 +59,18 @@
     <arg name="cloud_in" value="$(var velodyne_points_topic)/obstacle"/>
     <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
   </include>
+  <!-- pointcloud2_to_laserscan -->
+  <include file="$(find-pkg-share orange_sensor_tools)/launch/livox_to_pointcloud2_laserscan.launch.py">
+    <arg name="cloud_in" value="/converted_pointcloud2"/>
+    <arg name="scan_out" value="$(var livox_scan_topic)"/>
+  </include>
   <!-- laserscan_multi_merger -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
     <arg name="delete_intensity" value="true"/>
-    <arg name="destination_frame" value="$(var velodyne_frame)"/>
+    <arg name="destination_frame" value="$(var lidar_frame)"/>
     <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
     <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
     <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
   </include>
-  <!-- robot_localization -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
-    <arg name="use_sim_time" value="$(var use_sim_time)"/>
-    <arg name="odom_in" value="$(var odom_topic)"/>
-    <arg name="imu_in" value="$(var imu_topic)"/>
-    <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
-  </include>
-  <!-- robot_state_publisher -->
-  <node pkg="robot_state_publisher" exec="robot_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
-  </node>
-  <!-- joint_state_publisher -->
-  <node pkg="joint_state_publisher" exec="joint_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
-  </node>
 </launch>
