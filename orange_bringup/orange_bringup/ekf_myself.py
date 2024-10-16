@@ -54,14 +54,14 @@ class ExtendedKalmanFilter(Node):
         self.declare_parameter("ekf_publish_TF", False)
         self.ekf_publish_TF = self.get_parameter(
             "ekf_publish_TF").get_parameter_value().bool_value
-            
+
         self.declare_parameter("speed_limit", 3.5)
         self.speed_limit = self.get_parameter(
             "speed_limit").get_parameter_value().double_value
         self.declare_parameter("speed_stop", 0.15)
         self.speed_stop = self.get_parameter(
-            "speed_stop").get_parameter_value().double_value        
-        
+            "speed_stop").get_parameter_value().double_value
+
         self.t = TransformStamped()
         self.br = tf2_ros.TransformBroadcaster(self)
 
@@ -89,59 +89,61 @@ class ExtendedKalmanFilter(Node):
             self.SmpTime = current_time - self.prev_time
         else:
             self.SmpTime = 0.1
-        
+
         self.prev_time = current_time
 
         current_pos = np.array([
             data.pose.pose.position.x,
             data.pose.pose.position.y
         ])
-        
+
         if self.prev_pos is not None:
             distance = np.linalg.norm(current_pos - self.prev_pos)
             self.Speed = distance / self.SmpTime
         else:
             self.Speed = 0
-        
+
         if self.Speed > self.speed_limit:
             self.Speed = 0
-            #self.get_logger().info("Speed correction")
-            
-        #self.get_logger().info(f"Speed: {self.Speed}")
-        
-        if self.Speed < self.speed_stop:#0.15
+            # self.get_logger().info("Speed correction")
+
+        # self.get_logger().info(f"Speed: {self.Speed}")
+
+        if self.Speed < self.speed_stop:  # 0.15
             self.is_static = True
         else:
-            self.is_static = False       
-        
+            self.is_static = False
+
         self.prev_pos = current_pos
-        
+
         self.GTheta = self.orientation_to_yaw(
             data.pose.pose.orientation.z, data.pose.pose.orientation.w)
 
     def sensor_b_callback(self, data):
-        self.GpsXY = np.array([data.pose.pose.position.x, data.pose.pose.position.y])
-        #self.get_logger().info(f"self.GpsXY      : {self.GpsXY}")
-        
-        if self.is_static:  # stationary state(true) 
+        self.GpsXY = np.array(
+            [data.pose.pose.position.x, data.pose.pose.position.y])
+        # self.get_logger().info(f"self.GpsXY      : {self.GpsXY}")
+
+        if self.is_static:  # stationary state(true)
             self.get_logger().info("stationary state")
             if self.prev_GPSpos is None:
-               self.GpsXY = np.array([0, 0])
-               #self.get_logger().info("non self.prev_GPSpos")
+                self.GpsXY = np.array([0, 0])
+                # self.get_logger().info("non self.prev_GPSpos")
             else:
                 self.GpsXY = self.prev_GPSpos
         else:
             self.prev_GPSpos = self.GpsXY
-        
-        self.GPStheta = self.orientation_to_yaw(data.pose.pose.orientation.z, data.pose.pose.orientation.w)
-       
+
+        self.GPStheta = self.orientation_to_yaw(
+            data.pose.pose.orientation.z, data.pose.pose.orientation.w)
+
         self.DGPStheta = self.GPStheta - self.GPSthetayaw0
 
         self.GPSthetayaw0 = self.GPStheta
 
         self.Number_of_satellites = data.pose.covariance[0]  #
-        
-        #self.get_logger().info(f"self.Number_of_satellites: {self.Number_of_satellites}")
+
+        # self.get_logger().info(f"self.Number_of_satellites: {self.Number_of_satellites}")
 
     def determination_of_R(self):
         if 4 <= self.Number_of_satellites < 8:  # So-so...
@@ -155,7 +157,7 @@ class ExtendedKalmanFilter(Node):
             self.R2 = 1e-2  # 0.01 CLAS-movingbase
             self.R3 = 2     # GTheta
             self.R4 = 8     # GPStheta
-                    
+
         R = np.array([self.R1, self.R2, self.R3, self.R4])
         return R
 
@@ -305,9 +307,9 @@ class ExtendedKalmanFilter(Node):
         if abs(self.GOffset) > 5 * pi / 180:  # not -0.0872 ~ 0.0872
             self.GOffset = 0
             self.get_logger().warn("GOffset warning")
-        
-        #self.get_logger().info(f"GOffset: {self.GOffset}") ok
-        
+
+        # self.get_logger().info(f"GOffset: {self.GOffset}") ok
+
         return self.GOffset
 
     def publish_fused_value(self):
@@ -318,11 +320,14 @@ class ExtendedKalmanFilter(Node):
                 self.R2 = R[1]
                 self.R3 = R[2]
                 self.R4 = R[3]
-                fused_value = self.KalfGPSXY(self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
+                fused_value = self.KalfGPSXY(
+                    self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
                 self.GPS_conut += 1
                 if self.GPS_conut % 20 == 0:
-                    self.combyaw = self.combine_yaw(self.DGPStheta, self.GTheta, self.GPStheta, self.R3, self.R4)
-                    self.offsetyaw = self.calculate_offset(self.combyaw, self.GTheta, self.GPStheta)
+                    self.combyaw = self.combine_yaw(
+                        self.DGPStheta, self.GTheta, self.GPStheta, self.R3, self.R4)
+                    self.offsetyaw = self.calculate_offset(
+                        self.combyaw, self.GTheta, self.GPStheta)
 
                 self.robot_yaw = self.GTheta + self.offsetyaw
                 if self.robot_yaw < -np.pi:
@@ -336,13 +341,16 @@ class ExtendedKalmanFilter(Node):
 
                 self.fused_msg.pose.pose.position.x = float(fused_value[0])
                 self.fused_msg.pose.pose.position.y = float(fused_value[1])
-                self.fused_msg.pose.pose.orientation.z = float(self.robot_orientationz)
-                self.fused_msg.pose.pose.orientation.w = float(self.robot_orientationw)
+                self.fused_msg.pose.pose.orientation.z = float(
+                    self.robot_orientationz)
+                self.fused_msg.pose.pose.orientation.w = float(
+                    self.robot_orientationw)
             else:
-                self.R1 = 0.13**2#?
-                self.R2 = 0.13**2#?
-                
-                fused_value = self.KalfXY(self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
+                self.R1 = 0.13**2  # ?
+                self.R2 = 0.13**2  # ?
+
+                fused_value = self.KalfXY(
+                    self.Speed, self.SmpTime, self.GTheta, self.R1, self.R2)
                 self.robot_yaw = self.GTheta + self.offsetyaw
                 if self.robot_yaw < -np.pi:
                     self.robot_yaw += 2 * np.pi
@@ -354,8 +362,10 @@ class ExtendedKalmanFilter(Node):
 
                 self.fused_msg.pose.pose.position.x = float(fused_value[0])
                 self.fused_msg.pose.pose.position.y = float(fused_value[1])
-                self.fused_msg.pose.pose.orientation.z = float(self.robot_orientationz)
-                self.fused_msg.pose.pose.orientation.w = float(self.robot_orientationw)
+                self.fused_msg.pose.pose.orientation.z = float(
+                    self.robot_orientationz)
+                self.fused_msg.pose.pose.orientation.w = float(
+                    self.robot_orientationw)
 
             self.fused_msg.header.stamp = self.get_clock().now().to_msg()
             self.fused_msg.header.frame_id = "odom"

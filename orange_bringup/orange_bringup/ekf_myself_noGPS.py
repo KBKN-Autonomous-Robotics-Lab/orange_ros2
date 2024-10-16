@@ -252,9 +252,9 @@ class ExtendedKalmanFilter(Node):
         if abs(self.GOffset) > 5 * pi / 180:  # not -0.0872 ~ 0.0872
             self.GOffset = 0
             self.get_logger().warn("GOffset warning")
-        
-        #self.get_logger().info(f"GOffset: {self.GOffset}") ok
-        
+
+        # self.get_logger().info(f"GOffset: {self.GOffset}") ok
+
         return self.GOffset
 
     def publish_fused_value(self):

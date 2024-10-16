@@ -94,12 +94,10 @@
     <param name="baud" value="9600"/>
     <param name="time_out" value="1.0"/>
   </node>
-
   <!-- 
   <node pkg="orange_bringup" exec="GPSodom_correction" output="screen">
   </node>
    -->
-   
   <!-- combination_GPSposition_GPSheading -->
   <node pkg="orange_bringup" exec="combination" output="screen">
   </node>

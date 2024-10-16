@@ -154,7 +154,7 @@ class GPSDataToOdom(Node):
         h_x = math.cos(r_theta) * gps_x - math.sin(r_theta) * gps_y
         h_y = math.sin(r_theta) * gps_x + math.cos(r_theta) * gps_y
         point = (-h_y, h_x)
-        #point = (h_y, -h_x)
+        # point = (h_y, -h_x)
 
         return point
 
