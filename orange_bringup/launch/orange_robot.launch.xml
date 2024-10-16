@@ -15,14 +15,15 @@
   <arg name="cmd_rpm_topic" default="/vel/cmd_rpm"/>
   <arg name="cmd_deg_topic" default="/pos/cmd_deg"/>
   <arg name="cmd_dist_topic" default="/pos/cmd_dist"/>
-  <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
   <arg name="odom_topic" default="/odom"/>
   <arg name="imu_topic" default="/livox/imu"/>
   <arg name="fusion_odom_topic" default="/localization/odom"/>
+  <arg name="ekf_publish_TF" default="false"/>
+  <arg name="hokuyo_scan_topic" default="/hokuyo_scan"/>
   <arg name="velodyne_scan_topic" default="/velodyne_scan"/>
+  <arg name="velodyne_points_topic" default="/velodyne_points"/>
   <arg name="livox_scan_topic" default="/livox_scan"/>
   <arg name="livox_points_topic" default="/livox_points"/>
-  <arg name="velodyne_points_topic" default="/velodyne_points"/>
   <arg name="merged_cloud_topic" default="/merged_cloud"/>
   <arg name="merged_scan_topic" default="/merged_scan"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
@@ -35,12 +36,47 @@
   <node pkg="joint_state_publisher" exec="joint_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
   </node>
-  <!-- robot_localization
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
+  <!-- motor_driver_node -->
+  <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
+    <param from="$(var motor_driver_config_file_path)"/>
+    <param name="port" value="/dev/ZLAC8015D"/>
+    <param name="control_mode" value="$(var control_mode)"/>
+    <param name="debug" value="$(var debug_motor)"/>
+    <param name="twist_cmd_vel_topic" value="$(var twist_cmd_vel_topic)"/>
+    <param name="cmd_vel_topic" value="$(var cmd_vel_topic)"/>
+    <param name="cmd_rpm_topic" value="$(var cmd_rpm_topic)"/>
+    <param name="cmd_deg_topic" value="$(var cmd_deg_topic)"/>
+    <param name="cmd_dist_topic" value="$(var cmd_dist_topic)"/>
+    <param name="publish_TF" value="$(var publish_TF)"/>
+    <param name="TF_header_frame" value="odom"/>
+    <param name="TF_child_frame" value="base_footprint"/>
+    <param name="publish_odom" value="$(var publish_odom)"/>
+    <param name="odom_header_frame" value="odom"/>
+    <param name="odom_child_frame" value="base_footprint"/>
+  </node>
+  <!-- estop  -->
+  <node pkg="estop_ros" exec="cmd_vel_override_node" output="screen">
+    <param name="port" value="/dev/sensors/estop"/>
+    <param name="baudrate" value="115200"/>
+    <param name="time_out" value="500"/>
+    <param name="serial_interval" value="0.01"/>
+    <remap from="/estop/state" to="/estop"/>
+  </node>
+  <!-- imu  -->
+  <include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
+    <arg name="port" value="/dev/sensors/imu"/>
+    <arg name="time_out" value="0.5"/>
+    <arg name="baudrate" value="115200"/>
+    <arg name="imu_topic" value="imu"/>
+    <arg name="frame_id" value="imu_link"/>
+    <arg name="debug" value="$(var debug_imu)"/>
+  </include>
+  <!-- robot_localization -->
+  <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="odom_in" value="$(var odom_topic)"/>
     <arg name="imu_in" value="$(var imu_topic)"/>
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
-  </include> -->
+  </include>-->
   <!-- GPSposition_publisher -->
   <!-- initial heading:housei nakaniwa=179.169287 tsukuba= 276.5 -->
   <node pkg="orange_bringup" exec="get_lonlat" output="screen">
@@ -91,6 +127,14 @@
     <param name="odom_header_frame" value="odom"/>
     <param name="odom_child_frame" value="base_footprint"/>
   </node>
+  <!-- hokuyo -->
+  <!--<node pkg="urg_node" exec="urg_node_driver">
+    <param name="serial_port" value="/dev/sensors/hokuyo_urg"/>
+    <param name="laser_frame_id" value="hokuyo_link"/>
+    <param name="angle_max" value="1.22"/>
+    <param name="angle_min" value="-1.22"/>
+    <remap from="/scan" to="/hokuyo_scan"/>
+  </node>-->
   <!-- velodyne -->
   <!--<node pkg="velodyne_driver" exec="velodyne_driver_node">
     <param name="device_ip" value=""/>
@@ -121,31 +165,6 @@
   </include>
   <node pkg="livox_to_pointcloud2" exec="livox_to_pointcloud2_node">
     <remap from="/livox_pointcloud" to="/livox/lidar"/>
-  </node>
-  <!-- hokuyo -->
-  <!--<node pkg="urg_node" exec="urg_node_driver">
-    <param name="serial_port" value="/dev/sensors/hokuyo_urg"/>
-    <param name="laser_frame_id" value="hokuyo_link"/>
-    <param name="angle_max" value="1.22"/>
-    <param name="angle_min" value="-1.22"/>
-    <remap from="/scan" to="/hokuyo_scan"/>
-  </node>-->
-  <!-- imu  -->
-  <!--<include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
-    <arg name="port" value="/dev/sensors/imu"/>
-    <arg name="time_out" value="0.5"/>
-    <arg name="baudrate" value="115200"/>
-    <arg name="imu_topic" value="imu"/>
-    <arg name="frame_id" value="imu_link"/>
-    <arg name="debug" value="$(var debug_imu)"/>
-  </include>-->
-  <!-- estop  -->
-  <node pkg="estop_ros" exec="cmd_vel_override_node" output="screen">
-    <param name="port" value="/dev/sensors/estop"/>
-    <param name="baudrate" value="115200"/>
-    <param name="time_out" value="500"/>
-    <param name="serial_interval" value="0.01"/>
-    <remap from="/estop/state" to="/estop"/>
   </node>
   <!-- ground_segmentation >
   <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
