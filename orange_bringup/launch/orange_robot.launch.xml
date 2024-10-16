@@ -140,6 +140,8 @@
   <node pkg="livox_to_pointcloud2" exec="livox_to_pointcloud2_node">
     <remap from="/livox_pointcloud" to="/livox/lidar"/>
   </node>
+  <include file="$(find-pkg-share pcd_convert)/launch/pcd_convert.py">
+  </include>
   <!-- ground_segmentation >
   <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
     <arg name="config_file_path" value="$(find-pkg-share orange_sensor_tools)/config/ground_segmentation.yaml"/>
@@ -154,7 +156,7 @@
   </include>-->
   <!-- pointcloud2_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/livox_to_pointcloud2_laserscan.launch.py">
-    <arg name="cloud_in" value="/converted_pointcloud2"/>
+    <arg name="cloud_in" value="/pcd_segment_obs"/>
     <arg name="scan_out" value="$(var livox_scan_topic)"/>
   </include>
   <!-- laserscan_multi_merger -->
