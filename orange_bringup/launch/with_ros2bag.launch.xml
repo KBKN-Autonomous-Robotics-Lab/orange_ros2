@@ -14,6 +14,16 @@
   <arg name="merged_cloud_topic" default="/merged_cloud"/>
   <arg name="merged_scan_topic" default="/merged_scan"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
+  <!-- robot_state_publisher -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
+  </node>
+  <!-- joint_state_publisher -->
+  <node pkg="joint_state_publisher" exec="joint_state_publisher">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
+  </node>
   <!-- robot_localization -->
   <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
@@ -62,14 +72,4 @@
     <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
     <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
   </include>-->
-  <!-- robot_state_publisher -->
-  <node pkg="robot_state_publisher" exec="robot_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
-  </node>
-  <!-- joint_state_publisher -->
-  <node pkg="joint_state_publisher" exec="joint_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
-  </node>
 </launch>
