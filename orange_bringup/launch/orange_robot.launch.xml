@@ -164,7 +164,7 @@
   <node pkg="livox_to_pointcloud2" exec="livox_to_pointcloud2_node">
     <remap from="/livox_pointcloud" to="/livox/lidar"/>
   </node>
-  <include file="$(find-pkg-share pcd_convert)/launch/pcd_convert.py">
+  <include file="$(find-pkg-share pcd_convert)/launch/pcd_convert.launch.py">
   </include>
   <!-- ground_segmentation >
   <include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
