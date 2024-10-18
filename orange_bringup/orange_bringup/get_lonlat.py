@@ -135,9 +135,10 @@ class GPSData(Node):
             self.lonlat_msg.altitude = float(lonlat[3])
 
             self.lonlat_pub.publish(self.lonlat_msg)
-            #self.get_logger().info(f"Published GPS data: {lonlat}")
+            # self.get_logger().info(f"Published GPS data: {lonlat}")
         else:
             self.get_logger().error("!!!!-gps data error-!!!!")
+
 
 def main(args=None):
     rclpy.init(args=args)

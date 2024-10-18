@@ -172,6 +172,7 @@ class MovingBaseNode(Node):
         else:
             self.get_logger().error("!!!!-movingbase data error-!!!!")
 
+
 def main(args=None):
     rclpy.init(args=args)
     movingbase_node = MovingBaseNode()

@@ -38,7 +38,7 @@ class lonlat_To_Odom(Node):
         self.theta = None
 
         self.timer = self.create_timer(1.0 / 3.0, self.publish_lonlat_to_odom)
-        
+
         self.get_logger().info("Start lonlat_to_odom node")
         self.get_logger().info("-------------------------")
 
