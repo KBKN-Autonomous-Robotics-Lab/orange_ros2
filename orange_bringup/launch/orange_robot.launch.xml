@@ -107,24 +107,6 @@
     <param name="speed_limit" value="3.5"/>
     <param name="speed_stop" value="0.15"/>
   </node>
-  <!-- motor_driver_node -->
-  <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
-    <param from="$(var motor_driver_config_file_path)"/>
-    <param name="port" value="/dev/ZLAC8015D"/>
-    <param name="control_mode" value="$(var control_mode)"/>
-    <param name="debug" value="$(var debug_motor)"/>
-    <param name="twist_cmd_vel_topic" value="$(var twist_cmd_vel_topic)"/>
-    <param name="cmd_vel_topic" value="$(var cmd_vel_topic)"/>
-    <param name="cmd_rpm_topic" value="$(var cmd_rpm_topic)"/>
-    <param name="cmd_deg_topic" value="$(var cmd_deg_topic)"/>
-    <param name="cmd_dist_topic" value="$(var cmd_dist_topic)"/>
-    <param name="publish_TF" value="$(var publish_TF)"/>
-    <param name="TF_header_frame" value="odom"/>
-    <param name="TF_child_frame" value="base_footprint"/>
-    <param name="publish_odom" value="$(var publish_odom)"/>
-    <param name="odom_header_frame" value="odom"/>
-    <param name="odom_child_frame" value="base_footprint"/>
-  </node>
   <!-- hokuyo -->
   <!--<node pkg="urg_node" exec="urg_node_driver">
     <param name="serial_port" value="/dev/sensors/hokuyo_urg"/>
