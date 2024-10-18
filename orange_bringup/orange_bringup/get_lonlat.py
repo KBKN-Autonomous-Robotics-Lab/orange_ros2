@@ -35,6 +35,9 @@ class GPSData(Node):
 
         self.timer = self.create_timer(1.0, self.publish_GPS_lonlat)
 
+        self.get_logger().info("Start get_lonlat node")
+        self.get_logger().info("-------------------------")
+
     def get_gps(self, dev_name, country_id):
         try:
             serial_port = serial.Serial(dev_name, self.serial_baud)
@@ -132,8 +135,9 @@ class GPSData(Node):
             self.lonlat_msg.altitude = float(lonlat[3])
 
             self.lonlat_pub.publish(self.lonlat_msg)
-            self.get_logger().info(f"Published GPS data: {lonlat}")
-
+            #self.get_logger().info(f"Published GPS data: {lonlat}")
+        else:
+            self.get_logger().error("!!!!-gps data error-!!!!")
 
 def main(args=None):
     rclpy.init(args=args)
