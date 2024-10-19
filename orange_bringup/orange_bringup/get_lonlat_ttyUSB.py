@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
-import math
-
 import rclpy
 import serial
-from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from sensor_msgs.msg import NavSatFix, NavSatStatus
 from std_msgs.msg import Header
@@ -14,9 +11,8 @@ class GPSData(Node):
         super().__init__('gps_data_acquisition')
 
         self.declare_parameter('port', '/dev/sensors/GNSSbase')
-        self.declare_parameter('baud', 9600)
+        self.declare_parameter('baud', 115200)
         self.declare_parameter('country_id', 0)
-        self.declare_parameter('type', 1)  # 1=ttyACM 2=ttyUSB
 
         self.dev_name = self.get_parameter(
             'port').get_parameter_value().string_value
@@ -24,8 +20,6 @@ class GPSData(Node):
             'baud').get_parameter_value().integer_value
         self.country_id = self.get_parameter(
             'country_id').get_parameter_value().integer_value
-        self.type = self.get_parameter(
-            'type').get_parameter_value().integer_value
 
         self.lonlat_pub = self.create_publisher(NavSatFix, "/fix", 1)
         self.lonlat_msg = NavSatFix()
@@ -51,73 +45,44 @@ class GPSData(Node):
         elif country_id == 1:  # USA
             initial_letters = "$GPGGA"
 
-        if self.type == 1:
-            while True:
-                line = serial_port.readline().decode('latin-1')
-                gps_data = line.split(',')
-                if gps_data[0] == initial_letters:
-                    break
-
+        line = serial_port.readline()
+        talker_ID = line.find(initial_letters)
+        if talker_ID != -1:
+            line = line[(talker_ID-1):]
+            gps_data = line.split(b",")
             Fixtype_data = int(gps_data[6])
             if Fixtype_data != 0:
-                satelitecount_data = float(gps_data[7])
-                # ddmm.mmmmm to dd.ddddd
-                latitude_data = float(gps_data[2]) / 100.0
-                if gps_data[3] == 'S':  # south
-                    latitude_data *= -1
-                # ddmm.mmmmm to dd.ddddd
-                longitude_data = float(gps_data[4]) / 100.0
-                if gps_data[5] == 'W':  # west
-                    longitude_data *= -1
-                altitude_data = float(gps_data[9])
-            else:
-                latitude_data = 0
-                longitude_data = 0
-                altitude_data = 0
-                satelitecount_data = 0
-
-        elif self.type == 2:
-            line = serial_port.readline()
-            talker_ID = line.find(initial_letters)
-            if talker_ID != -1:
-                line = line[(talker_ID-1):]
-                gps_data = line.split(b",")
-                rospy.loginfo(gps_data)
-                Fixtype_data = int(gps_data[6])
-                rospy.loginfo(Fixtype_data)
+                satelitecount_data = int(gps_data[7])
                 if Fixtype_data != 0:
-                    satelitecount_data = int(gps_data[7])
-                    rospy.loginfo(satelitecount_data)
-                    if Fixtype_data != 0:
-                        # ddmm.mmmmm to dd.ddddd
-                        latitude_data = float(gps_data[2]) / 100.0
-                        if gps_data[3] == b"S":  # south
-                            latitude_data *= -1
-                        # ddmm.mmmmm to dd.ddddd
-                        longitude_data = float(gps_data[4]) / 100.0
-                        if gps_data[5] == b"W":  # west
-                            longitude_data *= -1
-                        altitude_data = float(gps_data[9])
-                    else:
-                        # not fix data
-                        latitude_data = 0
-                        longitude_data = 0
-                        altitude_data = 0
-                        satelitecount_data = 0
+                    # ddmm.mmmmm to dd.ddddd
+                    latitude_data = float(gps_data[2]) / 100.0
+                    if gps_data[3] == b"S":  # south
+                        latitude_data *= -1
+                    # ddmm.mmmmm to dd.ddddd
+                    longitude_data = float(gps_data[4]) / 100.0
+                    if gps_data[5] == b"W":  # west
+                        longitude_data *= -1
+                    altitude_data = float(gps_data[9])
                 else:
-                    # no GPS data
+                    # not fix data
                     latitude_data = 0
                     longitude_data = 0
                     altitude_data = 0
                     satelitecount_data = 0
+                    self.get_logger().error("!--not fix data--!")
             else:
-                rospy.loginfo(
-                    "current latitude and longitude (Fixtype,latitude, longitude,altitude):None")
-                return None
+                # no GPS data
+                latitude_data = 0
+                longitude_data = 0
+                altitude_data = 0
+                satelitecount_data = 0
+                self.get_logger().error("!--not GPS data--!")
+        else:
+            self.get_logger().error("!--not GPS data--!")
+            return None
 
         serial_port.close()
-        gnggadata = (Fixtype_data, latitude_data, longitude_data,
-                     altitude_data, satelitecount_data)
+        gnggadata = (Fixtype_data, latitude_data, longitude_data,altitude_data, satelitecount_data)
 
         return gnggadata
 

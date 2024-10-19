@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+import math
+
+import rclpy
+import serial
+from rclpy.node import Node
+from sensor_msgs.msg import Imu
+from std_msgs.msg import Header
+
+
+class GPS_heading_Data(Node):
+    def __init__(self):
+        super().__init__('gps_data_acquisition')
+
+        self.declare_parameter('port', '/dev/sensors/GNSSbase')
+        self.declare_parameter('baud', 115200)
+
+        self.dev_name = self.get_parameter(
+            'port').get_parameter_value().string_value
+        self.serial_baud = self.get_parameter(
+            'baud').get_parameter_value().integer_value
+
+        self.heading_pub = self.create_publisher(Imu, 'movingbase/quat', 10)
+        self.movingbase_msg = Imu()
+
+        self.timer = self.create_timer(1.0, self.movingbase_publish_msg)
+
+        self.get_logger().info("Start get_movingbase_quat_ttyUSB node")
+        self.get_logger().info("-------------------------")
+
+    def get_gps_heading(self, dev_name):
+        try:
+            serial_port = serial.Serial(dev_name, self.serial_baud)
+        except serial.SerialException as serialerror:
+            self.get_logger().error(f"Serial error: {serialerror}")
+            return None
+
+        initial_letters = "$GNHDT"
+
+        line = serial_port.readline()
+        talker_ID = line.find(initial_letters)
+        if talker_ID != -1:
+            line = line[(talker_ID-1):]
+            gps_data = line.split(b",")
+            heading = float(gps_data[1])
+            if heading is None:
+                self.get_logger().error("not GPS heading data")
+                heading = 0
+                return heading
+
+        return heading
+
+    def quaternion_from_euler(self, roll, pitch, yaw):
+        cy = math.cos(yaw * 0.5)
+        sy = math.sin(yaw * 0.5)
+        cp = math.cos(pitch * 0.5)
+        sp = math.sin(pitch * 0.5)
+        cr = math.cos(roll * 0.5)
+        sr = math.sin(roll * 0.5)
+
+        q = [0] * 4
+        q[0] = cy * cp * cr + sy * sp * sr
+        q[1] = cy * cp * sr - sy * sp * cr
+        q[2] = sy * cp * sr + cy * sp * cr
+        q[3] = sy * cp * cr - cy * sp * sr
+        return q
+
+    def movingbase_publish_msg(self):
+        real_heading = self.get_gps_heading(self.dev_name)
+        if real_heading is not None and real_heading != 0:
+
+            heading = real_heading[1] + 90
+            if heading >= 360:
+                heading -= 360
+
+            #self.get_logger().info(f"robotheading: {heading}")
+
+            if self.count == 0:
+                self.get_logger().info(f"!!!----------robotheading: {heading} deg----------!!!")
+                self.first_heading = heading
+                self.count = 1
+
+            relative_heading = heading - self.first_heading
+            if relative_heading < 0:
+                relative_heading += 360
+
+            if relative_heading > 180:
+                relative_heading -= 360
+
+            movingbaseyaw = relative_heading * (math.pi / 180)
+
+            roll, pitch = 0.0, 0.0
+            yaw = movingbaseyaw
+
+            q = self.quaternion_from_euler(roll, pitch, yaw)
+            # self.get_logger().info(f"Quaternion: {q}")
+
+            self.movingbase_msg.header.stamp = self.get_clock().now().to_msg()
+            self.movingbase_msg.header.frame_id = "imu_link"
+            self.movingbase_msg.orientation.x = q[1]
+            self.movingbase_msg.orientation.y = q[2]
+            self.movingbase_msg.orientation.z = -q[3]  # -z
+            self.movingbase_msg.orientation.w = q[0]
+            self.movingbase_msg.orientation_covariance[0] = heading
+
+            self.heading_pub.publish(self.movingbase_msg)
+        else:
+            self.get_logger().error("!!!!-movingbase data error-!!!!")
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    GPS_heading_Data_node = GPS_heading_Data()
+    rate = GPS_heading_Data_node.create_rate(3)
+
+    while rclpy.ok():
+        GPS_heading_Data.movingbase_publish_msg()
+        rclpy.spin_once(GPS_heading_Data)
+        rate.sleep()
+
+    GPS_heading_Data.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()
