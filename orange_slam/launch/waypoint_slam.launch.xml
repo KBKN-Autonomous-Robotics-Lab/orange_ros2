@@ -28,14 +28,4 @@
     <arg name="robot_frame" value="$(var robot_frame)"/>
     <arg name="default_rad" value="$(var default_rad)"/>
   </include>
-  <!-- Fast lio odom -->
-  <include file="$(find-pkg-share fast_lio)/launch/mapping.launch.py">
-    <arg name="use_sim_time" value="$(var use_sim_time)"/>
-    <arg name="params_file" value="$(var config_file_path)"/>
-  </include>
-  <!-- Fast lio odom convert -->
-  <node pkg="fast_odom_convert" exec="fast_odom_convert">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="params_file" value="$(var config_file_path)"/>
-  </node>
 </launch>
