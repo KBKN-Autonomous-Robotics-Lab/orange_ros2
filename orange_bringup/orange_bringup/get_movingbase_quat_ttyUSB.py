@@ -35,7 +35,7 @@ class GPS_heading_Data(Node):
             self.get_logger().error(f"Serial error: {serialerror}")
             return None
 
-        initial_letters = b"$GNHDT"
+        initial_letters = b"$GPHDT"
 
         line = serial_port.readline()
         #self.get_logger().info(f"line: {line}")
