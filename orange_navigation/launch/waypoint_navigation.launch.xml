@@ -2,7 +2,7 @@
 <launch>
   <!-- Arguments -->
   <arg name="use_sim_time" default="false"/>
-  <arg name="kbkn_maps_path" default="hosei/m2/courtyard_Senior.yaml"/>
+  <arg name="kbkn_maps_path" default="hosei/2024/nakaniwa_odomfast_GPS.yaml"/>
   <arg name="map_file_path" default="$(find-pkg-share kbkn_maps)/maps/$(var kbkn_maps_path)"/>
   <arg name="waypoints_file" default="$(find-pkg-share kbkn_maps)/waypoints/$(var kbkn_maps_path)"/>
   <arg name="config_file_path" default="$(find-pkg-share orange_navigation)/config/navigation2_params.yaml"/>
