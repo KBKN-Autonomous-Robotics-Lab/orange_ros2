@@ -30,6 +30,9 @@ class MovingBaseNode(Node):
         self.heading_pub = self.create_publisher(Imu, 'movingbase/quat', 10)
         self.movingbase_msg = Imu()
         self.movingbase_data = None
+        
+        self.get_logger().info("Start movingbase_yaw_to_quat node")
+        self.get_logger().info("---------------------------------")
 
     # def movingbase_callback(self, data):
     #    self.movingbase_data = data
@@ -77,6 +80,7 @@ class MovingBaseNode(Node):
             return True
         else:
             self.get_logger().error("ACK Checksum Failure")
+            self.get_logger().error("!!! -movingbase receive error- !!!")
             return False
 
     def parse_heading(self, ackPacket):
@@ -165,6 +169,8 @@ class MovingBaseNode(Node):
 
             self.heading_pub.publish(self.movingbase_msg)
             self.movingbase_data = None
+        else:
+            self.get_logger().error("!!! -movingbase data error- !!!")
 
 
 def main(args=None):

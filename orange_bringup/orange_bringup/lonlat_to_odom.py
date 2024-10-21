@@ -38,6 +38,9 @@ class lonlat_To_Odom(Node):
         self.theta = None
 
         self.timer = self.create_timer(1.0 / 3.0, self.publish_lonlat_to_odom)
+        
+        self.get_logger().info("Start lonlat_to_odom node")
+        self.get_logger().info("-------------------------")
 
     def fix_callback(self, data):
         self.latitude = data.latitude
@@ -108,7 +111,8 @@ class lonlat_To_Odom(Node):
         r_theta = theta * degree_to_radian
         h_x = math.cos(r_theta) * gps_x - math.sin(r_theta) * gps_y
         h_y = math.sin(r_theta) * gps_x + math.cos(r_theta) * gps_y
-        point = (h_y, -h_x)
+        point = (-h_y, h_x)
+        # point = (h_y, -h_x)
 
         return point
 
