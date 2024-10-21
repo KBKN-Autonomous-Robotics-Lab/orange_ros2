@@ -30,7 +30,7 @@ class MovingBaseNode(Node):
         self.heading_pub = self.create_publisher(Imu, 'movingbase/quat', 10)
         self.movingbase_msg = Imu()
         self.movingbase_data = None
-        
+
         self.get_logger().info("Start movingbase_yaw_to_quat node")
         self.get_logger().info("---------------------------------")
 

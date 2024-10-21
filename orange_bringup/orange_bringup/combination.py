@@ -26,7 +26,7 @@ class CLASMovingBaseCombiner(Node):
         self.orientationw = 0
 
         self.timer = self.create_timer(1.0, self.publish_combined_odom)
-        
+
         self.get_logger().info("Start combination node")
         self.get_logger().info("----------------------")
 

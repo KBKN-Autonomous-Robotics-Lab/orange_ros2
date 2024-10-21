@@ -60,7 +60,7 @@ class ExtendedKalmanFilter(Node):
         self.fused_msg = Odometry()
 
         self.timer = self.create_timer(0.1, self.publish_fused_value)
-        
+
         self.get_logger().info("Start ekf_myself node")
         self.get_logger().info("---------------------")
 
