@@ -12,7 +12,7 @@ teleop_twist_joy_node:
     scale_angular:
       yaw: 0.4 # [rad/s]
 
-    enable_button: 6  # L2 Button
+    enable_button: 4  # L1 Button
     enable_turbo_button: 1  # Circle Button
 
 # DualSense Button Mapping:

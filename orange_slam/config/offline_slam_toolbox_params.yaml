@@ -62,8 +62,8 @@ slam_toolbox:
     loop_search_space_smear_deviation: 0.03
 
     # Scan Matcher Parameters
-    distance_variance_penalty: 5.0      
-    angle_variance_penalty: 10.0    
+    distance_variance_penalty: 5.0  # default: 0.5
+    angle_variance_penalty: 10.0  # default: 1.0
 
     fine_search_angle_offset: 0.00349     
     coarse_search_angle_offset: 0.349   
