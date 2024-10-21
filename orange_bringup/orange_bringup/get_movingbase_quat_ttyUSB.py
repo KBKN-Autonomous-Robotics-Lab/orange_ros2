@@ -116,16 +116,9 @@ class GPS_heading_Data(Node):
 def main(args=None):
     rclpy.init(args=args)
     GPS_heading_Data_node = GPS_heading_Data()
-    rate = GPS_heading_Data_node.create_rate(3)
-
-    while rclpy.ok():
-        GPS_heading_Data_node.movingbase_publish_msg()
-        rclpy.spin_once(GPS_heading_Data_node)
-        rate.sleep()
-
-    GPS_heading_Data.destroy_node()
+    rclpy.spin_once(GPS_heading_Data_node)
+    GPS_heading_Data_node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == "__main__":
     main()

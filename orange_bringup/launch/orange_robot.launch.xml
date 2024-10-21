@@ -103,8 +103,6 @@
   <!-- ekf_myself -->
   <node pkg="orange_bringup" exec="ekf_myself" output="screen">
     <param name="ekf_publish_TF" value="True"/>
-    <param name="speed_limit" value="3.5"/>
-    <param name="speed_stop" value="0.15"/>
   </node>
   <!-- motor_driver_node -->
   <node pkg="orange_bringup" exec="motor_driver_node" output="screen">
