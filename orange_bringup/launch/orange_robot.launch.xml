@@ -119,9 +119,5 @@
     <param name="organize_cloud" value="false"/>
   </node>-->
   <!-- mid360 -->
-  <include file="$(find-pkg-share livox_ros_driver2)/launch_ROS2/msg_MID360_launch.py">
-  </include>
-  <node pkg="livox_to_pointcloud2" exec="livox_to_pointcloud2_node">
-    <remap from="/livox_pointcloud" to="/livox/lidar"/>
-  </node>
+  <include file="$(find-pkg-share livox_ros_driver2)/launch_ROS2/msg_MID360_launch.py"/>
 </launch>
