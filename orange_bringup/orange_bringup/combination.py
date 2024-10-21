@@ -27,6 +27,9 @@ class CLASMovingBaseCombiner(Node):
 
         self.timer = self.create_timer(1.0, self.publish_combined_odom)
 
+        self.get_logger().info("Start combination node")
+        self.get_logger().info("-------------------------")
+
     def odomgps_callback(self, msg):
         self.x = msg.pose.pose.position.x
         self.y = msg.pose.pose.position.y

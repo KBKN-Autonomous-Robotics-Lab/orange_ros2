@@ -34,4 +34,8 @@
     local-name: fast_odom_convert
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/fast_odom_convert.git
     version: main
+- git:
+    local-name: pcd_convert
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/pcd_convert.git
+    version: main
 
