@@ -62,13 +62,20 @@
   </include>
   <!-- GPSposition_publisher -->
   <!-- initial heading:housei nakaniwa=179.169287 tsukuba= 276.5 -->
-  <node pkg="orange_bringup" exec="get_lonlat" output="screen">
+  <!--<node pkg="orange_bringup" exec="get_lonlat" output="screen">
     <param name="port" value="/dev/sensors/GNSSbase"/>
     <param name="baud" value="9600"/>
     <param name="country_id" value="0"/>
     <param name="type" value="1"/>
   </node>
   <node pkg="orange_bringup" exec="lonlat_to_odom" output="screen">
+    <param name="Position_magnification" value="1.675"/>
+  </node>-->
+  <node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
+    <param name="port" value="/dev/sensors/GNSSbase"/>
+    <param name="band" value="9600"/>
+    <param name="country_id" value="0"/>
+    <param name="heading" value="180"/>
     <param name="Position_magnification" value="1.675"/>
   </node>
   <!-- GPSheading_publisher -->
