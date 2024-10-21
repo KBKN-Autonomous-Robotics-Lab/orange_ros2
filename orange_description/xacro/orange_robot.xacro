@@ -11,7 +11,7 @@
   <!--bringup-->
   <xacro:include filename="$(find orange_description)/xacro/sensors/livox.xacro"/>
   <xacro:sensor_livox name="livox_frame" parent="base_link" min_angle="-2.35619" max_angle="2.35619" samples="720">
-    <origin xyz="-0.0185 0.0 0.8985" rpy="${pi} 0.0 0.0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
   </xacro:sensor_livox>
   <!--simulation-->
   <!--<xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro"/>
