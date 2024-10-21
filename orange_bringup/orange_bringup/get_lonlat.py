@@ -34,7 +34,7 @@ class GPSData(Node):
         self.fix_data = None
 
         self.timer = self.create_timer(1.0, self.publish_GPS_lonlat)
-        
+
         self.get_logger().info("Start get_lonlat node")
         self.get_logger().info("---------------------")
 
