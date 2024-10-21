@@ -12,7 +12,7 @@ class GPS_heading_Data(Node):
     def __init__(self):
         super().__init__('gps_data_acquisition')
 
-        self.declare_parameter('port', '/dev/sensors/GNSSbase')
+        self.declare_parameter('port', '/dev/sensors/GNSS_UM982')
         self.declare_parameter('baud', 115200)
 
         self.dev_name = self.get_parameter(
@@ -35,19 +35,24 @@ class GPS_heading_Data(Node):
             self.get_logger().error(f"Serial error: {serialerror}")
             return None
 
-        initial_letters = "$GNHDT"
+        initial_letters = b"$GNHDT"
 
         line = serial_port.readline()
+        #self.get_logger().info(f"line: {line}")
         talker_ID = line.find(initial_letters)
         if talker_ID != -1:
             line = line[(talker_ID-1):]
             gps_data = line.split(b",")
+            self.get_logger().info(f"gps_data: {gps_data}")
             heading = float(gps_data[1])
             if heading is None:
                 self.get_logger().error("not GPS heading data")
                 heading = 0
                 return heading
-
+        else:
+            heading = 0
+            return heading
+       
         return heading
 
     def quaternion_from_euler(self, roll, pitch, yaw):
@@ -69,18 +74,18 @@ class GPS_heading_Data(Node):
         real_heading = self.get_gps_heading(self.dev_name)
         if real_heading is not None and real_heading != 0:
 
-            heading = real_heading[1] + 90
-            if heading >= 360:
-                heading -= 360
+            robotheading = real_heading[1] + 90
+            if robotheading >= 360:
+                robotheading -= 360
 
-            #self.get_logger().info(f"robotheading: {heading}")
+            #self.get_logger().info(f"robotheading: {robotheading}")
 
             if self.count == 0:
-                self.get_logger().info(f"!!!----------robotheading: {heading} deg----------!!!")
-                self.first_heading = heading
+                self.get_logger().info(f"!!!----------robotheading: {robotheading} deg----------!!!")
+                self.first_heading = robotheading
                 self.count = 1
 
-            relative_heading = heading - self.first_heading
+            relative_heading = robotheading - self.first_heading
             if relative_heading < 0:
                 relative_heading += 360
 
@@ -101,11 +106,11 @@ class GPS_heading_Data(Node):
             self.movingbase_msg.orientation.y = q[2]
             self.movingbase_msg.orientation.z = -q[3]  # -z
             self.movingbase_msg.orientation.w = q[0]
-            self.movingbase_msg.orientation_covariance[0] = heading
+            self.movingbase_msg.orientation_covariance[0] = robotheading
 
             self.heading_pub.publish(self.movingbase_msg)
         else:
-            self.get_logger().error("!!!!-movingbase data error-!!!!")
+            self.get_logger().error("!!!!-not movingbase data-!!!!")
 
 
 def main(args=None):
@@ -114,8 +119,8 @@ def main(args=None):
     rate = GPS_heading_Data_node.create_rate(3)
 
     while rclpy.ok():
-        GPS_heading_Data.movingbase_publish_msg()
-        rclpy.spin_once(GPS_heading_Data)
+        GPS_heading_Data_node.movingbase_publish_msg()
+        rclpy.spin_once(GPS_heading_Data_node)
         rate.sleep()
 
     GPS_heading_Data.destroy_node()

@@ -52,7 +52,6 @@ class GPSData(Node):
                 break
 
         Fixtype_data = int(gps_data[6])
-        #self.get_logger().info(Fixtype_data)
         if Fixtype_data != 0:
             satelitecount_data = float(gps_data[7])
             # ddmm.mmmmm to dd.ddddd
@@ -69,7 +68,6 @@ class GPSData(Node):
             longitude_data = 0
             altitude_data = 0
             satelitecount_data = 0
-            self.get_logger().error("!--not fix data--!")
 
         serial_port.close()
         gnggadata = (Fixtype_data, latitude_data, longitude_data,altitude_data, satelitecount_data)
