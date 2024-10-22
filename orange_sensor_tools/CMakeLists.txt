@@ -18,6 +18,7 @@ find_package(tf2_ros REQUIRED)
 find_package(pcl_ros REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
+find_package(livox_ros_driver2 REQUIRED)
 
 set(dependencies
   rclcpp
@@ -31,6 +32,7 @@ set(dependencies
   pcl_ros
   Eigen3
   PCL
+  livox_ros_driver2
 )
 
 # build
@@ -43,6 +45,20 @@ target_link_libraries(laserscan_multi_merger ${PCL_LIBRARIES})
 install(TARGETS laserscan_multi_merger
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+add_executable(lidar_sampler src/lidar_sampler.cpp)
+ament_target_dependencies(lidar_sampler ${dependencies})
+
+install(TARGETS lidar_sampler
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+add_executable(livox_sampler src/livox_sampler.cpp)
+ament_target_dependencies(livox_sampler ${dependencies})
+
+install(TARGETS livox_sampler
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
