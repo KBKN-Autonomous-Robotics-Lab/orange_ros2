@@ -298,11 +298,6 @@ class ExtendedKalmanFilter(Node):
             self.R3 = R[2]
             self.R4 = R[3]
             if self.GpsXY is not None :
-                R = self.determination_of_R()
-                self.R1 = R[0]
-                self.R2 = R[1]
-                self.R3 = R[2]
-                self.R4 = R[3]
                 fused_value = self.KalfGPSXY(
                     self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
                 self.GPS_conut += 1
