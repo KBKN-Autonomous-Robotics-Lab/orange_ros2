@@ -37,6 +37,7 @@ setup(
             "get_lonlat_ttyACM = orange_bringup.get_lonlat_ttyACM:main",
             "get_lonlat_ttyUSB = orange_bringup.get_lonlat_ttyUSB:main",
             "get_movingbase_quat_ttyUSB = orange_bringup.get_movingbase_quat_ttyUSB:main",
+            "get_lonlat_quat_ttyUSB = orange_bringup.get_lonlat_quat_ttyUSB:main",
             "GPSodom_correction = orange_bringup.GPSodom_correction:main",
             "lonlat_to_odom = orange_bringup.lonlat_to_odom:main",
             "ekf_myself_noGPS = orange_bringup.ekf_myself_noGPS:main"
