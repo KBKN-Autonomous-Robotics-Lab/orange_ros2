@@ -36,7 +36,7 @@ slam_toolbox:
     enable_interactive_mode: true
 
     # General Parameters
-    use_scan_matching: true
+    use_scan_matching: false  # true
     use_scan_barycenter: true
     minimum_travel_distance: 0.5
     minimum_travel_heading: 0.5
