@@ -14,16 +14,6 @@
   <arg name="merged_cloud_topic" default="/merged_cloud"/>
   <arg name="merged_scan_topic" default="/merged_scan"/>
   <arg name="xacro_file_path" default="$(find-pkg-share orange_description)/xacro/orange_robot.xacro"/>
-  <!-- robot_state_publisher -->
-  <node pkg="robot_state_publisher" exec="robot_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
-  </node>
-  <!-- joint_state_publisher -->
-  <node pkg="joint_state_publisher" exec="joint_state_publisher">
-    <param name="use_sim_time" value="$(var use_sim_time)"/>
-    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
-  </node>
   <!-- robot_localization -->
   <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/localization.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
@@ -33,16 +23,31 @@
   </include>-->
   <!-- Fast lio odom -->
   <include file="$(find-pkg-share fast_lio)/launch/mapping.launch.py">
-    <arg name="use_sim_time" value="false"/>
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
   </include>
-  <node pkg="fast_odom_convert" exec="fast_odom_convert"/>
+  <node pkg="fast_odom_convert" exec="fast_odom_convert">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+  </node>
+  <!-- GPSposition converter -->
+  <node pkg="orange_bringup" exec="lonlat_to_odom" output="screen">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="Position_magnification" value="1.675"/>
+  </node>
   <!-- combination_GPSposition_GPSheading -->
-  <node pkg="orange_bringup" exec="combination" output="screen"/>
+  <node pkg="orange_bringup" exec="combination" output="screen">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+  </node>
   <!-- ekf_myself -->
   <node pkg="orange_bringup" exec="ekf_myself" output="screen">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
     <param name="ekf_publish_TF" value="$(var ekf_publish_TF)"/>
     <param name="speed_limit" value="3.5"/>
     <param name="speed_stop" value="0.15"/>
+  </node>
+  <!-- livox_to_pointcloud2 -->
+  <node pkg="livox_to_pointcloud2" exec="livox_to_pointcloud2_node">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <remap from="/livox_pointcloud" to="/livox/lidar"/>
   </node>
   <!-- ground_segmentation -->
   <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/ground_segmentation.launch.xml">
@@ -53,7 +58,9 @@
     <arg name="obstacle_output_topic" value="$(var velodyne_points_topic)/obstacle"/>
   </include>-->
   <!-- ground_segmentation2 -->
-  <include file="$(find-pkg-share pcd_convert)/launch/pcd_convert.launch.py"/>
+  <include file="$(find-pkg-share pcd_convert)/launch/pcd_convert.launch.py">
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+  </include>
   <!-- pointcloud_to_laserscan -->
   <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/pointcloud_to_laserscan.launch.xml">
     <arg name="use_sim_time" value="$(var use_sim_time)"/>
@@ -62,6 +69,7 @@
   </include>-->
   <!-- pointcloud2_to_laserscan -->
   <include file="$(find-pkg-share orange_sensor_tools)/launch/livox_to_pointcloud2_laserscan.launch.py">
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
     <arg name="cloud_in" value="/pcd_segment_obs"/>
     <arg name="scan_out" value="$(var livox_scan_topic)"/>
   </include>
@@ -74,4 +82,14 @@
     <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
     <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
   </include>-->
+  <!-- robot_state_publisher -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
+  </node>
+  <!-- joint_state_publisher -->
+  <node pkg="joint_state_publisher" exec="joint_state_publisher">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param name="robot_description" value="$(command 'xacro $(var xacro_file_path)')"/>
+  </node>
 </launch>
