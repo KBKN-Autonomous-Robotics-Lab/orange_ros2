@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="vl53l5cx_tof_sensor">
+
+  <!-- ToFセンサーのパラメータ -->
+  <xacro:macro name="sensor_vl53l5cx" params="name parent">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${origin.xyz}" rpy="${origin.rpy}"/>
+        <geometry>
+          <box size="0.025 0.01 0.005"/> <!-- 横2.5cm、縦1cm、厚み0.5cm -->
+        </geometry>
+        <material>
+          <color rgba="0.5 0.5 0.5 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="${origin.xyz}" rpy="${origin.rpy}"/>
+        <geometry>
+          <box size="0.025 0.01 0.005"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.003"/> <!-- センサーの重さ (例: 3g) -->
+        <origin xyz="${origin.xyz}" rpy="${origin.rpy}"/>
+        <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00002"/>
+      </inertial>
+    </link>
+
+    <!-- 親リンクとの固定ジョイント -->
+    <joint name="${parent}_to_${name}" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${name}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+</robot>
+

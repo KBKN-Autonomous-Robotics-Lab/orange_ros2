@@ -2,17 +2,26 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="orange_robot">
   <!--import gazebo reference-->
   <xacro:include filename="$(find orange_description)/xacro/orange_robot.gazebo"/>
+  
   <!--import 2D LiDAR model-->
   <xacro:include filename="$(find orange_description)/xacro/sensors/hokuyo.xacro"/>
   <xacro:sensor_hokuyo name="hokuyo" parent="base_link" min_angle="-1.22" max_angle="1.22" samples="720">
     <origin xyz="0.1075 0.0 0.1085" rpy="0.0 0.0 0.0"/>
   </xacro:sensor_hokuyo>
+  
+  <!-- ToFセンサー (VL53L5CX) の追加 -->
+  <xacro:include filename="$(find orange_description)/xacro/sensors/tof.xacro"/>
+  <xacro:sensor_vl53l5cx name="tof_sensor" parent="base_link">
+    <origin xyz="0.1075 0.025 0.1085" rpy="0.0 0.0 0.0"/> <!-- LiDARのすぐ横に配置 -->
+  </xacro:sensor_vl53l5cx>
+  
   <!--import 3D LiDAR model-->
   <!--bringup-->
   <xacro:include filename="$(find orange_description)/xacro/sensors/livox.xacro"/>
   <xacro:sensor_livox name="livox_frame" parent="base_link" min_angle="-2.35619" max_angle="2.35619" samples="720">
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
   </xacro:sensor_livox>
+  
   <!--simulation-->
   <!--<xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro"/>
   <xacro:mid360 name="livox" parent="base_link" topic="mid360">
