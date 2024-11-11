@@ -114,20 +114,20 @@ class ExtendedKalmanFilter(Node):
 
     def determination_of_R(self):
         if 0 <= self.Number_of_satellites < 4:  # Bad
-            self.R1 = 1e-2  # 0.01 FAST-LIO
-            self.R2 = 9e-2  # 0.09 CLAS-movingbase
+            self.R1 = 0.17**2#1e-2  # 0.01 FAST-LIO
+            self.R2 = 0.17**2#9e-2  # 0.09 CLAS-movingbase
             self.R3 = 9     # GTheta
             self.R4 = 1     # GPStheta
 
         elif 4 <= self.Number_of_satellites < 8:  # So-so
-            self.R1 = 6e-2  # 0.06 FAST-LIO
-            self.R2 = 4e-2  # 0.04 CLAS-movingbase
+            self.R1 = 0.08**2#6e-2  # 0.06 FAST-LIO
+            self.R2 = 0.08**2#4e-2  # 0.04 CLAS-movingbase
             self.R3 = 4     # GTheta
             self.R4 = 6     # GPStheta
 
         elif self.Number_of_satellites >= 8:  # Good!!!
-            self.R1 = 9e-2  # 0.09 FAST-LIO
-            self.R2 = 1e-2  # 0.01 CLAS-movingbase
+            self.R1 = 0.05**2#9e-2  # 0.09 FAST-LIO
+            self.R2 = 0.05**2#1e-2  # 0.01 CLAS-movingbase
             self.R3 = 2     # GTheta
             self.R4 = 8     # GPStheta
 
