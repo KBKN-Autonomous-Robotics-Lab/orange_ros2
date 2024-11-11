@@ -52,14 +52,14 @@
     <remap from="/estop/state" to="/estop"/>
   </node>
   <!-- imu  -->
-  <include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
+  <!--<include file="$(find-pkg-share icm_20948)/launch/run.launch.xml">
     <arg name="port" value="/dev/sensors/imu"/>
     <arg name="time_out" value="0.5"/>
     <arg name="baudrate" value="115200"/>
     <arg name="imu_topic" value="imu"/>
     <arg name="frame_id" value="imu_link"/>
     <arg name="debug" value="$(var debug_imu)"/>
-  </include>
+  </include>-->
   <!-- GPSposition_publisher -->
   <!-- initial heading:housei nakaniwa=179.169287 tsukuba= 276.5 -->
   <node pkg="orange_bringup" exec="get_lonlat" output="screen">
