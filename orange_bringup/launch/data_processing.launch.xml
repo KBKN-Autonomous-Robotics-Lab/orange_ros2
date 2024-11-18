@@ -19,8 +19,8 @@
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
   </include>-->
   <!-- Fast lio odom -->
-  <include file="$(find-pkg-share fast_lio)/launch/mapping.launch.py"/>
-  <node pkg="fast_odom_convert" exec="fast_odom_convert"/>
+  <!--<include file="$(find-pkg-share fast_lio)/launch/mapping.launch.py"/>
+  <node pkg="fast_odom_convert" exec="fast_odom_convert"/>-->
   <!-- GPSposition converter -->
   <node pkg="orange_bringup" exec="lonlat_to_odom" output="screen">
     <param name="Position_magnification" value="1.675"/>

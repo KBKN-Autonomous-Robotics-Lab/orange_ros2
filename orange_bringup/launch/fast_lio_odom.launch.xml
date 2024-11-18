@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Fast lio odom -->
+  <include file="$(find-pkg-share fast_lio)/launch/mapping.launch.py"/>
+  <node pkg="fast_odom_convert" exec="fast_odom_convert"/>
+</launch>
