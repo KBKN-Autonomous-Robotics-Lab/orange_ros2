@@ -133,6 +133,7 @@ class GPSData(Node):
             self.lonlat_msg.latitude = float(lonlat[1])
             self.lonlat_msg.longitude = float(lonlat[2])
             self.lonlat_msg.altitude = float(lonlat[3])
+            self.lonlat_msg.position_covariance[0] = float(lonlat[4])
 
             self.lonlat_pub.publish(self.lonlat_msg)
             # self.get_logger().info(f"Published GPS data: {lonlat}")

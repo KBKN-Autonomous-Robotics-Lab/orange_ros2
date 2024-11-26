@@ -2,7 +2,7 @@
 <launch>
   <!-- Arguments -->
   <arg name="use_sim_time" default="false"/>
-  <arg name="multi_map_dir" default="$(find-pkg-share kbkn_maps)/multi_map/hosei/m2/courtyard"/>
+  <arg name="multi_map_dir" default="$(find-pkg-share kbkn_maps)/multi_map/tsukuba/2024/main"/>
   <arg name="start_map_num" default="0"/>
   <arg name="map_file_path" default="$(var multi_map_dir)/map$(var start_map_num).yaml"/>
   <arg name="waypoints_file" default="$(var multi_map_dir)/waypoints.yaml"/>
@@ -12,7 +12,7 @@
   <arg name="min_dist_err" default="0.3"/>
   <arg name="min_yaw_err" default="0.5"/>
   <arg name="timeout_restart_nav" default="5.0"/>
-  <arg name="from_middle" default="false"/>
+  <arg name="from_middle" default="true"/>
   <arg name="tandem_scan" default="merged_scan"/>
   <arg name="use_angle" default="20.0"/>
   <arg name="danger_dist" default="2.0"/>
