@@ -159,7 +159,7 @@ class ExtendedKalmanFilter(Node):
 
     def determination_of_R(self):
         if self.GpsXY is not None:
-            if (-30<self.GpsXY[0]) and (self.GpsXY[0]<90) and (-120 < self.GpsXY[1]) and (self.GpsXY[1]<-40):
+            if (-90<self.GpsXY[0]) and (self.GpsXY[0]<120) and (-120 < self.GpsXY[1]) and (self.GpsXY[1]<-40):
                 self.gps_rr_flag = 0
                 #self.offsetyaw_bad_gps = -10/180*math.pi
             else:
@@ -400,7 +400,7 @@ class ExtendedKalmanFilter(Node):
             self.R2 = R[1]
             self.R3 = R[2]
             self.R4 = R[3]
-            self.get_logger().info(f"++ RR_count_bad: {self.RR_count_bad}++")
+            #self.get_logger().info(f"++ RR_count_bad: {self.RR_count_bad}++")
             
             if self.Number_of_satellites >= 8:
                 self.GPS_angle_conut += 1
@@ -428,7 +428,7 @@ class ExtendedKalmanFilter(Node):
                 self.get_logger().info(f"!!!!!!!!!!!!!!!!!!!!!! offsetyaw: {self.offsetyaw}!!!!!!!!!!!!!!!!!!!!!!!!!!")
                     
             if self.GpsXY is not None and self.gps_rr_flag:#self.Number_of_satellites > #22 :
-                self.get_logger().info(f"!!!!++++++++++ Number_of_satellites: {self.Number_of_satellites}++++++++++!!!!!!!!!")
+                #self.get_logger().info(f"!!!!++++++++++ Number_of_satellites: {self.Number_of_satellites}++++++++++!!!!!!!!!")
                 ########## Change the written line #######
                 #fused_value = self.KalfGPSXY(
                 #    self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
@@ -522,7 +522,7 @@ class ExtendedKalmanFilter(Node):
                 if self.GPS_angle_reset_count > 20:
                     self.GPS_angle_conut = 0
                     self.GPS_angle_reset_count = 0
-                print(f"++++++++++++ GPS_angle_reset_count: {self.GPS_angle_reset_count}+++++++++++")
+                #print(f"++++++++++++ GPS_angle_reset_count: {self.GPS_angle_reset_count}+++++++++++")
                 
 
             self.fused_msg.header.stamp = self.get_clock().now().to_msg()

@@ -2,7 +2,7 @@
 <launch>
   <!-- Arguments -->
   <arg name="use_sim_time" default="false"/>
-  <arg name="multi_map_dir" default="$(find-pkg-share kbkn_maps)/multi_map/hosei/2024/main"/>
+  <arg name="multi_map_dir" default="$(find-pkg-share kbkn_maps)/multi_map/tsukuba/2024/main_from_left"/>
   <arg name="start_map_num" default="0"/>
   <arg name="map_file_path" default="$(var multi_map_dir)/map$(var start_map_num).yaml"/>
   <arg name="waypoints_file" default="$(var multi_map_dir)/waypoints.yaml"/>
