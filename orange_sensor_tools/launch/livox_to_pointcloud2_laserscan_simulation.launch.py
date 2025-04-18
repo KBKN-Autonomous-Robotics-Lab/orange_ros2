@@ -8,7 +8,7 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
-            remappings=[('cloud_in', '/livox_points/obstacle'), 
+            remappings=[('cloud_in', '/livox_points/obstacle'),
                         ('scan', '/livox_scan')],
             parameters=[{
                 'target_frame': '',
