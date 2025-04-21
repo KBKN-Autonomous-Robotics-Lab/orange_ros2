@@ -14,7 +14,7 @@
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
   </xacro:sensor_livox>-->
   <!--simulation-->
-  <xacro:include filename="$(find orange_description)/xacro/sensors/mid360.xacro"/>
+  <xacro:include filename="$(find orange_description)/xacro/sensors/livox_simulation.xacro"/>
   <xacro:mid360 name="livox" parent="base_link" topic="mid360">
     <origin xyz="-0.0185 0.0 0.8985" rpy="${pi} 0.0 0.0"/>
   </xacro:mid360>
