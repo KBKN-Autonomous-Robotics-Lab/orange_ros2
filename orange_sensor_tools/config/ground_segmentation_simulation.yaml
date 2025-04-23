@@ -1,0 +1,23 @@
+ground_segmentation:
+  ros__parameters:
+    n_threads: 1 # number of threads to use.
+
+    r_min: 0.90 # minimum point distance.
+    r_max: 100.0 # maximum point distance.
+    n_bins: 200 # number of radial bins.
+    n_segments: 720 # number of radial segments.
+
+    max_dist_to_line: 0.15 # 0.15 maximum vertical distance of point to line to be considered ground.
+
+    sensor_height: 1.45 # sensor height above ground.
+    min_slope: 0.0 # minimum slope of a ground line.
+    max_slope: 3.0 # maximum slope of a ground line.
+    max_fit_error: 0.07 # maximum error of a point during line fit.
+    long_threshold: 10.0 # distance between points after which they are considered far from each other.
+    max_long_height: 0.3 # maximum height change to previous point in long line.
+    max_start_height: 0.5 # maximum difference to estimated ground height to start a new line.
+    line_search_angle: 0.2 # how far to search in angular direction to find a line [rad].
+
+    gravity_aligned_frame: "livox" # Frame which has its z axis aligned with gravity. bringup=livox_frame simulation=livox
+
+    visualize: false # visualize segmentation result - USE ONLY FOR DEBUGGING

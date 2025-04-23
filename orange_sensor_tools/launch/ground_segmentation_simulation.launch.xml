@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="use_sim_time" default="false"/>
+  <arg name="config_file_path" default="$(find-pkg-share orange_sensor_tools)/config/ground_segmentation_simulation.yaml"/>
+  <!--bringup-->
+  <!--<arg name="input_topic" default="/converted_pointcloud2"/>-->
+  <!--simulation-->
+  <arg name="input_topic" default="/mid360_PointCloud2"/>
+  <arg name="ground_output_topic" default="/livox_points/ground"/>
+  <arg name="obstacle_output_topic" default="/livox_points/obstacle"/>
+  <!-- ground_segmentation -->
+  <node pkg="linefit_ground_segmentation_ros" exec="ground_segmentation_node">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+    <param from="$(var config_file_path)"/>
+    <param name="input_topic" value="$(var input_topic)"/>
+    <param name="ground_output_topic" value="$(var ground_output_topic)"/>
+    <param name="obstacle_output_topic" value="$(var obstacle_output_topic)"/>
+  </node>
+</launch>

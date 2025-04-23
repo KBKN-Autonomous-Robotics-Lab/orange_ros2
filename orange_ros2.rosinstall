@@ -38,4 +38,7 @@
     local-name: pcd_convert
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/pcd_convert.git
     version: main
-
+- git:
+    local-name: livox_laser_simulation_RO2
+    uri: https://github.com/stm32f303ret6/livox_laser_simulation_RO2.git
+    version: main
