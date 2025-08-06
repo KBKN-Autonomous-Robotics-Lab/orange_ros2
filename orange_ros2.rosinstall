@@ -42,3 +42,51 @@
     local-name: livox_laser_simulation_RO2
     uri: https://github.com/stm32f303ret6/livox_laser_simulation_RO2.git
     version: main
+- git:
+    local-name: velodyne
+    uri: https://github.com/ros-drivers/velodyne.git
+    version: ros2
+- git:
+    local-name: icm_20948
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/icm_20948.git
+    version: humble-devel
+- git:
+    local-name: estop_ros
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/estop_ros.git
+    version: humble-devel
+- git:
+    local-name: orange_navigation
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/orange_navigation.git
+    version: humble-devel
+- git:
+    local-name: kbkn_maps
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/kbkn_maps.git
+    version: main
+- git:
+    local-name: multi_map_manager
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/multi_map_manager.git
+    version: humble-devel
+- git:
+    local-name: linefit_ground_segmentation_ros2
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/linefit_ground_segmentation_ros2.git
+    version: main
+- git:
+    local-name: FAST_LIO
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/FAST_LIO.git
+    version: main
+- git:
+    local-name: fast_odom_convert
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/fast_odom_convert.git
+    version: main
+- git:
+    local-name: pcd_convert
+    uri: https://github.com/KBKN-Autonomous-Robotics-Lab/pcd_convert.git
+    version: main
+- git:
+    local-name: livox_laser_simulation_RO2
+    uri: https://github.com/stm32f303ret6/livox_laser_simulation_RO2.git
+    version: main
+- git:
+    local-name: serial
+    uri: https://github.com/RoverRobotics-forks/serial-ros2.git
+    version: master
