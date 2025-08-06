@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import math
+
 import rclpy
 import serial
 from rclpy.node import Node
 from sensor_msgs.msg import Imu
 from std_msgs.msg import Header
+
 
 class GPS_heading_Data(Node):
     def __init__(self):
@@ -23,7 +25,7 @@ class GPS_heading_Data(Node):
 
         self.timer = self.create_timer(1.0, self.movingbase_publish_msg)
         self.count = 0
-        
+
         self.get_logger().info("Start get_movingbase_quat_ttyUSB node")
         self.get_logger().info("-------------------------")
 
@@ -37,32 +39,32 @@ class GPS_heading_Data(Node):
         initial_letters_outdoor = b"$GNHDT"
         initial_letters_indoor = b"$GPHDT"
 
-        while(1):
+        while (1):
             line = serial_port.readline()
-            #self.get_logger().info(f"line: {line}")
+            # self.get_logger().info(f"line: {line}")
             talker_ID_indoor = line.find(initial_letters_indoor)
-            talker_ID_outdoor = line.find(initial_letters_outdoor)            
+            talker_ID_outdoor = line.find(initial_letters_outdoor)
             if talker_ID_indoor != -1:
-                #self.get_logger().info("GPHDT ok")
-                #line = line[(talker_ID_indoor-1):]
+                # self.get_logger().info("GPHDT ok")
+                # line = line[(talker_ID_indoor-1):]
                 gps_data = line.split(b",")
-                #self.get_logger().info(f"gps_data: {gps_data}")
+                # self.get_logger().info(f"gps_data: {gps_data}")
                 heading = float(gps_data[1])
                 if heading is None:
                     self.get_logger().error("not GPS heading data")
                     heading = 0
                 break
             if talker_ID_outdoor != -1:
-                #self.get_logger().info("GNHDT ok")
-                #line = line[(talker_ID_outdoor-1):]
+                # self.get_logger().info("GNHDT ok")
+                # line = line[(talker_ID_outdoor-1):]
                 gps_data = line.split(b",")
-                #self.get_logger().info(f"gps_data: {gps_data}")
+                # self.get_logger().info(f"gps_data: {gps_data}")
                 heading = float(gps_data[1])
                 if heading is None:
                     self.get_logger().error("not GPS heading data")
                     heading = 0
-                break          
-                
+                break
+
         serial_port.close()
 
         return heading
@@ -84,17 +86,18 @@ class GPS_heading_Data(Node):
 
     def movingbase_publish_msg(self):
         real_heading = self.get_gps_heading(self.dev_name)
-        #self.get_logger().info(f"real_heading: {real_heading}")
+        # self.get_logger().info(f"real_heading: {real_heading}")
         if real_heading is not None and real_heading != 0:
 
             robotheading = real_heading + 90
             if robotheading >= 360:
                 robotheading -= 360
 
-            #self.get_logger().info(f"robotheading: {robotheading}")
+            # self.get_logger().info(f"robotheading: {robotheading}")
 
             if self.count == 0:
-                self.get_logger().info(f"!!!----------robotheading: {robotheading} deg----------!!!")
+                self.get_logger().info(
+                    f"!!!----------robotheading: {robotheading} deg----------!!!")
                 self.first_heading = robotheading
                 self.count = 1
 
@@ -131,12 +134,14 @@ class GPS_heading_Data(Node):
             self.heading_pub.publish(self.movingbase_msg)
             self.get_logger().error("!!!!-not movingbase data-!!!!")
 
+
 def main(args=None):
     rclpy.init(args=args)
     GPS_heading_Data_node = GPS_heading_Data()
     rclpy.spin(GPS_heading_Data_node)
     GPS_heading_Data_node.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == "__main__":
     main()

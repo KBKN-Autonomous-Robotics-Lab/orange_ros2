@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 import math
-import rclpy
-import serial
-import tkinter as tk
-from rclpy.node import Node
-from sensor_msgs.msg import Imu, NavSatFix, NavSatStatus
-from nav_msgs.msg import Odometry
-from std_msgs.msg import Header
-from geometry_msgs.msg import Quaternion, Pose, Point, Twist, Vector3
 import threading
 import time
+import tkinter as tk
+
+import rclpy
+import serial
+from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
 from my_msgs.srv import Avglatlon
+from nav_msgs.msg import Odometry
+from rclpy.node import Node
+from sensor_msgs.msg import Imu, NavSatFix, NavSatStatus
+from std_msgs.msg import Header
+
 
 class GPSData(Node):
     def __init__(self):
@@ -23,14 +25,19 @@ class GPSData(Node):
         self.declare_parameter('Position_magnification', 1.675)
         self.declare_parameter('heading', 90.0)
 
-        self.dev_name = self.get_parameter('port').get_parameter_value().string_value
-        self.serial_baud = self.get_parameter('baud').get_parameter_value().integer_value
-        self.country_id = self.get_parameter('country_id').get_parameter_value().integer_value
-        self.Position_magnification = self.get_parameter('Position_magnification').get_parameter_value().double_value
-        self.theta = self.get_parameter('heading').get_parameter_value().double_value
-        
-        #self.theta = 275.6 # tukuba param
-        #self.theta = 180 #nakaniwa param
+        self.dev_name = self.get_parameter(
+            'port').get_parameter_value().string_value
+        self.serial_baud = self.get_parameter(
+            'baud').get_parameter_value().integer_value
+        self.country_id = self.get_parameter(
+            'country_id').get_parameter_value().integer_value
+        self.Position_magnification = self.get_parameter(
+            'Position_magnification').get_parameter_value().double_value
+        self.theta = self.get_parameter(
+            'heading').get_parameter_value().double_value
+
+        # self.theta = 275.6 # tukuba param
+        # self.theta = 180 #nakaniwa param
         self.initial_coordinate = None
         self.fix_data = None
         self.count = 0
@@ -39,11 +46,12 @@ class GPSData(Node):
         # Publishers
         self.lonlat_pub = self.create_publisher(NavSatFix, '/fix', 1)
         self.lonlat_msg = NavSatFix()
-        self.movingbase_pub = self.create_publisher(Imu, '/movingbase/quat', 10)
+        self.movingbase_pub = self.create_publisher(
+            Imu, '/movingbase/quat', 10)
         self.movingbase_msg = Imu()
         self.odom_pub = self.create_publisher(Odometry, '/odom/UM982', 10)
         self.odom_msg = Odometry()
-        
+
         # service client
         self.client = self.create_client(Avglatlon, 'send_avg_gps')
         while not self.client.wait_for_service(timeout_sec=1.0):
@@ -53,7 +61,7 @@ class GPSData(Node):
         self.timer = self.create_timer(1.0, self.timer_callback)
 
         self.first_heading = None
-        
+
         self.gps_data_cache = None
 
         self.get_logger().info("Start get_lonlat_movingbase_quat_ttyUSB node")
@@ -62,12 +70,13 @@ class GPSData(Node):
         # tkinter GUI setup
         self.root = tk.Tk()
         self.root.title("GPS Data Acquisition")
-        self.start_button = tk.Button(self.root, text="Start", command=self.start_gps_acquisition, width=20, height = 5)
+        self.start_button = tk.Button(
+            self.root, text="Start", command=self.start_gps_acquisition, width=20, height=5)
         self.start_button.pack()
 
         self.gps_acquisition_thread = None
         self.is_acquiring = False
-    
+
     # service client
     def send_request(self):
         request = Avglatlon.Request()
@@ -77,7 +86,7 @@ class GPSData(Node):
 
         future = self.client.call_async(request)
         future.add_done_callback(self.response_callback)
-        
+
     def response_callback(self, future):
         try:
             response = future.result()
@@ -87,12 +96,12 @@ class GPSData(Node):
                 self.get_logger().warn('サービスは受け取られましたが、処理は失敗しました')
         except Exception as e:
             self.get_logger().error(f'サービス呼び出し失敗: {e}')
-           
+
     # timer callback
     def timer_callback(self):
         if not self.initialized:
             # 初期化が完了していないので何もしない
-            return    
+            return
         self.gps_data_cache = self.get_gps_quat(self.dev_name, self.country_id)
 
         if self.gps_data_cache:
@@ -110,7 +119,8 @@ class GPSData(Node):
     def start_gps_acquisition(self):
         if not self.is_acquiring:
             self.is_acquiring = True
-            self.gps_acquisition_thread = threading.Thread(target=self.acquire_gps_data)
+            self.gps_acquisition_thread = threading.Thread(
+                target=self.acquire_gps_data)
             self.gps_acquisition_thread.start()
 
     def acquire_gps_data(self):
@@ -125,12 +135,14 @@ class GPSData(Node):
                 lat_sum += GPS_data[1]
                 lon_sum += GPS_data[2]
                 count += 1
-            time.sleep(0.1)  # Slight delay to avoid overwhelming the GPS device
+            # Slight delay to avoid overwhelming the GPS device
+            time.sleep(0.1)
 
         if count > 0:
             self.initial_coordinate = [lat_sum / count, lon_sum / count]
             self.initialized = True
-            self.get_logger().info(f"Initial coordinate set to: {self.initial_coordinate}")
+            self.get_logger().info(
+                f"Initial coordinate set to: {self.initial_coordinate}")
             self.send_request()
         self.is_acquiring = False
 
@@ -141,60 +153,60 @@ class GPSData(Node):
         except serial.SerialException as serialerror:
             self.get_logger().error(f"Serial error: {serialerror}")
             return None
-        
-        # country info 
+
+        # country info
         if country_id == 0:   # Japan
             initial_letters = b"GNGGA"
-        elif country_id == 1: # USA
+        elif country_id == 1:  # USA
             initial_letters = b"GPGGA"
         else:                 # not certain
             initial_letters = None
-        
+
         initial_letters_outdoor = b"$GNHDT"
         initial_letters_indoor = b"$GPHDT"
 
-        while(1):
+        while (1):
             line = serial_port.readline()
-            #self.get_logger().info(f"line: {line}")
+            # self.get_logger().info(f"line: {line}")
             talker_ID_indoor = line.find(initial_letters_indoor)
-            talker_ID_outdoor = line.find(initial_letters_outdoor)            
+            talker_ID_outdoor = line.find(initial_letters_outdoor)
             if talker_ID_indoor != -1:
-                #self.get_logger().info("GPHDT ok")
-                #line = line[(talker_ID_indoor-1):]
+                # self.get_logger().info("GPHDT ok")
+                # line = line[(talker_ID_indoor-1):]
                 gps_data = line.split(b",")
-                #self.get_logger().info(f"gps_data: {gps_data}")
+                # self.get_logger().info(f"gps_data: {gps_data}")
                 heading = float(gps_data[1])
                 if heading is None:
                     self.get_logger().error("not GPS heading data")
                     heading = 0
                 break
             if talker_ID_outdoor != -1:
-                #self.get_logger().info("GNHDT ok")
-                #line = line[(talker_ID_outdoor-1):]
+                # self.get_logger().info("GNHDT ok")
+                # line = line[(talker_ID_outdoor-1):]
                 gps_data = line.split(b",")
-                #self.get_logger().info(f"gps_data: {gps_data}")
+                # self.get_logger().info(f"gps_data: {gps_data}")
                 heading = float(gps_data[1])
                 if heading is None:
                     self.get_logger().error("not GPS heading data")
                     heading = 0
                 break
 
-#    gps_data = ["$G?GGA", 
-#                "UTC time", 
-#                "Latitude (ddmm.mmmmm)", 
-#                "latitude type (south/north)", 
-#                "Longitude (ddmm.mmmmm)", 
-#                "longitude type (east longitude/west longitude)", 
-#                "Fixtype", 
-#                "Number of satellites used for positioning", 
-#                "HDOP", 
-#                "Altitude", 
-#                "M(meter)", 
-#                "Elevation", 
-#                "M(meter)", 
-#                "", 
+#    gps_data = ["$G?GGA",
+#                "UTC time",
+#                "Latitude (ddmm.mmmmm)",
+#                "latitude type (south/north)",
+#                "Longitude (ddmm.mmmmm)",
+#                "longitude type (east longitude/west longitude)",
+#                "Fixtype",
+#                "Number of satellites used for positioning",
+#                "HDOP",
+#                "Altitude",
+#                "M(meter)",
+#                "Elevation",
+#                "M(meter)",
+#                "",
 #                "checksum"]
-    
+
         line = serial_port.readline()
         talker_ID = line.find(initial_letters)
         if talker_ID != -1:
@@ -202,35 +214,38 @@ class GPSData(Node):
             gps_data = line.split(b",")
             Fixtype_data = int(gps_data[6])
             if Fixtype_data != 0:
-                satelitecount_data = int(gps_data[7])###
+                satelitecount_data = int(gps_data[7])
                 if Fixtype_data != 0:
-                    latitude_data = float(gps_data[2]) / 100.0  # ddmm.mmmmm to dd.ddddd
-                    if gps_data[3] == b"S":#south
+                    # ddmm.mmmmm to dd.ddddd
+                    latitude_data = float(gps_data[2]) / 100.0
+                    if gps_data[3] == b"S":  # south
                         latitude_data *= -1
-                    longitude_data = float(gps_data[4]) / 100.0  # ddmm.mmmmm to dd.ddddd
-                    if gps_data[5] == b"W":#west
+                    # ddmm.mmmmm to dd.ddddd
+                    longitude_data = float(gps_data[4]) / 100.0
+                    if gps_data[5] == b"W":  # west
                         longitude_data *= -1
                     altitude_data = float(gps_data[9])
-                else :
-                    #not fix data
+                else:
+                    # not fix data
                     Fixtype_data = 0
                     latitude_data = 0
                     longitude_data = 0
                     altitude_data = 0
                     satelitecount_data = 0
                     self.get_logger().error("!--not fix data--!")
-            else :
-            #no GPS data
+            else:
+                # no GPS data
                 Fixtype_data = 0
                 latitude_data = 0
                 longitude_data = 0
                 altitude_data = 0
                 satelitecount_data = 0
-                self.get_logger().error("!--not GPS data--!")          
-        
+                self.get_logger().error("!--not GPS data--!")
+
         serial_port.close()
 
-        gnggadata = (Fixtype_data,latitude_data,longitude_data,altitude_data,satelitecount_data,heading)
+        gnggadata = (Fixtype_data, latitude_data, longitude_data,
+                     altitude_data, satelitecount_data, heading)
         return gnggadata
 
     def quaternion_from_euler(self, roll, pitch, yaw):
@@ -248,17 +263,18 @@ class GPSData(Node):
         q[3] = sy * cp * cr - cy * sp * sr
         return q
 
-    def heading_to_quat(self ,real_heading):
+    def heading_to_quat(self, real_heading):
 
         robotheading = real_heading + 90
         if robotheading >= 360:
             robotheading -= 360
 
-        #self.get_logger().info(f"real_heading: {real_heading}")
-        #self.get_logger().info(f"robotheading: {robotheading}")
+        # self.get_logger().info(f"real_heading: {real_heading}")
+        # self.get_logger().info(f"robotheading: {robotheading}")
 
         if self.count == 0:
-            self.get_logger().info(f"!!!----------robotheading: {robotheading} deg----------!!!")
+            self.get_logger().info(
+                f"!!!----------robotheading: {robotheading} deg----------!!!")
             self.first_heading = robotheading
             self.count = 1
 
@@ -276,9 +292,9 @@ class GPSData(Node):
 
         q = self.quaternion_from_euler(roll, pitch, yaw)
         # self.get_logger().info(f"Quaternion: {q}")
-            
+
         return q
-    
+
     def conversion(self, coordinate, origin, theta):
         ido = coordinate[0]
         keido = coordinate[1]
@@ -338,32 +354,32 @@ class GPSData(Node):
         r_theta = theta * degree_to_radian
         h_x = math.cos(r_theta) * gps_x - math.sin(r_theta) * gps_y
         h_y = math.sin(r_theta) * gps_x + math.cos(r_theta) * gps_y
-        
+
         point = (h_y, -h_x)
 
         return point
 
     def publish_fix(self, gps):
-        #lonlat = self.get_gps_quat(self.dev_name, self.country_id)
-        #if lonlat:
+        # lonlat = self.get_gps_quat(self.dev_name, self.country_id)
+        # if lonlat:
         self.lonlat_msg.header = Header()
         self.lonlat_msg.header.frame_id = "gps"
         self.lonlat_msg.header.stamp = self.get_clock().now().to_msg()
 
         self.lonlat_msg.status.status = NavSatStatus.STATUS_FIX if gps[
             0] != 0 else NavSatStatus.STATUS_NO_FIX
-        #self.lonlat_msg.latitude = float(lonlat[1])
-        #self.lonlat_msg.longitude = float(lonlat[2])
-        #self.lonlat_msg.altitude = float(lonlat[3])
+        # self.lonlat_msg.latitude = float(lonlat[1])
+        # self.lonlat_msg.longitude = float(lonlat[2])
+        # self.lonlat_msg.altitude = float(lonlat[3])
         self.lonlat_msg.latitude = gps[1]
         self.lonlat_msg.longitude = gps[2]
         self.lonlat_msg.altitude = gps[3]
 
         self.lonlat_pub.publish(self.lonlat_msg)
-            # self.get_logger().info(f"Published GPS data: {lonlat}")
-        #else:
+        # self.get_logger().info(f"Published GPS data: {lonlat}")
+        # else:
         #    self.get_logger().error("!!!!-gps data error-!!!!")
-    
+
     def publish_movingbase(self, heading):
         if heading is not None and heading != 0.0:
             robotheading = heading + 90.0
@@ -371,7 +387,8 @@ class GPSData(Node):
                 robotheading -= 360.0
 
             if self.count == 0:
-                self.get_logger().info(f"!!!----------robotheading: {robotheading} deg----------!!!")
+                self.get_logger().info(
+                    f"!!!----------robotheading: {robotheading} deg----------!!!")
                 self.first_heading = robotheading
                 self.count = 1
 
@@ -404,25 +421,25 @@ class GPSData(Node):
             self.movingbase_msg.orientation.y = 0.0
             self.movingbase_msg.orientation.z = 0.0
             self.movingbase_msg.orientation.w = 0.0
- 
+
             self.movingbase_pub.publish(self.movingbase_msg)
             self.get_logger().error("!!!!-not movingbase data-!!!!")
 
-            
     def publish_odom(self, lat, lon, alt):
-        
-        #GPS_data = self.get_gps_quat(self.dev_name, self.country_id)
-        #gnggadata = (Fixtype_data,latitude_data,longitude_data,altitude_data,satelitecount_data,heading)
-        #if GPS_data and GPS_data[1] != 0 and GPS_data[2] != 0:
+
+        # GPS_data = self.get_gps_quat(self.dev_name, self.country_id)
+        # gnggadata = (Fixtype_data,latitude_data,longitude_data,altitude_data,satelitecount_data,heading)
+        # if GPS_data and GPS_data[1] != 0 and GPS_data[2] != 0:
         if self.gps_data_cache and self.gps_data_cache[1] != 0 and self.gps_data_cache[2] != 0:
             GPS_data = self.gps_data_cache
             self.satelite = GPS_data[4]
             lonlat = [GPS_data[1], GPS_data[2]]
-            
+
             if self.initial_coordinate is None:
-                self.initial_coordinate = [GPS_data[1], GPS_data[2]]        
-            GPSxy = self.conversion(lonlat, self.initial_coordinate, self.theta)
-            GPSquat = self.heading_to_quat(GPS_data[5])       
+                self.initial_coordinate = [GPS_data[1], GPS_data[2]]
+            GPSxy = self.conversion(
+                lonlat, self.initial_coordinate, self.theta)
+            GPSquat = self.heading_to_quat(GPS_data[5])
 
             self.odom_msg.header.stamp = self.get_clock().now().to_msg()
             self.odom_msg.header.frame_id = "odom"
@@ -440,21 +457,22 @@ class GPSData(Node):
         else:
             self.get_logger().error("!!!!-NOT RECIEVE-gps data error-!!!!")
 
+
 def main(args=None):
-    #rclpy.init(args=args)
-    #gpslonlat = GPSData()
-    #rclpy.spin(gpslonlat)
-    #gpslonlat.root.mainloop()
-    #gpslonlat.destroy_node()
-    #rclpy.shutdown()
+    # rclpy.init(args=args)
+    # gpslonlat = GPSData()
+    # rclpy.spin(gpslonlat)
+    # gpslonlat.root.mainloop()
+    # gpslonlat.destroy_node()
+    # rclpy.shutdown()
     rclpy.init(args=args)
-    gpslonlat = GPSData()    
+    gpslonlat = GPSData()
     ros_thread = threading.Thread(target=rclpy.spin, args=(gpslonlat,))
     ros_thread.start()
     gpslonlat.root.mainloop()  # tkinter GUI表示
     gpslonlat.destroy_node()
     rclpy.shutdown()
 
+
 if __name__ == "__main__":
     main()
-

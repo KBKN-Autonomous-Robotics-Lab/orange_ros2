@@ -39,31 +39,31 @@ class GPSData(Node):
         except serial.SerialException as serialerror:
             self.get_logger().error(f"Serial error: {serialerror}")
             return None
-        
-        # country info 
+
+        # country info
         if country_id == 0:   # Japan
             initial_letters = b"GNGGA"
-        elif country_id == 1: # USA
+        elif country_id == 1:  # USA
             initial_letters = b"GPGGA"
         else:                 # not certain
             initial_letters = None
 
-#    gps_data = ["$G?GGA", 
-#                "UTC time", 
-#                "Latitude (ddmm.mmmmm)", 
-#                "latitude type (south/north)", 
-#                "Longitude (ddmm.mmmmm)", 
-#                "longitude type (east longitude/west longitude)", 
-#                "Fixtype", 
-#                "Number of satellites used for positioning", 
-#                "HDOP", 
-#                "Altitude", 
-#                "M(meter)", 
-#                "Elevation", 
-#                "M(meter)", 
-#                "", 
+#    gps_data = ["$G?GGA",
+#                "UTC time",
+#                "Latitude (ddmm.mmmmm)",
+#                "latitude type (south/north)",
+#                "Longitude (ddmm.mmmmm)",
+#                "longitude type (east longitude/west longitude)",
+#                "Fixtype",
+#                "Number of satellites used for positioning",
+#                "HDOP",
+#                "Altitude",
+#                "M(meter)",
+#                "Elevation",
+#                "M(meter)",
+#                "",
 #                "checksum"]
-    
+
         line = serial_port.readline()
         talker_ID = line.find(initial_letters)
         if talker_ID != -1:
@@ -71,24 +71,26 @@ class GPSData(Node):
             gps_data = line.split(b",")
             Fixtype_data = int(gps_data[6])
             if Fixtype_data != 0:
-                satelitecount_data = int(gps_data[7])###
+                satelitecount_data = int(gps_data[7])
                 if Fixtype_data != 0:
-                    latitude_data = float(gps_data[2]) / 100.0  # ddmm.mmmmm to dd.ddddd
-                    if gps_data[3] == b"S":#south
+                    # ddmm.mmmmm to dd.ddddd
+                    latitude_data = float(gps_data[2]) / 100.0
+                    if gps_data[3] == b"S":  # south
                         latitude_data *= -1
-                    longitude_data = float(gps_data[4]) / 100.0  # ddmm.mmmmm to dd.ddddd
-                    if gps_data[5] == b"W":#west
+                    # ddmm.mmmmm to dd.ddddd
+                    longitude_data = float(gps_data[4]) / 100.0
+                    if gps_data[5] == b"W":  # west
                         longitude_data *= -1
                     altitude_data = float(gps_data[9])
-                else :
-                    #not fix data
+                else:
+                    # not fix data
                     latitude_data = 0
                     longitude_data = 0
                     altitude_data = 0
                     satelitecount_data = 0
                     self.get_logger().error("!--not fix data--!")
-            else :
-            #no GPS data
+            else:
+                # no GPS data
                 latitude_data = 0
                 longitude_data = 0
                 altitude_data = 0
@@ -99,9 +101,9 @@ class GPSData(Node):
             return None
         serial_port.close()
 
-        gnggadata = (Fixtype_data,latitude_data,longitude_data,altitude_data,satelitecount_data)
+        gnggadata = (Fixtype_data, latitude_data, longitude_data,
+                     altitude_data, satelitecount_data)
         return gnggadata
-
 
     def publish_GPS_lonlat(self):
         lonlat = self.get_gps(self.dev_name, self.country_id)

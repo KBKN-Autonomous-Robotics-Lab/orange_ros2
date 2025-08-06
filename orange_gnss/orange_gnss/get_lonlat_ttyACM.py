@@ -70,7 +70,8 @@ class GPSData(Node):
             satelitecount_data = 0
 
         serial_port.close()
-        gnggadata = (Fixtype_data, latitude_data, longitude_data,altitude_data, satelitecount_data)
+        gnggadata = (Fixtype_data, latitude_data, longitude_data,
+                     altitude_data, satelitecount_data)
 
         return gnggadata
 
@@ -99,6 +100,7 @@ def main(args=None):
     rclpy.spin(gpslonlat)
     gpslonlat.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()

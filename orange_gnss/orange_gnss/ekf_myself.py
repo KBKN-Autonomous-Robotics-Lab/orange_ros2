@@ -43,17 +43,16 @@ class ExtendedKalmanFilter(Node):
         self.robot_orientationz = 0
         self.robot_orientationw = 0
         self.Number_of_satellites = 0
-        
+
         ###### angle offset #######
         self.GPS_angle_conut = 0
         self.GPS_angle_offset = 0
-        
 
         self.sub_a = self.create_subscription(
             Odometry, '/odom', self.sensor_a_callback, 10)
         self.sub_b = self.create_subscription(
             Odometry, '/odom/UM982', self.sensor_b_callback, 10)
-        #self.sub_b = self.create_subscription(
+        # self.sub_b = self.create_subscription(
         #    Odometry, '/odom_ref_slam', self.sensor_b_callback, 10)
 
         self.declare_parameter("ekf_publish_TF", False)
@@ -92,8 +91,7 @@ class ExtendedKalmanFilter(Node):
             self.SmpTime = 0.1
 
         self.prev_time = current_time
-        
-        
+
         current_pos = np.array([
             data.pose.pose.position.x,
             data.pose.pose.position.y
@@ -104,7 +102,7 @@ class ExtendedKalmanFilter(Node):
             self.Speed = distance / self.SmpTime
         else:
             self.Speed = 0
-            
+
         self.prev_pos = current_pos
 
         self.GTheta = self.orientation_to_yaw(
@@ -113,12 +111,11 @@ class ExtendedKalmanFilter(Node):
     def sensor_b_callback(self, data):
         self.GpsXY = np.array(
             [data.pose.pose.position.x, data.pose.pose.position.y])
-        #self.GpsXY = np.array(
+        # self.GpsXY = np.array(
         #    [data.pose.pose.position.x, data.pose.pose.position.y, 0])
-        #pointcloud, rot_matrix = rotation_xyz(self.GpsXY, 0, 0, 90)
-        #self.GpsXY = np.array(
+        # pointcloud, rot_matrix = rotation_xyz(self.GpsXY, 0, 0, 90)
+        # self.GpsXY = np.array(
         #    [pointcloud[0], pointcloud[1]])
-
 
         self.GPStheta = self.orientation_to_yaw(
             data.pose.pose.orientation.z, data.pose.pose.orientation.w)
@@ -128,9 +125,6 @@ class ExtendedKalmanFilter(Node):
         self.GPSthetayaw0 = self.GPStheta
 
         self.Number_of_satellites = data.pose.covariance[0]  #
-        
-        
-
 
         # self.get_logger().info(f"self.Number_of_satellites: {self.Number_of_satellites}")
 
@@ -313,7 +307,7 @@ class ExtendedKalmanFilter(Node):
             self.R2 = R[1]
             self.R3 = R[2]
             self.R4 = R[3]
-            if self.GpsXY is not None :
+            if self.GpsXY is not None:
                 fused_value = self.KalfGPSXY(
                     self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
                 self.GPS_conut += 1
@@ -381,26 +375,28 @@ class ExtendedKalmanFilter(Node):
                 self.t.transform.rotation.w = float(self.robot_orientationw)
                 self.br.sendTransform(self.t)
 
+
 def rotation_xyz(pointcloud, theta_x, theta_y, theta_z):
     rad_x = math.radians(theta_x)
     rad_y = math.radians(theta_y)
     rad_z = math.radians(theta_z)
-    rot_x = np.array([[ 1,               0,                0],
-                      [ 0, math.cos(rad_x), -math.sin(rad_x)],
-                      [ 0, math.sin(rad_x),  math.cos(rad_x)]])
-    
-    rot_y = np.array([[ math.cos(rad_y), 0,  math.sin(rad_y)],
-                      [               0, 1,                0],
+    rot_x = np.array([[1,               0,                0],
+                      [0, math.cos(rad_x), -math.sin(rad_x)],
+                      [0, math.sin(rad_x),  math.cos(rad_x)]])
+
+    rot_y = np.array([[math.cos(rad_y), 0,  math.sin(rad_y)],
+                      [0, 1,                0],
                       [-math.sin(rad_y), 0,  math.cos(rad_y)]])
-    
-    rot_z = np.array([[ math.cos(rad_z), -math.sin(rad_z), 0],
-                      [ math.sin(rad_z),  math.cos(rad_z), 0],
-                      [               0,                0, 1]])
+
+    rot_z = np.array([[math.cos(rad_z), -math.sin(rad_z), 0],
+                      [math.sin(rad_z),  math.cos(rad_z), 0],
+                      [0,                0, 1]])
     rot_matrix = rot_z.dot(rot_y.dot(rot_x))
-    #print(f"rot_matrix ={rot_matrix}")
-    #print(f"pointcloud ={pointcloud.shape}")
+    # print(f"rot_matrix ={rot_matrix}")
+    # print(f"pointcloud ={pointcloud.shape}")
     rot_pointcloud = rot_matrix.dot(pointcloud)
     return rot_pointcloud, rot_matrix
+
 
 def main(args=None):
     rclpy.init(args=args)
