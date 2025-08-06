@@ -1,13 +1,14 @@
 #ifndef WHEEL_IMU_ODOM_HPP
 #define WHEEL_IMU_ODOM_HPP
 
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/transform_broadcaster.h>
+
+#include <geometry_msgs/msg/transform_stamped.hpp>
+#include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/imu.hpp>
-#include <nav_msgs/msg/odometry.hpp>
-#include <geometry_msgs/msg/transform_stamped.hpp>
-#include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
-#include <tf2_ros/transform_broadcaster.h>
 
 class OdomFusionNode : public rclcpp::Node
 {
@@ -18,8 +19,7 @@ private:
   void imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg);
   void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
   static void getYawFromQuaternion(
-    const geometry_msgs::msg::Quaternion &q,
-    double &roll, double &pitch, double &yaw);
+    const geometry_msgs::msg::Quaternion & q, double & roll, double & pitch, double & yaw);
 
   rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_sub_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
@@ -64,4 +64,4 @@ private:
   double ang_vel_z_;
 };
 
-#endif // WHEEL_IMU_ODOM_HPP
+#endif  // WHEEL_IMU_ODOM_HPP

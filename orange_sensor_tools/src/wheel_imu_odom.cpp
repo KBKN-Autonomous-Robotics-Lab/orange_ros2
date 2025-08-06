@@ -5,12 +5,12 @@ OdomFusionNode::OdomFusionNode() : Node("wheel_imu_odom")
   imu_topic_ = this->declare_parameter<std::string>("imu_topic", "/imu");
   odom_topic_ = this->declare_parameter<std::string>("odom_topic", "/odom");
   fused_odom_topic_ = this->declare_parameter<std::string>("fused_odom_topic", "/odom/wheel_imu");
-  
+
   odom_header_frame_ = this->declare_parameter<std::string>("odom_header_frame", "odom");
   odom_child_frame_ = this->declare_parameter<std::string>("odom_child_frame", "base_footprint");
   TF_header_frame_ = this->declare_parameter<std::string>("TF_header_frame", "odom");
   TF_child_frame_ = this->declare_parameter<std::string>("TF_child_frame", "base_footprint");
-  
+
   scale_factor_ = this->declare_parameter<double>("scale_factor", 0.45);
   pitch_diff_th_ = this->declare_parameter<double>("pitch_difference_threshold", 0.1);
   publish_odom_ = this->declare_parameter<bool>("publish_odom", true);
@@ -72,8 +72,7 @@ void OdomFusionNode::odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
   position_y_ += dx * sin(yaw_);
 
   // Store initial value of pitch
-  if (!baseline_initialized_)
-  {
+  if (!baseline_initialized_) {
     baseline_pitch_ = pitch_;
     baseline_initialized_ = true;
     RCLCPP_INFO(this->get_logger(), "Baseline pitch initialized: %f", baseline_pitch_);
@@ -81,18 +80,14 @@ void OdomFusionNode::odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
 
   // Determine position.z update by pitch difference
   double delta_pitch = pitch_ - baseline_pitch_;
-  if (delta_pitch < -pitch_diff_th_)
-  {
+  if (delta_pitch < -pitch_diff_th_) {
     position_z_ -= dx * sin(delta_pitch);
-  }
-  else if (delta_pitch > pitch_diff_th_)
-  {
+  } else if (delta_pitch > pitch_diff_th_) {
     position_z_ -= dx * sin(delta_pitch);
   }
 
   // Construct TF
-  if (publish_TF_)
-  {
+  if (publish_TF_) {
     geometry_msgs::msg::TransformStamped t;
     t.header.stamp = this->get_clock()->now();
     t.header.frame_id = TF_header_frame_;
@@ -108,8 +103,7 @@ void OdomFusionNode::odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
   }
 
   // Construct Odom message
-  if (publish_odom_)
-  {
+  if (publish_odom_) {
     nav_msgs::msg::Odometry fused_msg;
     fused_msg.header.stamp = this->get_clock()->now();
     fused_msg.header.frame_id = odom_header_frame_;
@@ -130,23 +124,22 @@ void OdomFusionNode::odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
   }
 
   // Debugging Feature
-  if (debug_)
-  {
-    RCLCPP_INFO(this->get_logger(), "x: %f, y: %f, z: %f, pitch: %f, yaw: %f",
-                position_x_, position_y_, position_z_, pitch_, yaw_);
+  if (debug_) {
+    RCLCPP_INFO(
+      this->get_logger(), "x: %f, y: %f, z: %f, pitch: %f, yaw: %f", position_x_, position_y_,
+      position_z_, pitch_, yaw_);
   }
 }
 
 void OdomFusionNode::getYawFromQuaternion(
-  const geometry_msgs::msg::Quaternion &q,
-  double &roll, double &pitch, double &yaw)
+  const geometry_msgs::msg::Quaternion & q, double & roll, double & pitch, double & yaw)
 {
   tf2::Quaternion tf_q;
   tf2::fromMsg(q, tf_q);
   tf2::Matrix3x3(tf_q).getRPY(roll, pitch, yaw);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
   rclcpp::spin(std::make_shared<OdomFusionNode>());
