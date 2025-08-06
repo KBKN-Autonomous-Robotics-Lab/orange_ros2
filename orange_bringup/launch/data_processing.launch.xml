@@ -16,17 +16,14 @@
     <arg name="imu_in" value="$(var imu_topic)"/>
     <arg name="fusion_odom_out" value="$(var fusion_odom_topic)"/>
   </include>-->
-  <!-- Fast lio odom -->
-  <include file="$(find-pkg-share fast_lio)/launch/mapping.launch.py"/>
-  <node pkg="fast_odom_convert" exec="fast_odom_convert"/>
   <!-- GPSposition converter -->
-  <node pkg="orange_bringup" exec="lonlat_to_odom" output="screen">
+  <node pkg="orange_gnss" exec="lonlat_to_odom" output="screen">
     <param name="Position_magnification" value="1.675"/>
   </node>
   <!-- combination_GPSposition_GPSheading -->
-  <node pkg="orange_bringup" exec="combination" output="screen"/>
+  <node pkg="orange_gnss" exec="combination" output="screen"/>
   <!-- ekf_myself -->
-  <node pkg="orange_bringup" exec="ekf_myself" output="screen">
+  <node pkg="orange_gnss" exec="ekf_myself" output="screen">
     <param name="ekf_publish_TF" value="$(var ekf_publish_TF)"/>
     <param name="speed_limit" value="3.5"/>
     <param name="speed_stop" value="0.15"/>
@@ -44,11 +41,11 @@
     <arg name="scan_out" value="$(var velodyne_scan_topic)"/>
   </include>
   <!-- laserscan_multi_merger -->
-  <include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
+  <!--<include file="$(find-pkg-share orange_sensor_tools)/launch/laserscan_multi_merger.launch.xml">
     <arg name="delete_intensity" value="true"/>
     <arg name="destination_frame" value="velodyne"/>
     <arg name="cloud_destination_topic" value="$(var merged_cloud_topic)"/>
     <arg name="scan_destination_topic" value="$(var merged_scan_topic)"/>
     <arg name="laserscan_topics" value="$(var hokuyo_scan_topic) $(var velodyne_scan_topic)"/>
-  </include>
+  </include>-->
 </launch>
