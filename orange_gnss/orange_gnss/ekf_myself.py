@@ -43,13 +43,20 @@ class ExtendedKalmanFilter(Node):
         self.robot_orientationz = 0
         self.robot_orientationw = 0
         self.Number_of_satellites = 0
+        
+        ###### angle offset #######
+        self.GPS_angle_conut = 0
+        self.GPS_angle_offset = 0
+        
 
         self.sub_a = self.create_subscription(
-            Odometry, '/odom_fast', self.sensor_a_callback, 10)
+            Odometry, '/odom', self.sensor_a_callback, 10)
         self.sub_b = self.create_subscription(
-            Odometry, '/odom_CLAS_movingbase', self.sensor_b_callback, 10)
+            Odometry, '/odom/UM982', self.sensor_b_callback, 10)
+        #self.sub_b = self.create_subscription(
+        #    Odometry, '/odom_ref_slam', self.sensor_b_callback, 10)
 
-        self.declare_parameter("ekf_publish_TF", True)
+        self.declare_parameter("ekf_publish_TF", False)
         self.ekf_publish_TF = self.get_parameter(
             "ekf_publish_TF").get_parameter_value().bool_value
 
@@ -62,7 +69,7 @@ class ExtendedKalmanFilter(Node):
         self.timer = self.create_timer(0.1, self.publish_fused_value)
 
         self.get_logger().info("Start ekf_myself node")
-        self.get_logger().info("---------------------")
+        self.get_logger().info("-------------------------")
 
     def orientation_to_yaw(self, z, w):
         yaw = np.arctan2(2.0 * (w * z), 1.0 - 2.0 * (z ** 2))
@@ -83,17 +90,21 @@ class ExtendedKalmanFilter(Node):
             self.SmpTime = current_time - self.prev_time
         else:
             self.SmpTime = 0.1
-        self.prev_time = current_time
 
+        self.prev_time = current_time
+        
+        
         current_pos = np.array([
             data.pose.pose.position.x,
             data.pose.pose.position.y
         ])
+
         if self.prev_pos is not None:
             distance = np.linalg.norm(current_pos - self.prev_pos)
             self.Speed = distance / self.SmpTime
         else:
             self.Speed = 0
+            
         self.prev_pos = current_pos
 
         self.GTheta = self.orientation_to_yaw(
@@ -102,6 +113,12 @@ class ExtendedKalmanFilter(Node):
     def sensor_b_callback(self, data):
         self.GpsXY = np.array(
             [data.pose.pose.position.x, data.pose.pose.position.y])
+        #self.GpsXY = np.array(
+        #    [data.pose.pose.position.x, data.pose.pose.position.y, 0])
+        #pointcloud, rot_matrix = rotation_xyz(self.GpsXY, 0, 0, 90)
+        #self.GpsXY = np.array(
+        #    [pointcloud[0], pointcloud[1]])
+
 
         self.GPStheta = self.orientation_to_yaw(
             data.pose.pose.orientation.z, data.pose.pose.orientation.w)
@@ -111,23 +128,27 @@ class ExtendedKalmanFilter(Node):
         self.GPSthetayaw0 = self.GPStheta
 
         self.Number_of_satellites = data.pose.covariance[0]  #
+        
+        
+
+
+        # self.get_logger().info(f"self.Number_of_satellites: {self.Number_of_satellites}")
 
     def determination_of_R(self):
         if 0 <= self.Number_of_satellites < 4:  # Bad
-            self.R1 = 1e-2  # 0.01 FAST-LIO
-            self.R2 = 9e-2  # 0.09 CLAS-movingbase
+            self.R1 = 0.17**2  # FAST-LIO
+            self.R2 = 0.17**2  # CLAS-movingbase
             self.R3 = 9     # GTheta
             self.R4 = 1     # GPStheta
-
-        elif 4 <= self.Number_of_satellites < 8:  # So-so
-            self.R1 = 6e-2  # 0.06 FAST-LIO
-            self.R2 = 4e-2  # 0.04 CLAS-movingbase
+        if 4 <= self.Number_of_satellites < 8:  # So-so...
+            self.R1 = 0.08**2  # FAST-LIO
+            self.R2 = 0.08**2  # CLAS-movingbase
             self.R3 = 4     # GTheta
             self.R4 = 6     # GPStheta
 
         elif self.Number_of_satellites >= 8:  # Good!!!
-            self.R1 = 9e-2  # 0.09 FAST-LIO
-            self.R2 = 1e-2  # 0.01 CLAS-movingbase
+            self.R1 = 0.05**2  # FAST-LIO
+            self.R2 = 0.05**2  # CLAS-movingbase
             self.R3 = 2     # GTheta
             self.R4 = 8     # GPStheta
 
@@ -245,36 +266,43 @@ class ExtendedKalmanFilter(Node):
         return theta_sum
 
     def calculate_offset(self, combyaw, GTheta, GPStheta):
-        deference = abs(GTheta) + abs(GPStheta)
+        abs_GTheta = abs(GTheta)
+        abs_GPStheta = abs(GPStheta)
+        abs_combyaw = abs(combyaw)
+        pi = math.pi
+
+        deference = abs_GTheta + abs_GPStheta
 
         if GTheta > 0 and GPStheta < 0 and combyaw > 0:
             self.GOffset = -(GTheta - combyaw)
         elif GTheta > 0 and GPStheta < 0 and combyaw < 0:
-            self.GOffset = -(GTheta + abs(combyaw))
+            self.GOffset = -(GTheta + abs_combyaw)
         elif GTheta > 0 and GPStheta > 0 and combyaw > 0 and GTheta > GPStheta:
-            self.GOffset = -(abs(combyaw) - abs(GTheta))
+            self.GOffset = -(abs_combyaw - abs_GTheta)
         elif GTheta < 0 and GPStheta < 0 and combyaw < 0 and GTheta > GPStheta:
-            self.GOffset = -(GTheta + abs(combyaw))
+            self.GOffset = -(GTheta + abs_combyaw)
         elif GTheta < 0 and GPStheta > 0 and combyaw > 0:
-            self.GOffset = abs(GTheta) + combyaw
+            self.GOffset = abs_GTheta + combyaw
         elif GTheta < 0 and GPStheta > 0 and combyaw < 0:
-            self.GOffset = abs(GTheta) - abs(combyaw)
+            self.GOffset = abs_GTheta - abs_combyaw
         elif GTheta > 0 and GPStheta > 0 and combyaw > 0 and GTheta < GPStheta:
             self.GOffset = combyaw - GTheta
         elif GTheta < 0 and GPStheta < 0 and combyaw < 0 and GTheta < GPStheta:
-            self.GOffset = abs(GTheta) - abs(combyaw)
-        elif GTheta > 0 and GPStheta < 0 and combyaw > 0 and deference > math.pi:
+            self.GOffset = abs_GTheta - abs_combyaw
+        elif GTheta > 0 and GPStheta < 0 and combyaw > 0 and deference > pi:
             self.GOffset = combyaw - GTheta
-        elif GTheta > 0 and GPStheta < 0 and combyaw < 0 and deference > math.pi:
-            self.GOffset = math.pi - GTheta + math.pi - abs(combyaw)
-        elif GTheta < 0 and GPStheta > 0 and combyaw > 0 and deference > math.pi:
-            self.GOffset = -((math.pi - combyaw) + (math.pi - abs(GTheta)))
-        elif GTheta < 0 and GPStheta > 0 and combyaw < 0 and deference > math.pi:
-            self.GOffset = -(abs(combyaw) - abs(GTheta))
+        elif GTheta > 0 and GPStheta < 0 and combyaw < 0 and deference > pi:
+            self.GOffset = pi - GTheta + pi - abs_combyaw
+        elif GTheta < 0 and GPStheta > 0 and combyaw > 0 and deference > pi:
+            self.GOffset = -((pi - combyaw) + (pi - abs_GTheta))
+        elif GTheta < 0 and GPStheta > 0 and combyaw < 0 and deference > pi:
+            self.GOffset = -(abs_combyaw - abs_GTheta)
 
-        if abs(self.GOffset) > 5 * math.pi / 180:  # not -0.0872 ~ 0.0872
+        if abs(self.GOffset) > 5 * pi / 180:  # not -0.0872 ~ 0.0872
             self.GOffset = 0
             self.get_logger().warn("GOffset warning")
+
+        # self.get_logger().info(f"GOffset: {self.GOffset}") ok
 
         return self.GOffset
 
@@ -285,12 +313,11 @@ class ExtendedKalmanFilter(Node):
             self.R2 = R[1]
             self.R3 = R[2]
             self.R4 = R[3]
-
-            if self.GpsXY is not None:
+            if self.GpsXY is not None :
                 fused_value = self.KalfGPSXY(
                     self.Speed, self.SmpTime, self.GTheta, self.GpsXY, self.R1, self.R2)
                 self.GPS_conut += 1
-                if self.GPS_conut % 10 == 0:
+                if self.GPS_conut % 20 == 0:
                     self.combyaw = self.combine_yaw(
                         self.DGPStheta, self.GTheta, self.GPStheta, self.R3, self.R4)
                     self.offsetyaw = self.calculate_offset(
@@ -354,6 +381,26 @@ class ExtendedKalmanFilter(Node):
                 self.t.transform.rotation.w = float(self.robot_orientationw)
                 self.br.sendTransform(self.t)
 
+def rotation_xyz(pointcloud, theta_x, theta_y, theta_z):
+    rad_x = math.radians(theta_x)
+    rad_y = math.radians(theta_y)
+    rad_z = math.radians(theta_z)
+    rot_x = np.array([[ 1,               0,                0],
+                      [ 0, math.cos(rad_x), -math.sin(rad_x)],
+                      [ 0, math.sin(rad_x),  math.cos(rad_x)]])
+    
+    rot_y = np.array([[ math.cos(rad_y), 0,  math.sin(rad_y)],
+                      [               0, 1,                0],
+                      [-math.sin(rad_y), 0,  math.cos(rad_y)]])
+    
+    rot_z = np.array([[ math.cos(rad_z), -math.sin(rad_z), 0],
+                      [ math.sin(rad_z),  math.cos(rad_z), 0],
+                      [               0,                0, 1]])
+    rot_matrix = rot_z.dot(rot_y.dot(rot_x))
+    #print(f"rot_matrix ={rot_matrix}")
+    #print(f"pointcloud ={pointcloud.shape}")
+    rot_pointcloud = rot_matrix.dot(pointcloud)
+    return rot_pointcloud, rot_matrix
 
 def main(args=None):
     rclpy.init(args=args)
