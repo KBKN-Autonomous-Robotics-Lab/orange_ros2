@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>orange_gnss</name>
+  <version>0.0.0</version>
+  <description>For GNSS</description>
+  <maintainer email="shun.saito.6t@stu.hosei.ac.jp">Saito</maintainer>
+  <license>Apache-2.0</license>
+  <depend>orange_description</depend>
+  <depend>rviz2</depend>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>python3-pymodbus</depend>
+  <depend>velodyne</depend>
+  <depend>urg_node</depend>
+  <depend>icm_20948</depend>
+  <depend>joint_state_publisher</depend>
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
