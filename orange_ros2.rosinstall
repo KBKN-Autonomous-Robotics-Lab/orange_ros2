@@ -30,3 +30,7 @@
     local-name: pcd_convert
     uri: https://github.com/KBKN-Autonomous-Robotics-Lab/pcd_convert.git
     version: main
+- git:
+    local-name: serial
+    uri: https://github.com/RoverRobotics-forks/serial-ros2.git
+    version: master
