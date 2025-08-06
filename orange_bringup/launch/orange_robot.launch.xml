@@ -62,7 +62,7 @@
   </include>
   <!-- GPSposition_publisher -->
   <!-- initial heading:housei nakaniwa=179.169287 tsukuba= 276.5 -->
-  <!--<node pkg="orange_bringup" exec="get_lonlat" output="screen">
+  <node pkg="orange_bringup" exec="get_lonlat" output="screen">
     <param name="port" value="/dev/sensors/GNSSbase"/>
     <param name="baud" value="9600"/>
     <param name="country_id" value="0"/>
@@ -70,14 +70,14 @@
   </node>
   <node pkg="orange_bringup" exec="lonlat_to_odom" output="screen">
     <param name="Position_magnification" value="1.675"/>
-  </node>-->
-  <node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
+  </node>
+  <!--<node pkg="orange_bringup" exec="fix_to_GPSodom" output="screen">
     <param name="port" value="/dev/sensors/GNSSbase"/>
     <param name="band" value="9600"/>
     <param name="country_id" value="0"/>
     <param name="heading" value="180"/>
     <param name="Position_magnification" value="1.675"/>
-  </node>
+  </node>-->
   <!-- GPSheading_publisher -->
   <node pkg="orange_bringup" exec="movingbase_yaw_to_quat" output="screen">
     <param name="port" value="/dev/sensors/GNSSrover"/>
@@ -94,7 +94,7 @@
     <remap from="/scan" to="/hokuyo_scan"/>
   </node>-->
   <!-- velodyne -->
-  <!--<node pkg="velodyne_driver" exec="velodyne_driver_node">
+  <node pkg="velodyne_driver" exec="velodyne_driver_node">
     <param name="device_ip" value=""/>
     <param name="gps_time" value="false"/>
     <param name="time_offset" value="0.0"/>
@@ -117,7 +117,7 @@
     <param name="fixed_frame" value=""/>
     <param name="target_frame" value=""/>
     <param name="organize_cloud" value="false"/>
-  </node>-->
+  </node>
   <!-- mid360 -->
-  <include file="$(find-pkg-share livox_ros_driver2)/launch_ROS2/msg_MID360_launch.py"/>
+  <!--<include file="$(find-pkg-share livox_ros_driver2)/launch_ROS2/msg_MID360_launch.py"/>-->
 </launch>
