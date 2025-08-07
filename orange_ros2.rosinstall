@@ -42,3 +42,7 @@
     local-name: livox_laser_simulation_RO2
     uri: https://github.com/stm32f303ret6/livox_laser_simulation_RO2.git
     version: main
+- git:
+    local-name: serial
+    uri: https://github.com/RoverRobotics-forks/serial-ros2.git
+    version: master
