@@ -95,14 +95,14 @@ $ wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=downl
 $ ros2 launch orange_bringup orange_robot.launch.xml
 $ ros2 launch orange_bringup data_processing.launch.xml
 ```
-This launch file includes sensors<br>
+These launch files include the following hardware drivers and sensor nodes:<br>
 ・motor driver (ZLAC8015D)<br>
 ・estop <br>
 ・imu (icm20948)<br>
 ・GNSS (ZED-F9P)<br>
 ・LiDAR (MID360)<br>
 
-This launch file aquire packages<br>
+The following packages are also used:<br>
 ・livox_ros_driver2<br>
 ・livox_to_pointcloud2 <br>
 
