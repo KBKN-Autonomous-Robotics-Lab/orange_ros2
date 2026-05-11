@@ -11,7 +11,9 @@ $ wstool merge orange_ros2/orange_ros2.rosinstall
 $ wstool update
 $ rosdep install -r -y -i --from-paths .
 ```
-## Launch Gazebo world
+
+## Simulation
+### Launch Gazebo world
 The following 4 gazebo worlds can be run.
 | empty_world  | orange_world | orange_igvc | orange_hosei |
 | ------------- | ------------- | ------------- | ------------- |
@@ -20,7 +22,7 @@ The following 4 gazebo worlds can be run.
 ```
 $ ros2 launch orange_gazebo {GAZEBO_WORLD_NAME}.launch.xml
 ```
-## Operate orange robot
+### Operate orange robot
 Orange robot can be controlled via keyboard or gamepad.
 
 <img src="https://user-images.githubusercontent.com/88425011/231137664-89adb063-e41b-4a9b-99be-15739ade3555.gif" width="400px">
@@ -35,13 +37,13 @@ $ ros2 launch orange_teleop teleop_keyboard.launch.xml
 ```
 $ ros2 launch orange_teleop teleop_joy.launch.xml
 ```
-## RViz2 visualization
+### RViz2 visualization
 <img src="https://github.com/KBKN-Autonomous-Robotics-Lab/orange_ros2/assets/88425011/88b06df7-79ef-4791-b530-ff3582f8cdb8" width="500px">
 
 ```
 $ ros2 launch orange_bringup rviz2.launch.xml
 ```
-## SLAM
+### SLAM on Simulation
 The following SLAM methods can be run.
 | slam_toolbox  | cartographer |
 | ------------- | ------------- |
@@ -65,7 +67,7 @@ $ ros2 launch orange_bringup with_ros2bag.launch.xml
 $ ros2 bag play your_bag -r 3 --clock
 $ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml with_ros2bag:=true
 ```
-## Navigation2
+### Navigation2 on Simulation
 You can try Navigation2 with a map created by slam_toolbox or cartographer.
 
 **Gazebo simulation**
@@ -79,16 +81,58 @@ You can try Navigation2 with a map created by slam_toolbox or cartographer.
 $ ros2 launch orange_gazebo orange_hosei.launch.xml
 $ ros2 launch orange_navigation waypoint_navigation.launch.xml use_sim_time:=true
 ```
-## Sample dataset
+
+### Sample dataset
 You can download the ros2 bag obtained from orange_hosei.
 
 ```
 $ wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1T3eFLUSbdlLayyaVRCAf1Hfi8K1FMR4K' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1T3eFLUSbdlLayyaVRCAf1Hfi8K1FMR4K" -O ros2bag_orange_hosei.zip && rm -rf /tmp/cookies.txt
 ```
 
+## Real Robot
+### Bringup
+```
+$ ros2 launch orange_bringup orange_robot.launch.xml
+$ ros2 launch orange_bringup data_processing.launch.xml
+```
+This launch file includes sensors<br>
+・motor driver (ZLAC8015D)<br>
+・estop <br>
+・imu (icm20948)<br>
+・GNSS (ZED-F9P)<br>
+・LiDAR (MID360)<br>
 
+This launch file aquire packages<br>
+・livox_ros_driver2<br>
+・livox_to_pointcloud2 <br>
+
+### SLAM on Real Robot
+**Real Robot without creating waypoints**
+```
+$ ros2 launch orange_bringup orange_robot.launch.xml
+$ ros2 launch orange_bringup data_processing.launch.xml
+$ ros2 launch orange_slam {SLAM_METHOD_NAME}.launch.xml
+$ ros2 launch orange_teleop teleop_joy.launch.xml
+```
+**Real Robot with creating waypoints**
+```
+$ ros2 launch orange_bringup orange_robot.launch.xml
+$ ros2 launch orange_bringup data_processing.launch.xml
+$ ros2 launch orange_slam waypoint_slam.launch.xml slam_method:={SLAM_METHOD_NAME}
+$ ros2 launch orange_teleop teleop_joy.launch.xml
+```
+
+### Navigation2 on Real Robot
+**Waypoint Navigation**
+```
+$ ros2 launch orange_bringup orange_robot.launch.xml
+$ ros2 launch orange_bringup data_processing.launch.xml
+$ ros2 launch orange_navigation waypoint_navigation.launch.xml
+```
 
 ## Reference
 - slam_toolbox : https://github.com/SteveMacenski/slam_toolbox
 - cartographer : https://github.com/cartographer-project/cartographer_ros
 - Navigation2 : https://github.com/ros-planning/navigation2
+- livox_ros_driver2 : https://github.com/Ericsii/livox_ros_driver2 
+- livox_to_pointcloud2 : https://github.com/porizou/livox_to_pointcloud2
